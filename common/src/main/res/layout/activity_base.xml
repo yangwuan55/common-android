@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <FrameLayout
+        android:id="@+id/title_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/public_title_height"
+        android:background="@color/common_top_bg">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:src="@drawable/back_selector"/>
+        <TextView
+            android:id="@+id/title"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_example"
+            android:textSize="17sp"
+            android:textColor="@color/title_text"/>
+        <ViewStub
+            android:id="@+id/right_view"
+            android:layout_gravity="end|center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#c5c5c5"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <ViewStub
+            android:id="@+id/sub_activity_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <FrameLayout
+            android:id="@+id/error_view_container"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+</LinearLayout>

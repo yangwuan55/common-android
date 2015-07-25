@@ -1,0 +1,39 @@
+package com.ymr.common.util;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by ymr on 15/6/25.
+ */
+public class Constant {
+
+    public interface ActionBean {
+        String ACTION_TYPE_LOAD_PAGE = "loadpage";
+        String ACTION_TYPE_VIDEO = "playvideo";
+        String PAGE_TYPE_LINK = "link";
+
+        class Target {
+            public static HashMap<String, Class> TARGET_MAP = new HashMap<>();
+
+            public static void setTargetMap(Map<String, Class> map) {
+                if (map != null && map.size() > 0) {
+                    TARGET_MAP.putAll(map);
+                }
+            }
+
+            static {
+
+            }
+
+        }
+    }
+
+    public interface ServiceApi {
+        String OS = "os";
+        //api版本
+        String API_VERSION = "apiversion";
+    }
+
+
+}

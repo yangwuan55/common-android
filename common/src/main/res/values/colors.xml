@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- common -->
+    <color name="common_bg">#f7f7f7</color>
+    <color name="common_green">#89df59</color>
+    <color name="common_driver">#e5e5e5</color>
+    <color name="common_driver_de">#dedede</color>
+    <color name="common_gray6">#666666</color>
+    <color name="common_top_bg">#21252a</color>
+    <color name="common_green2">#5cac2f</color>
+    <color name="title_text">#dfdfe0</color>
+
+</resources>
