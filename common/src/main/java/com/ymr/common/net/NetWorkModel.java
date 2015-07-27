@@ -1,11 +1,11 @@
 package com.ymr.common.net;
 
-import com.android.volley.VolleyError;
+import com.ymr.common.IModel;
 
 /**
  * Created by ymr on 15/5/14.
  */
-public interface NetWorkModel<T,P> {
+public interface NetWorkModel<T,P> extends IModel {
 
     void updateDatas(P params, UpdateListener<T> listener);
 

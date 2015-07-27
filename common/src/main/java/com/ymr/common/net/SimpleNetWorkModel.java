@@ -3,6 +3,7 @@ package com.ymr.common.net;
 import android.content.Context;
 
 import com.android.volley.VolleyError;
+import com.ymr.common.SimpleModel;
 import com.ymr.common.bean.ApiBase;
 import com.ymr.common.net.params.NetRequestParams;
 import com.ymr.common.net.volley.VolleyUtil;
@@ -12,7 +13,7 @@ import java.util.Map;
 /**
  * Created by ymr on 15/6/12.
  */
-public abstract class SimpleNetWorkModel<T,P extends NetRequestParams> implements NetWorkModel<T, P> {
+public abstract class SimpleNetWorkModel<T,P extends NetRequestParams> extends SimpleModel implements NetWorkModel<T, P> {
 
     private final Context mContext;
 
