@@ -12,7 +12,6 @@ public interface NetWorkModel<T,P> {
     interface UpdateListener<T> {
         void finishUpdate(T result);
         void onError(String msg);
-        void onError(VolleyError error);
     }
 
     interface NetworkChangedListener {

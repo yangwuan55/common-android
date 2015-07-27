@@ -38,7 +38,7 @@ public abstract class SimpleNetWorkModel<T,P extends NetRequestParams> implement
 
             @Override
             public void onFail(VolleyError error) {
-                listener.onError(error);
+                listener.onError(error.getMessage());
             }
         });
     }

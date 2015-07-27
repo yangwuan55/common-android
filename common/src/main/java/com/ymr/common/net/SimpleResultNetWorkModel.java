@@ -31,11 +31,6 @@ public class SimpleResultNetWorkModel extends SimpleNetWorkModel<Void,NetRequest
             public void onError(String msg) {
                 listener.onFail(msg);
             }
-
-            @Override
-            public void onError(VolleyError error) {
-                listener.onFail(error.getMessage());
-            }
         });
     }
 

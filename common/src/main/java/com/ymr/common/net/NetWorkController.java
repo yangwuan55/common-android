@@ -28,12 +28,6 @@ public class NetWorkController<D,P> {
             Log.e(TAG, "E:msg = " + msg);
             mLoadStateListener.onStateChange(LoadStateListener.NetworkLoadStatus.LOAD_FAIL);
         }
-
-        @Override
-        public void onError(VolleyError error) {
-            Log.e(TAG, "E:error = " + error);
-            mLoadStateListener.onStateChange(LoadStateListener.NetworkLoadStatus.LOAD_FAIL);
-        }
     };
 
     public NetWorkController(Context context,NetWorkModel<D,P> netWorkModel) {
