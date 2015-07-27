@@ -7,6 +7,7 @@ import com.ymr.common.R;
 import com.ymr.common.net.DataReceiver;
 import com.ymr.common.net.NetWorkController;
 import com.ymr.common.net.NetWorkModel;
+import com.ymr.common.net.params.NetRequestParams;
 import com.ymr.common.ui.BaseUIController;
 import com.ymr.common.ui.NetWorkUI;
 import com.ymr.common.ui.NetWorkUIController;
@@ -14,11 +15,11 @@ import com.ymr.common.ui.NetWorkUIController;
 /**
  * Created by ymr on 15/6/13.
  */
-public abstract class BaseNetWorkActivity<D,P> extends BaseActivity implements DataReceiver<D>,NetWorkUI<D,P> {
+public abstract class BaseNetWorkActivity<D> extends BaseActivity implements DataReceiver<D>,NetWorkUI<D> {
 
     private NetWorkUIController mNetworkUiController;
 
-    protected void updateData(P params) {
+    protected void updateData(NetRequestParams params) {
         mNetworkUiController.updateData(params);
     }
 
@@ -39,7 +40,7 @@ public abstract class BaseNetWorkActivity<D,P> extends BaseActivity implements D
 
     protected abstract void initViews();
 
-    protected abstract NetWorkModel<D,P> getNetWorkModel();
+    protected abstract NetWorkModel<D> getNetWorkModel();
 
     @Override
     public BaseUIController getController() {
@@ -58,7 +59,7 @@ public abstract class BaseNetWorkActivity<D,P> extends BaseActivity implements D
     }
 
     @Override
-    public NetWorkController<D, P> getNetWorkController() {
+    public NetWorkController<D> getNetWorkController() {
         return new NetWorkController<>(this,getNetWorkModel());
     }
 }

@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by ymr on 15/6/12.
  */
-public abstract class SimpleNetWorkModel<T,P extends NetRequestParams> extends SimpleModel implements NetWorkModel<T, P> {
+public abstract class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T> {
 
     private final Context mContext;
 
@@ -22,7 +22,7 @@ public abstract class SimpleNetWorkModel<T,P extends NetRequestParams> extends S
     }
 
     @Override
-    public void updateDatas(P params, final UpdateListener<T> listener) {
+    public void updateDatas(NetRequestParams params, final UpdateListener<T> listener) {
         VolleyUtil.getsInstance(mContext).addRequest(params, getApiClass(), new VolleyUtil.RequestListner<ApiBase<T>>() {
             @Override
             public void onSuccess(ApiBase<T> data) {

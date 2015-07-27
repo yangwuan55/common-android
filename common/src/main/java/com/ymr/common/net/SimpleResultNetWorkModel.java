@@ -9,7 +9,7 @@ import com.ymr.common.net.params.NetRequestParams;
 /**
  * Created by ymr on 15/7/9.
  */
-public class SimpleResultNetWorkModel extends SimpleNetWorkModel<Void,NetRequestParams> {
+public class SimpleResultNetWorkModel extends SimpleNetWorkModel<Void> {
 
     public interface SimpleRequestListener {
         void onSuccess();

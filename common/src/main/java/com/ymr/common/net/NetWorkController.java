@@ -4,18 +4,19 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
+import com.ymr.common.net.params.NetRequestParams;
 
 /**
  * Created by ymr on 15/6/12.
  */
-public class NetWorkController<D,P> {
+public class NetWorkController<D> {
 
     private static final String TAG = "NetWorkController";
     private final Context mContext;
     private LoadStateListener<D> mLoadStateListener;
-    private P mParams;
+    private NetRequestParams mParams;
 
-    private NetWorkModel<D,P> mNetWorkModel;
+    private NetWorkModel<D> mNetWorkModel;
     private NetWorkModel.UpdateListener<D> mUpdateListener = new NetWorkModel.UpdateListener<D>() {
         @Override
         public void finishUpdate(D result) {
@@ -30,7 +31,7 @@ public class NetWorkController<D,P> {
         }
     };
 
-    public NetWorkController(Context context,NetWorkModel<D,P> netWorkModel) {
+    public NetWorkController(Context context,NetWorkModel<D> netWorkModel) {
         mContext = context;
         setNetWorkModel(netWorkModel);
     }
@@ -39,7 +40,7 @@ public class NetWorkController<D,P> {
         this.mLoadStateListener = loadStateListener;
     }
 
-    public void setNetWorkModel(NetWorkModel<D, P> netWorkModel) {
+    public void setNetWorkModel(NetWorkModel<D> netWorkModel) {
         this.mNetWorkModel = netWorkModel;
     }
 
@@ -56,12 +57,12 @@ public class NetWorkController<D,P> {
         }
     }
 
-    public void updateData(P params) {
+    public void updateData(NetRequestParams params) {
         mParams = params;
         reload();
     }
 
-    public void setParams(P params) {
+    public void setParams(NetRequestParams params) {
         mParams = params;
     }
 }

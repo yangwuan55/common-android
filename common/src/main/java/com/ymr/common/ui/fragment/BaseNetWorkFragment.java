@@ -15,6 +15,7 @@ import com.ymr.common.R;
 import com.ymr.common.net.LoadStateListener;
 import com.ymr.common.net.NetWorkController;
 import com.ymr.common.net.NetWorkModel;
+import com.ymr.common.net.params.NetRequestParams;
 import com.ymr.common.ui.view.LoadingView;
 
 import static com.ymr.common.net.LoadStateListener.NetworkLoadStatus.*;
@@ -22,7 +23,7 @@ import static com.ymr.common.net.LoadStateListener.NetworkLoadStatus.*;
 /**
  * Created by ymr on 15/5/14.
  */
-public abstract class BaseNetWorkFragment<T,P> extends Fragment implements  NetWorkModel.NetworkChangedListener, LoadStateListener<T> {
+public abstract class BaseNetWorkFragment<T> extends Fragment implements  NetWorkModel.NetworkChangedListener, LoadStateListener<T> {
     private View mRootView;
     private FrameLayout mFlytChildRoot;
     private LoadingView mLoadingView;
@@ -30,13 +31,13 @@ public abstract class BaseNetWorkFragment<T,P> extends Fragment implements  NetW
     private Context mContext;
 
     private NetworkLoadStatus mCurrentLoadStatus = LOAD_IDEL;
-    private NetWorkController<T, P> mNetWorkController;
+    private NetWorkController<T> mNetWorkController;
     private int mErroDrawableId;
     private String mErrorText;
 
-    protected abstract NetWorkModel<T,P> getNetWorkModel(Context context);
+    protected abstract NetWorkModel<T> getNetWorkModel(Context context);
 
-    protected abstract P getParams();
+    protected abstract NetRequestParams getParams();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,7 @@ public abstract class BaseNetWorkFragment<T,P> extends Fragment implements  NetW
         mNetWorkController.reload();
     }
 
-    protected void updateData(P params) {
+    protected void updateData(NetRequestParams params) {
         mNetWorkController.updateData(params);
     }
 

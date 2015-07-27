@@ -5,12 +5,12 @@ import com.ymr.common.net.NetWorkController;
 /**
  * Created by ymr on 15/7/7.
  */
-public interface NetWorkUI<D,P> extends BaseUI {
+public interface NetWorkUI<D> extends BaseUI {
 
     int getLoadFailViewId();
 
     int getNetErorrViewId();
 
-    NetWorkController<D,P> getNetWorkController();
+    NetWorkController<D> getNetWorkController();
 
 }

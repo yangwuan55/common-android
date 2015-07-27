@@ -8,12 +8,13 @@ import com.ymr.common.R;
 import com.ymr.common.net.DataReceiver;
 import com.ymr.common.net.LoadStateListener;
 import com.ymr.common.net.NetWorkController;
+import com.ymr.common.net.params.NetRequestParams;
 
 /**
  * Created by ymr on 15/7/7.
  */
-public class NetWorkUIController<A extends Activity & NetWorkUI & DataReceiver,D,P> extends BaseUIController<A> implements LoadStateListener<D> {
-    private final NetWorkController<D,P> mNetWorkController;
+public class NetWorkUIController<A extends Activity & NetWorkUI & DataReceiver,D> extends BaseUIController<A> implements LoadStateListener<D> {
+    private final NetWorkController<D> mNetWorkController;
     private ViewGroup mErrorViewContainer;
     private NetworkLoadStatus mState;
 
@@ -30,7 +31,7 @@ public class NetWorkUIController<A extends Activity & NetWorkUI & DataReceiver,D
         mErrorViewContainer.setOnClickListener(this);
     }
 
-    public void updateData(P params) {
+    public void updateData(NetRequestParams params) {
         mNetWorkController.updateData(params);
     }
 
