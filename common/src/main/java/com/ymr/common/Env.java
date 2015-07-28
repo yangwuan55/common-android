@@ -9,6 +9,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by ymr on 15/6/26.
  */
@@ -16,6 +19,7 @@ public class Env {
 
     private static Application sApp;
     public static WebUrl sWebUrl;
+    public static Map<String, String> sParams = new HashMap<>();
 
     public static void init(Application context,InitParams initParams) {
         sApp = context;
@@ -58,5 +62,9 @@ public class Env {
 
     public static Application getApp() {
         return sApp;
+    }
+
+    public static void setCommonNetParams(Map<String,String> params) {
+        sParams.putAll(params);
     }
 }

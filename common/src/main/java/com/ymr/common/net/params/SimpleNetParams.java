@@ -3,6 +3,7 @@ package com.ymr.common.net.params;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
+import com.ymr.common.Env;
 import com.ymr.common.util.Constant;
 import com.ymr.common.util.Tool;
 
@@ -42,7 +43,8 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
 
         sendMap.put(Constant.ServiceApi.API_VERSION, CURR_API_VERSION + "");
         sendMap.put(Constant.ServiceApi.OS,"android");
-        return Tool.getUrl(getTailUrl(), sendMap);
+        sendMap.putAll(Env.sParams);
+        return Tool.getUrl(tailUrl, sendMap);
     }
 
     /**
@@ -54,14 +56,6 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
 
     @Override
     public Map<String, String> getPostParams() {
-        return null;
-    }
-
-    public String getTailUrl() {
-        return TextUtils.isEmpty(tailUrl) ? getChildTailUrl() : tailUrl;
-    }
-
-    protected String getChildTailUrl() {
         return null;
     }
 }
