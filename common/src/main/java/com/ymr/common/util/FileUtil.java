@@ -1,6 +1,7 @@
 package com.ymr.common.util;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -71,7 +72,7 @@ public class FileUtil {
 
     public static String readStringFromFile(Context context, String fileName) {
         try {
-            File file = new File(context.getFilesDir() + "/" + fileName);
+            File file = getFileByName(context, fileName);
             if (file.exists()) {
                 InputStream is = context.openFileInput(fileName);
                 return readBeanFromInputStream(context, is);
@@ -80,6 +81,11 @@ public class FileUtil {
             e.printStackTrace();
         }
         return "";
+    }
+
+    @NonNull
+    private static File getFileByName(Context context, String fileName) {
+        return new File(context.getFilesDir() + "/" + fileName);
     }
 
     public static <T> T readBeanFromFile(Context context, String fileName, Class<T> c) {
@@ -139,42 +145,11 @@ public class FileUtil {
         return readBeanFromInputStream(context, context.getResources().openRawResource(rawId), c);
     }
 
-    public static void cp(String sourcePath,String targetPath) {
-        try {
-            int bytesum = 0;
-            int byteread = 0;
-            File oldfile = new File(sourcePath);
-            if (oldfile.exists()) { //文件存在时
-                InputStream inStream = new FileInputStream(sourcePath); //读入原文件
-                FileOutputStream fs = new FileOutputStream(targetPath);
-                byte[] buffer = new byte[1444];
-                while ((byteread = inStream.read(buffer)) != -1) {
-                    bytesum += byteread; //字节数 文件大小
-                    System.out.println(bytesum);
-                    fs.write(buffer, 0, byteread);
-                }
-                inStream.close();
-            }
-        } catch (Exception e) {
-            System.out.println("复制单个文件操作出错");
-            e.printStackTrace();
-
+    public static boolean deleteByName(Context context,String filename) {
+        File fileByName = getFileByName(context, filename);
+        if (fileByName.exists()) {
+            return fileByName.delete();
         }
-    }
-
-    public static void cp(FileInputStream inputStream,FileOutputStream outputStream) {
-        int bytesum = 0;
-        int byteread = 0;
-        byte[] buffer = new byte[1444];
-        try {
-            while ((byteread = inputStream.read(buffer)) != -1) {
-                bytesum += byteread; //字节数 文件大小
-                System.out.println(bytesum);
-                outputStream.write(buffer, 0, byteread);
-            }
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return false;
     }
 }
