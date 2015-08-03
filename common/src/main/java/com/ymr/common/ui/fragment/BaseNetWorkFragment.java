@@ -26,7 +26,7 @@ import static com.ymr.common.net.LoadStateListener.NetworkLoadStatus.*;
 public abstract class BaseNetWorkFragment<T> extends Fragment implements  NetWorkModel.NetworkChangedListener, LoadStateListener<T> {
     private View mRootView;
     private FrameLayout mFlytChildRoot;
-    private LoadingView mLoadingView;
+    //private LoadingView mLoadingView;
     private TextView mTvError;
     private Context mContext;
 
@@ -45,14 +45,13 @@ public abstract class BaseNetWorkFragment<T> extends Fragment implements  NetWor
         mContext = getActivity();
         mNetWorkController = new NetWorkController<>(getActivity(),getNetWorkModel(mContext));
         mNetWorkController.setLoadStateListener(this);
-        mNetWorkController.setParams(getParams());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = LayoutInflater.from(mContext).inflate(R.layout.fragment_network_base, null);
         mFlytChildRoot = (FrameLayout) mRootView.findViewById(R.id.flyt_fragment_container);
-        mLoadingView = (LoadingView) mRootView.findViewById(R.id.loading_view_base_fragment);
+        //mLoadingView = (LoadingView) mRootView.findViewById(R.id.loading_view_base_fragment);
         mTvError = (TextView) mRootView.findViewById(R.id.tv_network_error);
 
         if (mErroDrawableId != 0) {
@@ -90,7 +89,7 @@ public abstract class BaseNetWorkFragment<T> extends Fragment implements  NetWor
     protected abstract View getChildRootView(LayoutInflater inflater);
 
     protected void updateData() {
-        mNetWorkController.reload();
+        updateData(getParams());
     }
 
     protected void updateData(NetRequestParams params) {
@@ -115,16 +114,16 @@ public abstract class BaseNetWorkFragment<T> extends Fragment implements  NetWor
             case LOAD_IDEL:
             case LOAD_START:
                 mTvError.setVisibility(View.GONE);
-                mLoadingView.setVisibility(View.VISIBLE);
+                //mLoadingView.setVisibility(View.VISIBLE);
                 break;
             case LOAD_FAIL:
             case LOAD_NETWORK_ERROR:
                 mTvError.setVisibility(View.VISIBLE);
-                mLoadingView.setVisibility(View.GONE);
+                //mLoadingView.setVisibility(View.GONE);
                 break;
             case LOAD_FINISH:
                 mTvError.setVisibility(View.GONE);
-                mLoadingView.setVisibility(View.GONE);
+                //mLoadingView.setVisibility(View.GONE);
                 break;
             default:
                 break;
@@ -136,7 +135,7 @@ public abstract class BaseNetWorkFragment<T> extends Fragment implements  NetWor
      * @return
      */
     private boolean onInterceptDisplay() {
-        if (mTvError == null || mLoadingView == null) {
+        if (mTvError == null /*|| mLoadingView == null*/) {
             return true;
         }
         if (interceptDisplay()) {

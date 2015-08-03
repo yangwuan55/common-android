@@ -3,26 +3,27 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="#00000000">
+
     <FrameLayout
-            android:id="@+id/flyt_fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:id="@+id/flyt_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     </FrameLayout>
 
     <TextView
-            android:id="@+id/tv_network_error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:drawableTop="@drawable/load_error"
-            android:drawablePadding="15dip"
-            android:textSize="16sp"
-            android:text="@string/refresh_load_error"/>
+        android:id="@+id/tv_network_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="15dip"
+        android:drawableTop="@drawable/load_error"
+        android:text="@string/refresh_load_error"
+        android:textSize="16sp"
+        android:visibility="gone"/>
 
-    <com.ymr.ui.views.LoadingView
-            android:id="@+id/loading_view_base_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"></com.ymr.ui.views.LoadingView>
+    <!--<com.ymr.ui.views.LoadingView
+        android:id="@+id/loading_view_base_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>-->
 </FrameLayout>
