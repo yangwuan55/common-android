@@ -36,6 +36,12 @@ public abstract class ListBaseAdapter<D,V extends View & DataReceiver<D>> extend
         }
     }
 
+    public void setDatas(List<D> datas) {
+        if (datas != null) {
+            mDatas = datas;
+        }
+    }
+
     public List<D> getDatas() {
         return mDatas;
     }
