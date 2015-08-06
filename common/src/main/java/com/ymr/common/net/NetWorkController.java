@@ -27,7 +27,9 @@ public class NetWorkController<D> {
         @Override
         public void onError(String msg) {
             Log.e(TAG, "E:msg = " + msg);
-            mLoadStateListener.onStateChange(LoadStateListener.NetworkLoadStatus.LOAD_FAIL);
+            LoadStateListener.NetworkLoadStatus loadFail = LoadStateListener.NetworkLoadStatus.LOAD_FAIL;
+            loadFail.setMsg(msg);
+            mLoadStateListener.onStateChange(loadFail);
         }
     };
 

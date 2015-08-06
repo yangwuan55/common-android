@@ -26,14 +26,18 @@ public abstract class SimpleNetWorkModel<T> extends SimpleModel implements NetWo
         VolleyUtil.getsInstance(mContext).addRequest(params, getApiClass(), new VolleyUtil.RequestListner<ApiBase<T>>() {
             @Override
             public void onSuccess(ApiBase<T> data) {
-                if (data.getCode() == 0) {
-                    listener.finishUpdate(data.getResult());
-                } else {
-                    if (data.getResult() != null) {
-                        listener.onError(((Map) data.getResult()).get("result") + "");
+                if (data != null) {
+                    if (data.getCode() == 0) {
+                        listener.finishUpdate(data.getResult());
                     } else {
-                        listener.onError(data.getMsg());
+                        if (data.getResult() != null) {
+                            listener.onError(((Map) data.getResult()).get("result") + "");
+                        } else {
+                            listener.onError(data.getMsg());
+                        }
                     }
+                } else {
+                    listener.onError("server error");
                 }
             }
 

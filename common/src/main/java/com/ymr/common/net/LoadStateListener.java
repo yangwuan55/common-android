@@ -12,6 +12,11 @@ public interface LoadStateListener<T> extends DataReceiver<T> {
         LOAD_FINISH,
         LOAD_FAIL,
         LOAD_NETWORK_ERROR,
-        LOAD_PARAMS_NULL
+        LOAD_PARAMS_NULL;
+
+        private String msg;
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
     }
 }
