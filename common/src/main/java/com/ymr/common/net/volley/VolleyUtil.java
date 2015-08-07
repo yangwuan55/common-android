@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.ymr.common.bean.ApiBase;
 import com.ymr.common.net.params.NetRequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -69,67 +70,6 @@ public class VolleyUtil {
         mRequestQueue.add(request);
     }
 
-    public void addJsonObjectRequest(String url,Map<String,String> params, final RequestListner<JSONObject> requestListner) {
-        final String getUrl = getUrl(url, params);
-        mRequestQueue.add(new JsonObjectRequest(Request.Method.GET, getUrl, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                requestListner.onSuccess(jsonObject);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                requestListner.onFail(volleyError);
-            }
-        }));
-    }
-
-    public void addJsonArrayRequest(String url,Map<String,String> params, final RequestListner<JSONArray> requestListner) {
-        final String getUrl = getUrl(url, params);
-        mRequestQueue.add(new JsonArrayRequest(Request.Method.GET, getUrl, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray jsonArray) {
-                requestListner.onSuccess(jsonArray);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                requestListner.onFail(volleyError);
-            }
-        }));
-    }
-
-    public <T> void addGetGsonRequest(String url, Class<T> tClass, Map<String, String> params, final RequestListner<T> requestListner) {
-        String getUrl = getUrl(url, params);
-        GsonRequest<T> gsonRequest = new GsonRequest<T>(getUrl, tClass, new Response.Listener<T>() {
-            @Override
-            public void onResponse(T t) {
-                requestListner.onSuccess(t);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                requestListner.onFail(volleyError);
-            }
-        });
-        mRequestQueue.add(gsonRequest);
-    }
-
-    public <T> void addPostGsonRequest(String url, Class<T> tClass, Map<String, String> params, final RequestListner<T> requestListner) {
-
-        new GsonRequest<T>(url, tClass, new Response.Listener<T>() {
-            @Override
-            public void onResponse(T t) {
-                requestListner.onSuccess(t);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                requestListner.onFail(volleyError);
-            }
-        }, params);
-    }
-
     public void loadImage(String url, ImageView view, int defultRes, int errorRes) {
         mImageLoader.displayImage(url, view, new DisplayImageOptions.Builder()
                 .showImageOnLoading(defultRes)
@@ -182,13 +122,13 @@ public class VolleyUtil {
         return builder.toString();
     }
 
-    public <T,P extends NetRequestParams> void addRequest(final P params,Class<T> tClass,final RequestListner<T> requestListner) {
+    public <T,P extends NetRequestParams> void addRequest(final P params,final RequestListner<ApiBase<T>> requestListner,Class<T> tClass) {
         ObjectRequest<T> gsonRequest = null;
 
-        final Response.Listener<T> listener = new Response.Listener<T>() {
+        final Response.Listener<ApiBase<T>> listener = new Response.Listener<ApiBase<T>>() {
             @Override
-            public void onResponse(T t) {
-                requestListner.onSuccess(t);
+            public void onResponse(ApiBase<T> response) {
+                requestListner.onSuccess(response);
             }
         };
         Response.ErrorListener errorListener = new Response.ErrorListener() {
@@ -201,33 +141,12 @@ public class VolleyUtil {
         switch (params.getMethod()) {
             case Request.Method.GET:
                 gsonRequest = new ObjectRequest<T>(Request.Method.GET, params.getUrl(),
-                        new Response.Listener<T>() {
-                            @Override
-                            public void onResponse(T response) {
-                                requestListner.onSuccess(response);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        requestListner.onFail(error);
-                    }
-                },tClass);
+                        listener,errorListener,tClass);
                 break;
 
             case Request.Method.POST:
-                //gsonRequest = new GsonRequest<>(params.getUrl(),tClass,listener,errorListener,params.getPostParams());
                 gsonRequest = new ObjectRequest<T>(Request.Method.POST, params.getUrl(),
-                        new Response.Listener<T>() {
-                            @Override
-                            public void onResponse(T response) {
-                                requestListner.onSuccess(response);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        requestListner.onFail(error);
-                    }
-                },tClass) {
+                        listener,errorListener,tClass) {
                     @Override
                     protected Map<String, String> getParams() {
                         return params.getPostParams();

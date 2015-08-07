@@ -17,7 +17,7 @@ public class SimpleResultNetWorkModel extends SimpleNetWorkModel<Void> {
     }
 
     public SimpleResultNetWorkModel(Context context) {
-        super(context);
+        super(context,null);
     }
 
     public void sendRequest(NetRequestParams params, final SimpleRequestListener listener) {
@@ -32,10 +32,5 @@ public class SimpleResultNetWorkModel extends SimpleNetWorkModel<Void> {
                 listener.onFail(msg);
             }
         });
-    }
-
-    @Override
-    protected Class getApiClass() {
-        return ApiBase.class;
     }
 }
