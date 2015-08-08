@@ -15,10 +15,14 @@ import java.util.List;
  * D is the data type
  * V is the view who can recieve the data.
  */
-public abstract class ListBaseAdapter<D,V extends View & DataReceiver<D>> extends BaseAdapter {
+public abstract class ListBaseAdapter<D,V extends View & ListBaseAdapter.AdapterItem<D>> extends BaseAdapter {
 
     private final Context mContext;
     private List<D> mDatas = new ArrayList<>();
+
+    public interface AdapterItem<D> extends DataReceiver<D> {
+        void reset();
+    }
 
     public ListBaseAdapter(Context context) {
         mContext = context;
@@ -67,6 +71,7 @@ public abstract class ListBaseAdapter<D,V extends View & DataReceiver<D>> extend
         V v = null;
         if (convertView != null) {
             v = (V) convertView;
+            v.reset();
         } else {
             v = initView(mContext);
         }
