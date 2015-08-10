@@ -7,6 +7,7 @@ import android.view.View;
 import com.ymr.common.ui.BaseUI;
 import com.ymr.common.ui.BaseUIController;
 import com.umeng.analytics.MobclickAgent;
+import com.ymr.common.util.StatisticalHelper;
 
 /**
  * Created by ymr on 15/6/25.
@@ -61,5 +62,10 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void writeToStatistical(String actionType) {
+        StatisticalHelper.doStatistical(this, actionType);
     }
 }
