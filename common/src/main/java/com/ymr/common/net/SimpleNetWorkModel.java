@@ -41,13 +41,19 @@ public class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T
                         }
                     }
                 } else {
-                    listener.onError("server error");
+                    listener.onError("server error 1");
                 }
             }
 
             @Override
             public void onFail(VolleyError error) {
-                listener.onError(error.getCause().toString());
+                Throwable cause = error.getCause();
+                if (cause != null) {
+                    listener.onError(cause.toString());
+                    cause.printStackTrace();
+                } else {
+                    listener.onError("server error 2");
+                }
             }
         }, mTClass);
     }
