@@ -53,6 +53,11 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
     }
 
     @Override
+    public boolean isActionBarVisible() {
+        return true;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);

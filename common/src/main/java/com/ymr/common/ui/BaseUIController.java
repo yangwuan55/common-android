@@ -80,7 +80,9 @@ public class BaseUIController<T extends Activity & BaseUI> implements View.OnCli
         mTitle.setText(mActivity.getTitleText());
         mTitle.setTextColor(getBaseUIParams().getTitleTextColor());
 
-        mActivity.findViewById(R.id.title_container).setBackgroundColor(getBaseUIParams().getTitleBgColor());
+        View actionbar = mActivity.findViewById(R.id.title_container);
+        actionbar.setBackgroundColor(getBaseUIParams().getTitleBgColor());
+        actionbar.setVisibility(mActivity.isActionBarVisible() ? View.VISIBLE : View.GONE);
 
         //get the layout of sub activity
         ViewStub viewStub = (ViewStub) mActivity.findViewById(R.id.sub_activity_content);

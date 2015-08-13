@@ -53,6 +53,11 @@ public abstract class BaseActivity extends Activity implements BaseUI {
     }
 
     @Override
+    public boolean isActionBarVisible() {
+        return true;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);

@@ -15,6 +15,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class Name: FileUtil
@@ -152,7 +155,7 @@ public class FileUtil {
         return readBeanFromInputStream(context, context.getResources().openRawResource(rawId), c);
     }
 
-    public static boolean deleteByName(Context context,String filename) {
+    public static boolean deleteByName(Context context, String filename) {
         File fileByName = getFileByName(context, filename);
         if (fileByName.exists()) {
             return fileByName.delete();
@@ -167,21 +170,21 @@ public class FileUtil {
      * @param uri
      * @return the file path or null
      */
-    public static String getRealFilePath( final Context context, final Uri uri ) {
-        if ( null == uri ) return null;
+    public static String getRealFilePath(final Context context, final Uri uri) {
+        if (null == uri) return null;
         final String scheme = uri.getScheme();
         String data = null;
-        if ( scheme == null )
+        if (scheme == null)
             data = uri.getPath();
-        else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
             data = uri.getPath();
-        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
-            Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
-            if ( null != cursor ) {
-                if ( cursor.moveToFirst() ) {
-                    int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
-                    if ( index > -1 ) {
-                        data = cursor.getString( index );
+        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
+            Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
+            if (null != cursor) {
+                if (cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                    if (index > -1) {
+                        data = cursor.getString(index);
                     }
                 }
                 cursor.close();
@@ -193,8 +196,7 @@ public class FileUtil {
     /**
      * 读取图片的旋转的角度
      *
-     * @param path
-     *            图片绝对路径
+     * @param path 图片绝对路径
      * @return 图片的旋转角度
      */
     public static int getBitmapDegree(String path) {
@@ -225,10 +227,8 @@ public class FileUtil {
     /**
      * 将图片按照某个角度进行旋转
      *
-     * @param bm
-     *            需要旋转的图片
-     * @param degree
-     *            旋转角度
+     * @param bm     需要旋转的图片
+     * @param degree 旋转角度
      * @return 旋转后的图片
      */
     public static Bitmap rotateBitmapByDegree(Bitmap bm, int degree) {
@@ -249,5 +249,24 @@ public class FileUtil {
             bm.recycle();
         }
         return returnBm;
+    }
+
+    public static <T> void writeListToFile(Context context,List<T> list,String fileName) {
+        writeStringToFile(context,ArrayToString(list),fileName);
+    }
+
+    public static <T> List<T> getListFromFile(Context context,String filename,Class<T[]> clazz) {
+        String str = readStringFromFile(context, filename);
+        return stringToArray(str, clazz);
+    }
+
+    public static <T> String ArrayToString(List<T> list) {
+        Gson g = new Gson();
+        return g.toJson(list);
+    }
+
+    public static <T> List<T> stringToArray(String s, Class<T[]> clazz) {
+        T[] arr = new Gson().fromJson(s, clazz);
+        return new ArrayList<T>(Arrays.asList(arr)); //or return Arrays.asList(new Gson().fromJson(s, clazz)); for a one-liner
     }
 }

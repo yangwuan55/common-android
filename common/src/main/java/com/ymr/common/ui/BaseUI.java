@@ -26,4 +26,6 @@ public interface BaseUI extends Statistical {
     View.OnClickListener getTitleRightViewOnClickListener();
 
     BaseUIController getController();
+
+    boolean isActionBarVisible();
 }
