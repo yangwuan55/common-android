@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -13,7 +14,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.GsonBuilder;
 import com.ymr.common.bean.ApiBase;
+import com.ymr.common.net.params.FileParams;
 import com.ymr.common.net.params.NetRequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -23,6 +26,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -49,7 +53,7 @@ public class VolleyUtil {
     }
     private VolleyUtil(Context context) {
         mContext = context;
-        mRequestQueue = Volley.newRequestQueue(mContext);
+        mRequestQueue = Volley.newRequestQueue(mContext,new MultiPartStack());
         mImageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
         mImageOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
@@ -155,5 +159,37 @@ public class VolleyUtil {
                 break;
         }
         addRequest(gsonRequest);
+    }
+
+    public <T, P extends FileParams> void addFileUploadRequest(final P params, final RequestListner<ApiBase<T>> requestListner, Class<T> tClass) {
+        FileUploadRequest<T> fileUploadRequest = null;
+
+        final Response.Listener<ApiBase<T>> listener = new Response.Listener<ApiBase<T>>() {
+            @Override
+            public void onResponse(ApiBase<T> response) {
+                requestListner.onSuccess(response);
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                requestListner.onFail(volleyError);
+            }
+        };
+
+        fileUploadRequest = new FileUploadRequest(params.getUrl(),listener, errorListener, tClass) {
+            @Override
+            protected Map<String, String> getParams() {
+                return params.getPostParams();
+            }
+        };
+        fileUploadRequest.addFileUpload(params.getFileMap());
+
+        fileUploadRequest.setRetryPolicy(//关闭retry
+                new DefaultRetryPolicy(
+                        Integer.MAX_VALUE,
+                        0,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        addRequest(fileUploadRequest);
     }
 }

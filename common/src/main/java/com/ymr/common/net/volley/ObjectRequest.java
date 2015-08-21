@@ -24,49 +24,16 @@ public class ObjectRequest<T> extends StringRequest {
         super(method, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                generateObject(s, url, tClass, listener);
+                ParseUtil.generateObject(s, url, tClass, listener);
             }
         }, errorListener);
-    }
-
-    private static <T> void generateObject(String s, String url, Class<T> tClass, Response.Listener<ApiBase<T>> listener) {
-        LOGGER.i(TAG, "URL = " + url);
-        ParameterizedType type = null;
-        if (tClass != null) {
-            type = type(ApiBase.class, tClass);
-            LOGGER.i(TAG, "type = " + type);
-        }
-        ApiBase<T> rtn = null;
-        Gson gson = new GsonBuilder().create();
-        if (type != null) {
-            rtn = gson.fromJson(s, type);
-        } else {
-            rtn = gson.fromJson(s, ApiBase.class);
-        }
-        listener.onResponse(rtn);
-    }
-
-    static ParameterizedType type(final Class raw, final Type... args) {
-        return new ParameterizedType() {
-            public Type getRawType() {
-                return raw;
-            }
-
-            public Type[] getActualTypeArguments() {
-                return args;
-            }
-
-            public Type getOwnerType() {
-                return null;
-            }
-        };
     }
 
     public ObjectRequest(final String url, final Response.Listener<ApiBase<T>> listener, Response.ErrorListener errorListener, final Class<T> tClass) {
         super(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                generateObject(s, url, tClass, listener);
+                ParseUtil.generateObject(s, url, tClass, listener);
             }
         }, errorListener);
     }

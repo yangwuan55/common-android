@@ -27,35 +27,7 @@ public class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T
 
     @Override
     public void updateDatas(NetRequestParams params, final UpdateListener<T> listener) {
-        VolleyUtil.getsInstance(mContext).addRequest(params,new VolleyUtil.RequestListner<ApiBase<T>>() {
-            @Override
-            public void onSuccess(ApiBase<T> data) {
-                if (data != null) {
-                    if (data.getCode() == 0) {
-                        listener.finishUpdate(data.getResult());
-                    } else {
-                        if (data.getResult() != null) {
-                            listener.onError(((Map) data.getResult()).get("result") + "");
-                        } else {
-                            listener.onError(data.getMsg());
-                        }
-                    }
-                } else {
-                    listener.onError("server error 1");
-                }
-            }
-
-            @Override
-            public void onFail(VolleyError error) {
-                Throwable cause = error.getCause();
-                if (cause != null) {
-                    listener.onError(cause.toString());
-                    cause.printStackTrace();
-                } else {
-                    listener.onError("server error 2");
-                }
-            }
-        }, mTClass);
+        NetResultDisposer.dispose(mContext, params, listener,mTClass);
     }
 
     public Context getContext() {
