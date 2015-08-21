@@ -8,6 +8,8 @@ import java.util.Map;
  */
 public class Constant {
 
+    public static String ACTION_EXIST = "ymr_action_exist";
+
     public interface ActionBean {
         String ACTION_TYPE_LOAD_PAGE = "loadpage";
         String ACTION_TYPE_VIDEO = "playvideo";

@@ -73,4 +73,10 @@ public abstract class BaseActivity extends Activity implements BaseUI {
     public void writeToStatistical(String actionType) {
         StatisticalHelper.doStatistical(this,actionType);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBaseUIController.onDestroy();
+    }
 }

@@ -73,4 +73,10 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
     public void writeToStatistical(String actionType) {
         StatisticalHelper.doStatistical(this, actionType);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBaseUIController.onDestroy();
+    }
 }

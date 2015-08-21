@@ -1,12 +1,17 @@
 package com.ymr.common.ui;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ymr.common.R;
+import com.ymr.common.util.Constant;
 
 
 /**
@@ -21,12 +26,26 @@ public class BaseUIController<T extends Activity & BaseUI> implements View.OnCli
     private static BaseUIParams sBaseUIParams;
     private BaseUIParams mBaseUIParams;
 
+    private BroadcastReceiver mExitBroadCast = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Constant.ACTION_EXIST)) {
+                mActivity.finish();
+            }
+        }
+    };
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.back) {
             mActivity.finish();
         }
+    }
+
+    public void onDestroy() {
+        mActivity.unregisterReceiver(mExitBroadCast);
     }
 
     public interface BaseUIParams {
@@ -53,6 +72,9 @@ public class BaseUIController<T extends Activity & BaseUI> implements View.OnCli
         mActivity.setContentView(R.layout.activity_base);
         onInitViews();
         mActivity.onFinishCreateView();
+
+        IntentFilter filter = new IntentFilter(Constant.ACTION_EXIST);
+        mActivity.registerReceiver(mExitBroadCast, filter);
     }
 
     protected void onInitViews() {
