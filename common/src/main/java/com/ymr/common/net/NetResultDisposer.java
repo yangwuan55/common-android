@@ -13,8 +13,8 @@ import java.util.Map;
  * Created by ymr on 15/8/21.
  */
 public class NetResultDisposer {
-    public static <T> void dispose(Context context,NetRequestParams params, final NetWorkModel.UpdateListener<T> listener,Class<T> tClass) {
-        VolleyUtil.getsInstance(context).addRequest(params,new VolleyUtil.RequestListner<ApiBase<T>>() {
+    public static <T> void dispose(Context context, NetRequestParams params, final NetWorkModel.UpdateListener<T> listener, Class<T> tClass) {
+        VolleyUtil.getsInstance(context).addRequest(params, new VolleyUtil.RequestListner<ApiBase<T>>() {
             @Override
             public void onSuccess(ApiBase<T> data) {
                 if (data != null) {

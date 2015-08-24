@@ -252,12 +252,17 @@ public class FileUtil {
     }
 
     public static <T> void writeListToFile(Context context,List<T> list,String fileName) {
-        writeStringToFile(context,ArrayToString(list),fileName);
+        if (list != null) {
+            writeStringToFile(context,ArrayToString(list),fileName);
+        }
     }
 
     public static <T> List<T> getListFromFile(Context context,String filename,Class<T[]> clazz) {
         String str = readStringFromFile(context, filename);
-        return stringToArray(str, clazz);
+        if (!TextUtils.isEmpty(str)) {
+            return stringToArray(str, clazz);
+        }
+        return null;
     }
 
     public static <T> String ArrayToString(List<T> list) {
