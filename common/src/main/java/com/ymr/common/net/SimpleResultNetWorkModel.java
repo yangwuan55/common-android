@@ -13,7 +13,7 @@ public class SimpleResultNetWorkModel extends SimpleNetWorkModel<Void> {
 
     public interface SimpleRequestListener {
         void onSuccess();
-        void onFail(String msg);
+        void onFail(Error error);
     }
 
     public SimpleResultNetWorkModel(Context context) {
@@ -28,8 +28,8 @@ public class SimpleResultNetWorkModel extends SimpleNetWorkModel<Void> {
             }
 
             @Override
-            public void onError(String msg) {
-                listener.onFail(msg);
+            public void onError(Error error) {
+                listener.onFail(error);
             }
         });
     }

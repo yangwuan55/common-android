@@ -17,30 +17,36 @@ public class NetResultDisposer {
         VolleyUtil.getsInstance(context).addRequest(params, new VolleyUtil.RequestListner<ApiBase<T>>() {
             @Override
             public void onSuccess(ApiBase<T> data) {
+                NetWorkModel.Error error = new NetWorkModel.Error();
                 if (data != null) {
                     if (data.getCode() == 0) {
                         listener.finishUpdate(data.getResult());
                     } else {
+                        error.setErrorCode(data.getCode());
                         if (data.getResult() != null) {
-                            listener.onError(((Map) data.getResult()).get("result") + "");
+                            error.setMsg(((Map) data.getResult()).get("result") + " " + data.getMsg());
                         } else {
-                            listener.onError(data.getMsg());
+                            error.setMsg(data.getMsg());
                         }
+                        listener.onError(error);
                     }
                 } else {
-                    listener.onError("server error 1");
+                    error.setMsg("server error 1");
+                    listener.onError(error);
                 }
             }
 
             @Override
             public void onFail(VolleyError error) {
                 Throwable cause = error.getCause();
+                NetWorkModel.Error netError = new NetWorkModel.Error();
                 if (cause != null) {
-                    listener.onError(cause.toString());
+                    netError.setMsg(cause.toString());
                     cause.printStackTrace();
                 } else {
-                    listener.onError("server error 2");
+                    netError.setMsg("server error 2");
                 }
+                listener.onError(netError);
             }
         }, tClass);
     }
