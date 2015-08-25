@@ -3,6 +3,7 @@ package com.ymr.common;
 import android.app.Application;
 import android.content.Context;
 
+import com.ymr.common.net.NetWorkModel;
 import com.ymr.common.ui.BaseUIController;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -20,18 +21,25 @@ public class Env {
     private static Application sApp;
     public static WebUrl sWebUrl;
     public static Map<String, String> sParams = new HashMap<>();
+    public static Env.FloorErrorDisposer sFloorErrorDisposer;
 
-    public static void init(Application context,InitParams initParams) {
+    public static void init(Application context,InitParams initParams,FloorErrorDisposer floorErrorDisposer) {
         sApp = context;
         initImageLoader(context);
         BaseUIController.initBaseUIParams(initParams.getBaseUIParams());
         sWebUrl = initParams.getWebUrl();
+        sFloorErrorDisposer = floorErrorDisposer;
     }
 
     public interface InitParams{
         BaseUIController.BaseUIParams getBaseUIParams();
         WebUrl getWebUrl();
     }
+
+    public static interface FloorErrorDisposer {
+        void onError(NetWorkModel.Error error);
+    }
+
     private static void initImageLoader(Context context) {
         // This configuration tuning is custom. You can tune every option, you may tune some of them,
         // or you can create default configuration by

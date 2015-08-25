@@ -6,6 +6,7 @@ import com.android.volley.VolleyError;
 import com.ymr.common.bean.ApiBase;
 import com.ymr.common.net.params.NetRequestParams;
 import com.ymr.common.net.volley.VolleyUtil;
+import com.ymr.common.util.LOGGER;
 
 import java.util.Map;
 
@@ -13,6 +14,8 @@ import java.util.Map;
  * Created by ymr on 15/8/21.
  */
 public class NetResultDisposer {
+    private static final String TAG = "NetResultDisposer";
+
     public static <T> void dispose(Context context, NetRequestParams params, final NetWorkModel.UpdateListener<T> listener, Class<T> tClass) {
         VolleyUtil.getsInstance(context).addRequest(params, new VolleyUtil.RequestListner<ApiBase<T>>() {
             @Override
@@ -44,6 +47,7 @@ public class NetResultDisposer {
                     netError.setMsg(cause.toString());
                     cause.printStackTrace();
                 } else {
+                    LOGGER.e(TAG,"ERROR = " + error);
                     netError.setMsg("server error 2");
                 }
                 listener.onError(netError);

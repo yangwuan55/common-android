@@ -29,7 +29,13 @@ public class WebViewController implements View.OnClickListener {
             }
         }
     };
+    private WebViewController.JavascriptInterface mJavascriptInterface;
 
+    public void callToJs(String params) {
+        if (mJavascriptInterface != null) {
+            mWebView.loadUrl("javascript:"+mJavascriptInterface.getJsMethodName()+"(" + params + ")");
+        }
+    }
 
     public WebViewController(ViewGroup webViewConainer,int webviewContentId) {
         View.inflate(webViewConainer.getContext(),webviewContentId,webViewConainer);
@@ -68,6 +74,13 @@ public class WebViewController implements View.OnClickListener {
         });
     }
 
+    public void setJavascriptInterface(JavascriptInterface javascriptInterface) {
+        mJavascriptInterface = javascriptInterface;
+        if (mJavascriptInterface != null) {
+            mWebView.addJavascriptInterface(javascriptInterface.getJavaScriptInterface(), javascriptInterface.name);
+        }
+    }
+
     private void showError() {
         mHandler.sendEmptyMessage(SHOW_ERROR);
     }
@@ -85,5 +98,41 @@ public class WebViewController implements View.OnClickListener {
 
     private void reload() {
         loadUrl(mUrl);
+    }
+
+    public static class JavascriptInterface {
+        private Object javaScriptInterface;
+        private String name;
+        private String jsMethodName;
+
+        public JavascriptInterface(Object javaScriptInterface, String name, String jsMethodName) {
+            this.javaScriptInterface = javaScriptInterface;
+            this.name = name;
+            this.jsMethodName = jsMethodName;
+        }
+
+        public Object getJavaScriptInterface() {
+            return javaScriptInterface;
+        }
+
+        public void setJavaScriptInterface(Object javaScriptInterface) {
+            this.javaScriptInterface = javaScriptInterface;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getJsMethodName() {
+            return jsMethodName;
+        }
+
+        public void setJsMethodName(String jsMethodName) {
+            this.jsMethodName = jsMethodName;
+        }
     }
 }

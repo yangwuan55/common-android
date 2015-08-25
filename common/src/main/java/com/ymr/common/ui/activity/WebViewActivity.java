@@ -45,4 +45,7 @@ public class WebViewActivity extends BaseActivity {
         return R.layout.activity_web_view;
     }
 
+    public void setJavascriptInterface(WebViewController.JavascriptInterface javascriptInterface) {
+        mWebViewController.setJavascriptInterface(javascriptInterface);
+    }
 }
