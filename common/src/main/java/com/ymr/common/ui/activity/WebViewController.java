@@ -2,8 +2,11 @@ package com.ymr.common.ui.activity;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -16,6 +19,7 @@ import com.ymr.common.R;
 public class WebViewController implements View.OnClickListener {
 
     private static final int SHOW_ERROR = 0;
+    private static final String TAG = "WebViewController";
     private final WebView mWebView;
     private final View mErrorView;
     private String mUrl;
@@ -72,6 +76,7 @@ public class WebViewController implements View.OnClickListener {
                 showError();
             }
         });
+        mWebView.setWebChromeClient(new MyWebChromeClient());
     }
 
     public void setJavascriptInterface(JavascriptInterface javascriptInterface) {
@@ -133,6 +138,19 @@ public class WebViewController implements View.OnClickListener {
 
         public void setJsMethodName(String jsMethodName) {
             this.jsMethodName = jsMethodName;
+        }
+    }
+
+    /**
+     * Provides a hook for calling "alert" from javascript. Useful for
+     * debugging your javascript.
+     */
+    final class MyWebChromeClient extends WebChromeClient {
+        @Override
+        public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+            Log.d(TAG, message);
+            result.confirm();
+            return true;
         }
     }
 }
