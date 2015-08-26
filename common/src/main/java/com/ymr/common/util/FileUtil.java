@@ -26,6 +26,8 @@ import java.util.List;
  */
 public class FileUtil {
 
+    private static final String TAG = "FileUtil";
+
     public static boolean isAssetsExistWithStore(String name, Context mContext) {
         if (TextUtils.isEmpty(name)) {
             return false;
@@ -55,27 +57,31 @@ public class FileUtil {
      * @return
      */
     public static boolean writeStringToFile(Context context, String data, String fileName) {
-        FileOutputStream fout = null;
-        BufferedWriter writer = null;
-        try {
-            fout = context.openFileOutput(fileName, Context.MODE_PRIVATE);
-            writer = new BufferedWriter(new OutputStreamWriter(fout, "UTF-8"));
-            writer.write(data);
-            writer.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        } finally {
+        if (!TextUtils.isEmpty(data)) {
+            FileOutputStream fout = null;
+            BufferedWriter writer = null;
             try {
-                if (fout != null) {
-                    fout.close();
-                }
-                if (writer != null) {
-                    writer.close();
-                }
-            } catch (IOException e) {
+                fout = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+                writer = new BufferedWriter(new OutputStreamWriter(fout, "UTF-8"));
+                writer.write(data);
+                writer.flush();
+            } catch (Exception e) {
                 e.printStackTrace();
+                return false;
+            } finally {
+                try {
+                    if (fout != null) {
+                        fout.close();
+                    }
+                    if (writer != null) {
+                        writer.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        } else {
+            deleteByName(context,fileName);
         }
         return true;
     }
@@ -253,7 +259,9 @@ public class FileUtil {
 
     public static <T> void writeListToFile(Context context,List<T> list,String fileName) {
         if (list != null) {
-            writeStringToFile(context,ArrayToString(list),fileName);
+            writeStringToFile(context, ArrayToString(list), fileName);
+        } else {
+            writeStringToFile(context, "", fileName);
         }
     }
 
@@ -273,5 +281,29 @@ public class FileUtil {
     public static <T> List<T> stringToArray(String s, Class<T[]> clazz) {
         T[] arr = new Gson().fromJson(s, clazz);
         return new ArrayList<T>(Arrays.asList(arr)); //or return Arrays.asList(new Gson().fromJson(s, clazz)); for a one-liner
+    }
+
+    /**
+     *
+     * @param bitmap
+     * @param targetSize 单位KB
+     * @return
+     */
+    public static byte[] compressBitmap(Bitmap bitmap,float targetSize){
+        float sizeOfBitmap = getSizeOfBitmap(bitmap);
+        if(bitmap==null|| sizeOfBitmap <=targetSize){
+            return null;//如果图片本身的大小已经小于这个大小了，就没必要进行压缩
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, (int) (targetSize/sizeOfBitmap*100),baos);
+        LOGGER.i(TAG, "------质量--------" + baos.toByteArray().length / 1024f);
+        return baos.toByteArray();
+    }
+
+    public static float getSizeOfBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//这里100的话表示不压缩质量
+        long length=baos.toByteArray().length/1024;
+        return length;
     }
 }
