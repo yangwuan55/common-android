@@ -48,4 +48,8 @@ public class WebViewActivity extends BaseActivity {
     public void setJavascriptInterface(WebViewController.JavascriptInterface javascriptInterface) {
         mWebViewController.setJavascriptInterface(javascriptInterface);
     }
+
+    public void callToJs(String params) {
+        mWebViewController.callToJs(params);
+    }
 }
