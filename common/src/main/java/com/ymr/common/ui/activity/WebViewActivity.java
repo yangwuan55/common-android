@@ -52,4 +52,10 @@ public class WebViewActivity extends BaseActivity {
     public void callToJs(String params) {
         mWebViewController.callToJs(params);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mWebViewController.close();
+    }
 }

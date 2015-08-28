@@ -36,8 +36,10 @@ public abstract class ListBaseAdapter<D,V extends View & ListBaseAdapter.Adapter
     public void addDatas(List<D> datas) {
         if (datas != null) {
             mDatas.addAll(datas);
-            notifyDataSetChanged();
+        } else {
+            mDatas.clear();
         }
+        notifyDataSetChanged();
     }
 
     public void setDatas(List<D> datas) {

@@ -105,6 +105,10 @@ public class WebViewController implements View.OnClickListener {
         loadUrl(mUrl);
     }
 
+    public void close() {
+        mWebView.loadUrl("about:blank");
+    }
+
     public static class JavascriptInterface {
         private Object javaScriptInterface;
         private String name;
