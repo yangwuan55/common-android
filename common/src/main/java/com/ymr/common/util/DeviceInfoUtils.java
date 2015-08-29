@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.TextUtils;
@@ -380,5 +381,23 @@ public final class DeviceInfoUtils {
 		String UmengChannel = Tool.assetFileToString(mContext,"channel","1");
 		return UmengChannel;
 	}
+
+    /**
+     * 判断网络是否可用
+     *
+     * @param context
+     * @return
+     */
+    public static boolean hasInternet(Context context) {
+        boolean flag;
+
+        if (((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo() != null) {
+            flag = true;
+        } else {
+            flag = false;
+        }
+
+        return flag;
+    }
 
 }

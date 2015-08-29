@@ -15,6 +15,7 @@ import com.ymr.common.util.StatisticalHelper;
  */
 public abstract class BaseActivity extends Activity implements BaseUI {
     private BaseUIController mBaseUIController;
+    private boolean mIsResume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +59,21 @@ public abstract class BaseActivity extends Activity implements BaseUI {
     }
 
     @Override
+    public boolean isResume() {
+        return mIsResume;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        mIsResume = true;
         MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mIsResume = false;
         MobclickAgent.onPause(this);
     }
 

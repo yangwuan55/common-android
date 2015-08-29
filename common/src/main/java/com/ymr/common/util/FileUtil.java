@@ -4,12 +4,14 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -305,5 +307,30 @@ public class FileUtil {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//这里100的话表示不压缩质量
         long length=baos.toByteArray().length/1024;
         return length;
+    }
+
+    //使用BitmapFactory.Options的inSampleSize参数来缩放
+    public static void resizeImage(String path,
+                                        int width,int height) throws FileNotFoundException {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;//不加载bitmap到内存中
+        BitmapFactory.decodeFile(path,options);
+        int outWidth = options.outWidth;
+        int outHeight = options.outHeight;
+        options.inDither = false;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        options.inSampleSize = 1;
+
+        if (outWidth != 0 && outHeight != 0 && width != 0 && height != 0)
+        {
+            int sampleSize=(outWidth/width+outHeight/height)/2;
+            options.inSampleSize = sampleSize;
+        }
+
+        options.inJustDecodeBounds = false;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(path, options);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,new FileOutputStream(new File(path)));
+        bitmap.recycle();
     }
 }

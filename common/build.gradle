@@ -2,8 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-version = '1.7.4'
-int vCode = 57
+version = '1.7.8'
+int vCode = 61
 
 android {
     compileSdkVersion 22
@@ -15,6 +15,11 @@ android {
         versionCode vCode
         versionName version
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
     buildTypes {
         release {
             minifyEnabled false

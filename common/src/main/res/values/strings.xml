@@ -3,4 +3,5 @@
     <string name="refresh_load_error">网络加载失败，点击屏幕重新加载</string>
     <string name="title_example">标题</string>
     <string name="no_app_for_the_intent">没有应用可以打开此文件</string>
+    <string name="has_no_internet">没有网络</string>
 </resources>

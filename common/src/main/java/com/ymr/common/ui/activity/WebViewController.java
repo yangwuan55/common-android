@@ -109,6 +109,15 @@ public class WebViewController implements View.OnClickListener {
         mWebView.loadUrl("about:blank");
     }
 
+    public boolean onBackPressed() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            return false;
+        }
+        return true;
+    }
+
     public static class JavascriptInterface {
         private Object javaScriptInterface;
         private String name;

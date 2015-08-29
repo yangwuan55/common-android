@@ -28,4 +28,6 @@ public interface BaseUI extends Statistical {
     BaseUIController getController();
 
     boolean isActionBarVisible();
+
+    boolean isResume();
 }
