@@ -64,6 +64,11 @@ public abstract class BaseActivity extends Activity implements BaseUI {
     }
 
     @Override
+    public void onActionbarBackPressed() {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         mIsResume = true;

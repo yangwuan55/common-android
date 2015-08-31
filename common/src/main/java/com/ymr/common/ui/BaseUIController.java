@@ -40,6 +40,7 @@ public class BaseUIController<T extends Activity & BaseUI> implements View.OnCli
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.back) {
+            mActivity.onActionbarBackPressed();
             mActivity.finish();
         }
     }

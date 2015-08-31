@@ -30,4 +30,6 @@ public interface BaseUI extends Statistical {
     boolean isActionBarVisible();
 
     boolean isResume();
+
+    void onActionbarBackPressed();
 }

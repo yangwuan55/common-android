@@ -64,6 +64,11 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
     }
 
     @Override
+    public void onActionbarBackPressed() {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         mIsResume = true;
