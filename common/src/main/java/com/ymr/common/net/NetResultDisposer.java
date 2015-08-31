@@ -16,11 +16,12 @@ import java.util.Map;
 public class NetResultDisposer {
     private static final String TAG = "NetResultDisposer";
 
-    public static <T> void dispose(Context context, NetRequestParams params, final NetWorkModel.UpdateListener<T> listener, Class<T> tClass) {
+    public static <T> void dispose(Context context, final NetRequestParams params, final NetWorkModel.UpdateListener<T> listener, Class<T> tClass) {
         VolleyUtil.getsInstance(context).addRequest(params, new VolleyUtil.RequestListner<ApiBase<T>>() {
             @Override
             public void onSuccess(ApiBase<T> data) {
                 NetWorkModel.Error error = new NetWorkModel.Error();
+                error.setUrl(params.getUrl());
                 if (data != null) {
                     if (data.getCode() == 0) {
                         listener.finishUpdate(data.getResult());

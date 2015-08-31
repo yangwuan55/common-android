@@ -23,6 +23,7 @@ public interface NetWorkModel<T> extends IModel {
         private int errorCode = -1;
         private String msg;
         private Object tag;
+        private String url;
 
         public int getErrorCode() {
             return errorCode;
@@ -46,6 +47,14 @@ public interface NetWorkModel<T> extends IModel {
 
         public void setTag(Object tag) {
             this.tag = tag;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.ymr.common.ui.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -74,6 +76,18 @@ public class WebViewController implements View.OnClickListener {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
                 showError();
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.startsWith("tel:")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(url));
+                    mWebView.getContext().startActivity(intent);
+                } else {
+                    view.loadUrl(url);
+                }
+                return true;
             }
         });
         mWebView.setWebChromeClient(new MyWebChromeClient());
