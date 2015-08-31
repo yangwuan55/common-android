@@ -29,7 +29,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +41,7 @@ public class VolleyUtil {
     //最大缓存50mb
     public static final long MAX_DISK_SIZE = 8 * 1024 * 1024 * 50;
     private static final String TAG = "VolleyUtil";
+    public static final String DEFAULT_TAG = "default_tag";
     private static VolleyUtil sInstance;
     private final Context mContext;
     private final RequestQueue mRequestQueue;
@@ -55,7 +58,7 @@ public class VolleyUtil {
     }
     private VolleyUtil(Context context) {
         mContext = context;
-        mRequestQueue = Volley.newRequestQueue(mContext,new MultiPartStack());
+        mRequestQueue = Volley.newRequestQueue(mContext, new MultiPartStack());
         mImageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
         mImageOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
@@ -72,7 +75,12 @@ public class VolleyUtil {
         return sInstance;
     }
 
+    public void cancelAll() {
+        mRequestQueue.cancelAll(DEFAULT_TAG);
+    }
+
     public void addRequest(Request request) {
+        request.setTag(DEFAULT_TAG);
         mRequestQueue.add(request);
     }
 
