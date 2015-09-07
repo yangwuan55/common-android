@@ -81,6 +81,7 @@ public class VolleyUtil {
 
     public void addRequest(Request request) {
         request.setTag(DEFAULT_TAG);
+        request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
         mRequestQueue.add(request);
     }
 
