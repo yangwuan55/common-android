@@ -173,7 +173,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
     protected abstract ListParams getListParams();
 
     public void onRefreshFromTop() {
-        if (verifyInternet()) {
+        if (verifyInternet() && verifyFromChild()) {
             if (mView.isCurrView()) {
                 mView.startRefresh();
             }
@@ -190,6 +190,10 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
                 }
             });
         }
+    }
+
+    protected boolean verifyFromChild() {
+        return true;
     }
 
     public void setStartPage(int startPage) {

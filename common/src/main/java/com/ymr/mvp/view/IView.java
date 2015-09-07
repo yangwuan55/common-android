@@ -8,4 +8,6 @@ public interface IView extends IActivityView {
     void onError(String msg);
 
     void onMessage(String msg);
+
+    boolean isCurrView();
 }

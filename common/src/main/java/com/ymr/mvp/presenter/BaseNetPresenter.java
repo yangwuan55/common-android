@@ -18,11 +18,19 @@ public class BaseNetPresenter extends BasePresenter implements NetChangeObserver
     }
     @Override
     public void onNetDisconnect() {
-        mView.showNoNetWork();
+        if (mView.isCurrView()) {
+            mView.showNoNetWork();
+        }
     }
 
     @Override
     public void onNetConnect() {
-        mView.hideNoNetWork();
+        if (mView.isCurrView()) {
+            mView.hideNoNetWork();
+        }
+    }
+
+    public void onDestroy() {
+        NetChangeObserver.getSingleton().unRegisterOnNetChangeListener(this);
     }
 }
