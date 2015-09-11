@@ -34,15 +34,10 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
     @Override
     public String getUrl() {
         Map<String, String> childGETParams = getChildGETParams();
-
         Map<String, String> sendMap = new HashMap<>();
-
         if (childGETParams != null && childGETParams.size() > 0) {
             sendMap.putAll(childGETParams);
         }
-
-        sendMap.put(Constant.ServiceApi.API_VERSION, CURR_API_VERSION + "");
-        sendMap.put(Constant.ServiceApi.OS,"android");
         sendMap.putAll(Env.sParams);
         return Tool.getUrl(tailUrl, sendMap);
     }

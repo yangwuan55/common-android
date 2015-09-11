@@ -1,6 +1,7 @@
 package com.ymr.mvp.model;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.ymr.common.util.FileUtil;
 
@@ -23,14 +24,31 @@ public abstract class CachedModel<D> implements ICachedModel<D> {
     }
 
     @Override
-    public void cacheDatas(List<D> studentlist) {
-        FileUtil.writeListToFile(mContext, studentlist, mFileName);
+    public void cacheDatas(D data) {
+        if (!TextUtils.isEmpty(mFileName)) {
+            if (data != null) {
+                FileUtil.writeBeanToFile(mContext, mFileName, data);
+            } else {
+                FileUtil.deleteByName(mContext,mFileName);
+            }
+        }
     }
 
     @Override
-    public List<D> getCacheDatas() {
-        return FileUtil.getListFromFile(mContext, mFileName, getCachedArrayClass());
+    public D getCacheDatas() {
+        if (!TextUtils.isEmpty(mFileName)) {
+            return FileUtil.readBeanFromFile(mContext, mFileName, getCachedClass());
+        }
+        return null;
     }
 
-    protected abstract Class<D[]> getCachedArrayClass();
+    public Context getContext() {
+        return mContext;
+    }
+
+    public String getFileName() {
+        return mFileName;
+    }
+
+    protected abstract Class<D> getCachedClass();
 }

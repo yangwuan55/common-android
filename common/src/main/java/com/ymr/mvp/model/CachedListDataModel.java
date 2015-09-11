@@ -13,12 +13,12 @@ import java.util.List;
 public abstract class CachedListDataModel<D, E extends IListItemBean<D>> extends ListDataModel<D,E> implements ICachedListDataModel<D, E> {
 
     private final Context mContext;
-    private final CachedModel<D> mCachedModel;
+    private final CachedListModel<D> mCachedModel;
 
     public CachedListDataModel(Context context, Class<E> eClass) {
         super(context, eClass);
         mContext = context;
-        mCachedModel = new CachedModel<D>(mContext) {
+        mCachedModel = new CachedListModel<D>(mContext) {
             @Override
             protected Class<D[]> getCachedArrayClass() {
                 return CachedListDataModel.this.getCachedArrayClass();
@@ -27,8 +27,8 @@ public abstract class CachedListDataModel<D, E extends IListItemBean<D>> extends
     }
 
     @Override
-    public void cacheDatas(List<D> datas) {
-        mCachedModel.cacheDatas(datas);
+    public void cacheDatas(List<D> data) {
+        mCachedModel.cacheDatas(data);
     }
 
     @Override

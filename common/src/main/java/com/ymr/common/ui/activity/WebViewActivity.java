@@ -56,7 +56,7 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && interceptBackPress()) {
             if (!mWebViewController.onBackPressed()) {
                 return super.onKeyDown(keyCode,event);
             } else {
@@ -64,6 +64,10 @@ public class WebViewActivity extends BaseActivity {
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    protected boolean interceptBackPress() {
+        return true;
     }
 
     @Override

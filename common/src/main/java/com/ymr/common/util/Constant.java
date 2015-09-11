@@ -32,9 +32,6 @@ public class Constant {
     }
 
     public interface ServiceApi {
-        String OS = "os";
-        //api版本
-        String API_VERSION = "apiversion";
     }
 
 
