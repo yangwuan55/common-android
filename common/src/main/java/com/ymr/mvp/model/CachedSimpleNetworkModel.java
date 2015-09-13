@@ -12,12 +12,12 @@ public abstract class CachedSimpleNetworkModel<D> extends SimpleNetWorkModel<D> 
 
     private final CachedModel<D> mCachedModel;
 
-    public CachedSimpleNetworkModel(Context context, Class<D> dClass,String fileName) {
+    public CachedSimpleNetworkModel(Context context, final Class<D> dClass,String fileName) {
         super(context, dClass);
         mCachedModel = new CachedModel<D>(context){
             @Override
             protected Class<D> getCachedClass() {
-                return CachedSimpleNetworkModel.this.getCachedClass();
+                return dClass;
             }
         };
         mCachedModel.setFileName(fileName);
@@ -38,8 +38,6 @@ public abstract class CachedSimpleNetworkModel<D> extends SimpleNetWorkModel<D> 
     }
 
     protected abstract NetRequestParams getParams();
-
-    protected abstract Class<D> getCachedClass();
 
     @Override
     public void cacheDatas(D data) {
