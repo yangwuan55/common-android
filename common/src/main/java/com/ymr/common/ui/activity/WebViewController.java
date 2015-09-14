@@ -85,7 +85,8 @@ public class WebViewController implements View.OnClickListener {
                             Uri.parse(url));
                     mWebView.getContext().startActivity(intent);
                 } else {
-                    view.loadUrl(url);
+                    return false;
+                    //view.loadUrl(url);
                 }
                 return true;
             }
