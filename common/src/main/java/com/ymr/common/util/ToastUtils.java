@@ -20,7 +20,7 @@ public final class ToastUtils {
 	 */
 	public static void showToast(Context context, String msg) {
 		if (mToast == null) {
-			mToast = Toast.makeText(context, msg, 0); // 不能使用new Toast的方式
+			mToast = Toast.makeText(context.getApplicationContext(), msg, 0); // 不能使用new Toast的方式
 		}
 		mToast.setText(msg);
 		mToast.setDuration(Toast.LENGTH_SHORT);
@@ -36,7 +36,7 @@ public final class ToastUtils {
 	 */
 	public static void showToast(Context context, int resId) {
 		if (mToast == null) {
-			mToast = Toast.makeText(context, resId, 0); // 不能使用new Toast的方式
+			mToast = Toast.makeText(context.getApplicationContext(), resId, 0); // 不能使用new Toast的方式
 		}
 		mToast.setText(resId);
 		mToast.setDuration(Toast.LENGTH_SHORT);

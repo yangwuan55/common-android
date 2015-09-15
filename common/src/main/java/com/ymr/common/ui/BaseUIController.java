@@ -10,6 +10,7 @@ import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ymr.common.BaseApplication;
 import com.ymr.common.R;
 import com.ymr.common.util.Constant;
 
@@ -56,6 +57,8 @@ public class BaseUIController<T extends Activity & BaseUI> implements View.OnCli
     }
 
     public BaseUIController(T activity) {
+        BaseApplication.getRefWacher().watch(this);
+        BaseApplication.getRefWacher().watch(activity);
         mActivity = activity;
         mBaseUIParams = mActivity.getBaseUIParams();
     }

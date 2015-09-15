@@ -1,6 +1,7 @@
 package com.ymr.mvp.presenter;
 
 
+import com.ymr.common.BaseApplication;
 import com.ymr.common.NetChangeObserver;
 import com.ymr.mvp.view.INetView;
 
@@ -13,6 +14,7 @@ public class BaseNetPresenter extends BasePresenter implements NetChangeObserver
 
     public BaseNetPresenter(INetView view) {
         super(view);
+        BaseApplication.getRefWacher().watch(this);
         mView = view;
         NetChangeObserver.getSingleton().registerOnNetChangeListener(this);
     }
