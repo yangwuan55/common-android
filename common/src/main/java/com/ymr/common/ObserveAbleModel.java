@@ -47,7 +47,9 @@ public class ObserveAbleModel implements IObserveAbleModel {
         if (!mListeners.isEmpty())
         for (WeakReference<Listener> weakReference : mListeners) {
             Listener listener = weakReference.get();
-            listener.onChange();
+            if (listener != null) {
+                listener.onChange();
+            }
         }
     }
 }
