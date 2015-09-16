@@ -3,14 +3,13 @@ package com.ymr.mvp.view.viewimp;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.ymr.common.ui.activity.BaseActivity;
+import com.ymr.common.ui.activity.BaseFragmentActivity;
 import com.ymr.mvp.view.IView;
 
 /**
  * Created by ymr on 15/9/16.
  */
-public abstract class BaseActivityView extends BaseActivity implements IView {
-
+public abstract class BaseFragmentActivityView extends BaseFragmentActivity implements IView {
     private BaseView mView;
 
     @Override
@@ -18,12 +17,12 @@ public abstract class BaseActivityView extends BaseActivity implements IView {
         mView = new BaseView(this) {
             @Override
             public void onError(String msg) {
-                BaseActivityView.this.onError(msg);
+                BaseFragmentActivityView.this.onError(msg);
             }
 
             @Override
             public void onMessage(String msg) {
-                BaseActivityView.this.onMessage(msg);
+                BaseFragmentActivityView.this.onMessage(msg);
             }
         };
     }

@@ -10,4 +10,6 @@ public interface IView extends IActivityView {
     void onMessage(String msg);
 
     boolean isCurrView();
+
+    boolean exist();
 }
