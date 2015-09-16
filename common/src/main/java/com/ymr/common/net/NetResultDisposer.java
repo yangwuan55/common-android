@@ -27,7 +27,7 @@ public class NetResultDisposer {
                         listener.finishUpdate(data.getResult());
                     } else {
                         error.setErrorCode(data.getCode());
-                        if (data.getResult() != null) {
+                        if (data.getResult() != null && data.getResult() instanceof Map) {
                             error.setMsg(((Map) data.getResult()).get("result") + " " + data.getMsg());
                         } else {
                             error.setMsg(data.getMsg());
