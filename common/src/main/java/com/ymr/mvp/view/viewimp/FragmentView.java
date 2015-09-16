@@ -9,12 +9,11 @@ import com.ymr.mvp.view.IView;
 /**
  * Created by ymr on 15/9/16.
  */
-public abstract class FragmentView<T extends Fragment & IView> extends BaseView implements IView {
+public abstract class FragmentView<T extends Fragment & IView> implements IView {
 
     private final T mView;
 
     public FragmentView(T iView) {
-        super(iView);
         mView = iView;
     }
 

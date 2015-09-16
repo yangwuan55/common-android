@@ -9,12 +9,11 @@ import com.ymr.mvp.view.IView;
 /**
  * Created by ymr on 15/9/16.
  */
-public abstract class ActivityView<T extends Activity & BaseUI & IView> extends BaseView {
+public abstract class ActivityView<T extends Activity & BaseUI & IView> implements IView {
 
     private final T mView;
 
     public ActivityView(T iView) {
-        super(iView);
         mView = iView;
     }
 
