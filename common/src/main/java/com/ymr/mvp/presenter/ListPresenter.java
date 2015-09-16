@@ -34,10 +34,14 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
 
     public void loadDatas() {
         if (DeviceInfoUtils.hasInternet(mView.getActivity())) {
-            mView.hideNoNetWork();
+            if (mView.isCurrView()) {
+                mView.hideNoNetWork();
+            }
             onRefreshFromTop();
         } else {
-            mView.showNoNetWork();
+            if (mView.isCurrView()) {
+                mView.showNoNetWork();
+            }
             onHasNoInternet();
         }
         verifyInternet();
@@ -173,22 +177,22 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
     protected abstract ListParams getListParams();
 
     public void onRefreshFromTop() {
-        if (verifyInternet() && verifyFromChild()) {
-            if (mView.isCurrView()) {
+        if (mView.isCurrView()) {
+            if (verifyInternet() && verifyFromChild()) {
                 mView.startRefresh();
+                mPage = mStartPage;
+                ListParams listParams = getListParams();
+                listParams.setPageParam(mPage, PAGE_SIZE);
+                mModel.updateListDatas(listParams, mTopUpdateListener);
+                mView.setBottomRefreshEnable(true);
+            } else {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mView.compliteRefresh();
+                    }
+                });
             }
-            mPage = mStartPage;
-            ListParams listParams = getListParams();
-            listParams.setPageParam(mPage, PAGE_SIZE);
-            mModel.updateListDatas(listParams, mTopUpdateListener);
-            mView.setBottomRefreshEnable(true);
-        } else {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mView.compliteRefresh();
-                }
-            });
         }
     }
 
