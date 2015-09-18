@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.ymr.common.BaseApplication;
 import com.ymr.mvp.view.IView;
 
 /**
@@ -17,6 +18,7 @@ public abstract class BaseFragmentView extends Fragment implements IView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BaseApplication.getRefWacher().watch(this);
         mView = new BaseView(this) {
             @Override
             public void onError(String msg) {

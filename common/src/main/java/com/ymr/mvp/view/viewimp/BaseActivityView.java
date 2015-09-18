@@ -3,6 +3,7 @@ package com.ymr.mvp.view.viewimp;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.ymr.common.BaseApplication;
 import com.ymr.common.ui.activity.BaseActivity;
 import com.ymr.mvp.view.IView;
 

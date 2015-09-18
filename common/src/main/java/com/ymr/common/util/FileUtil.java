@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -111,8 +112,14 @@ public class FileUtil {
         if (TextUtils.isEmpty(data)) {
             return null;
         }
-        Gson gson = new Gson();
-        return gson.fromJson(data, c);
+        Gson gson = new GsonBuilder().create();
+        try {
+            T t = gson.fromJson(data, c);
+            return t;
+        } catch (JsonSyntaxException e) {
+            LOGGER.e(TAG,"data = " + data + " e = " + e);
+        }
+        return null;
     }
 
     public static <T> boolean writeBeanToFile(Context context, String fileName, T t) {
