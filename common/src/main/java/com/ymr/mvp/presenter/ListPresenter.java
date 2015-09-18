@@ -33,18 +33,16 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
     }
 
     public void loadDatas() {
-        if (DeviceInfoUtils.hasInternet(mView.getActivity())) {
-            if (mView.exist()) {
+        if (mView.exist()) {
+            if (DeviceInfoUtils.hasInternet(mView.getActivity())) {
                 mView.hideNoNetWork();
-            }
-            onRefreshFromTop();
-        } else {
-            if (mView.exist()) {
+                onRefreshFromTop();
+            } else {
                 mView.showNoNetWork();
+                onHasNoInternet();
             }
-            onHasNoInternet();
+            verifyInternet();
         }
-        verifyInternet();
     }
 
     protected void onHasNoInternet() {
@@ -54,13 +52,17 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
     @Override
     public void onNetDisconnect() {
         super.onNetDisconnect();
-        mView.setRefreshEnable(false);
+        if (mView.exist()) {
+            mView.setRefreshEnable(false);
+        }
     }
 
     @Override
     public void onNetConnect() {
         super.onNetConnect();
-        mView.setRefreshEnable(true);
+        if (mView.exist()) {
+            mView.setRefreshEnable(true);
+        }
     }
 
     private NetWorkModel.UpdateListener<E> mTopUpdateListener = new NetWorkModel.UpdateListener<E>() {
@@ -116,7 +118,9 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
             mView.compliteRefresh();
             if (wData.isLastpage()) {
                 //mView.onMessage("is last page.");
-                mView.setBottomRefreshEnable(false);
+                if (mView.exist()) {
+                    mView.setBottomRefreshEnable(false);
+                }
             }
         } else {
             mView.compliteRefresh();
@@ -156,43 +160,47 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
     }
 
     public void onRefreshFromBottom() {
-        if (verifyInternet()) {
-            if (mView.isCurrView()) {
-                mView.startRefresh();
-            }
-            mPage++;
-            ListParams listParams = getListParams();
-            listParams.setPageParam(mPage,PAGE_SIZE);
-            mModel.updateListDatas(listParams, mBottomUpdateListener);
-        } else {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mView.compliteRefresh();
+        if (mView.exist()) {
+            if (verifyInternet()) {
+                if (mView.isCurrView()) {
+                    mView.startRefresh();
                 }
-            });
+                mPage++;
+                ListParams listParams = getListParams();
+                listParams.setPageParam(mPage,PAGE_SIZE);
+                mModel.updateListDatas(listParams, mBottomUpdateListener);
+            } else {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mView.compliteRefresh();
+                    }
+                });
+            }
         }
     }
 
     protected abstract ListParams getListParams();
 
     public void onRefreshFromTop() {
-        if (verifyInternet() && verifyFromChild()) {
-            if (mView.isCurrView()) {
-                mView.startRefresh();
-            }
-            mPage = mStartPage;
-            ListParams listParams = getListParams();
-            listParams.setPageParam(mPage, PAGE_SIZE);
-            mModel.updateListDatas(listParams, mTopUpdateListener);
-            mView.setBottomRefreshEnable(true);
-        } else {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mView.compliteRefresh();
+        if (mView.exist()) {
+            if (verifyInternet() && verifyFromChild()) {
+                if (mView.isCurrView()) {
+                    mView.startRefresh();
                 }
-            });
+                mPage = mStartPage;
+                ListParams listParams = getListParams();
+                listParams.setPageParam(mPage, PAGE_SIZE);
+                mModel.updateListDatas(listParams, mTopUpdateListener);
+                mView.setBottomRefreshEnable(true);
+            } else {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mView.compliteRefresh();
+                    }
+                });
+            }
         }
     }
 
