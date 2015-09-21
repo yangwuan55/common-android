@@ -9,7 +9,7 @@ import com.ymr.mvp.view.IView;
 /**
  * Created by ymr on 15/9/16.
  */
-public abstract class ActivityView<T extends Activity & BaseUI & IView> implements IView {
+abstract class ActivityView<T extends Activity & BaseUI & IView> implements IView {
 
     private final T mView;
 
@@ -24,7 +24,7 @@ public abstract class ActivityView<T extends Activity & BaseUI & IView> implemen
 
     @Override
     public boolean exist() {
-        return true;
+        return mView.isFinishing();
     }
 
     @Override

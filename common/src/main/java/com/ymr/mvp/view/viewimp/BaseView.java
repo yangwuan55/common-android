@@ -9,7 +9,7 @@ import com.ymr.mvp.view.IView;
 /**
  * Created by ymr on 15/9/16.
  */
-public abstract class BaseView implements IView {
+abstract class BaseView implements IView {
 
     private IView mView;
 

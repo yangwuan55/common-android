@@ -3,14 +3,13 @@ package com.ymr.mvp.view.viewimp;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.ymr.common.BaseApplication;
 import com.ymr.common.ui.activity.BaseActivity;
 import com.ymr.mvp.view.IView;
 
 /**
  * Created by ymr on 15/9/16.
  */
-public abstract class BaseActivityView extends BaseActivity implements IView {
+public abstract class BaseActivityView extends BaseActivity implements IView,MvpBaseView {
 
     private BaseView mView;
 
@@ -27,6 +26,7 @@ public abstract class BaseActivityView extends BaseActivity implements IView {
                 BaseActivityView.this.onMessage(msg);
             }
         };
+        onInitViews();
     }
 
     @Override

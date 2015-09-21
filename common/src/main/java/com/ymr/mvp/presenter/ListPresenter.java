@@ -18,11 +18,12 @@ import java.util.List;
 public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseNetPresenter {
 
     private static final int DEFAULT_START_PAGE = 1;
-    private static final int PAGE_SIZE = 10;
+    private static final int DEFAULT_PAGE_SIZE = 10;
     protected final IListView<D, E> mView;
     private int mPage;
     private IListDataModel<D, E> mModel;
     private int mStartPage = DEFAULT_START_PAGE;
+    private int mPageSize = DEFAULT_PAGE_SIZE;
 
     private Handler mHandler = new Handler();
 
@@ -30,6 +31,10 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
         super(listView);
         mView = listView;
         mModel = createModel(mView.getActivity());
+    }
+
+    public void setPageSize(int pageSize) {
+        this.mPageSize = pageSize;
     }
 
     public void loadDatas() {
@@ -167,7 +172,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
                 }
                 mPage++;
                 ListParams listParams = getListParams();
-                listParams.setPageParam(mPage,PAGE_SIZE);
+                listParams.setPageParam(mPage, DEFAULT_PAGE_SIZE);
                 mModel.updateListDatas(listParams, mBottomUpdateListener);
             } else {
                 mHandler.post(new Runnable() {
@@ -190,7 +195,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
                 }
                 mPage = mStartPage;
                 ListParams listParams = getListParams();
-                listParams.setPageParam(mPage, PAGE_SIZE);
+                listParams.setPageParam(mPage, mPageSize);
                 mModel.updateListDatas(listParams, mTopUpdateListener);
                 mView.setBottomRefreshEnable(true);
             } else {

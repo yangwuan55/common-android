@@ -9,7 +9,7 @@ import com.ymr.mvp.view.IView;
 /**
  * Created by ymr on 15/9/16.
  */
-public abstract class BaseFragmentActivityView extends BaseFragmentActivity implements IView {
+public abstract class BaseFragmentActivityView extends BaseFragmentActivity implements IView,MvpBaseView {
     private BaseView mView;
 
     @Override
@@ -25,6 +25,7 @@ public abstract class BaseFragmentActivityView extends BaseFragmentActivity impl
                 BaseFragmentActivityView.this.onMessage(msg);
             }
         };
+        onInitViews();
     }
 
     @Override
