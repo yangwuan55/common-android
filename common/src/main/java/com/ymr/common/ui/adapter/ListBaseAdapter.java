@@ -3,11 +3,9 @@ package com.ymr.common.ui.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import com.ymr.common.net.DataReceiver;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,57 +13,18 @@ import java.util.List;
  * D is the data type
  * V is the view who can recieve the data.
  */
-public abstract class ListBaseAdapter<D,V extends View & ListBaseAdapter.AdapterItem<D>> extends BaseAdapter {
-
-    private final Context mContext;
-    private List<D> mDatas = new ArrayList<>();
+public abstract class ListBaseAdapter<D,V extends View & ListBaseAdapter.AdapterItem<D>> extends DataBaseAdapter<D> {
 
     public interface AdapterItem<D> extends DataReceiver<D> {
         void reset();
     }
 
     public ListBaseAdapter(Context context) {
-        mContext = context;
+        super(context);
     }
 
     public ListBaseAdapter(Context context, List<D> datas) {
-        mContext = context;
-        addDatas(datas);
-    }
-
-    public void addDatas(List<D> datas) {
-        if (datas != null) {
-            mDatas.addAll(datas);
-        } else {
-            mDatas.clear();
-        }
-        notifyDataSetChanged();
-    }
-
-    public void setDatas(List<D> datas) {
-        if (datas != null) {
-            mDatas = datas;
-            notifyDataSetChanged();
-        }
-    }
-
-    public List<D> getDatas() {
-        return mDatas;
-    }
-
-    @Override
-    public int getCount() {
-        return mDatas.size();
-    }
-
-    @Override
-    public D getItem(int position) {
-        return mDatas.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
+        super(context, datas);
     }
 
     @Override
@@ -75,7 +34,7 @@ public abstract class ListBaseAdapter<D,V extends View & ListBaseAdapter.Adapter
             v = (V) convertView;
             v.reset();
         } else {
-            v = initView(mContext);
+            v = initView(getContext());
         }
         D item = getItem(position);
         if (item != null) {
