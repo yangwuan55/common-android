@@ -171,9 +171,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
                     mView.startRefresh();
                 }
                 mPage++;
-                ListParams listParams = getListParams();
-                listParams.setPageParam(mPage, DEFAULT_PAGE_SIZE);
-                mModel.updateListDatas(listParams, mBottomUpdateListener);
+                doUpdate(mBottomUpdateListener);
             } else {
                 mHandler.post(new Runnable() {
                     @Override
@@ -185,6 +183,12 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
         }
     }
 
+    private void doUpdate(NetWorkModel.UpdateListener<E> mBottomUpdateListener) {
+        ListParams listParams = getListParams();
+        listParams.setPageParam(mPage, mPageSize);
+        mModel.updateListDatas(listParams, mBottomUpdateListener);
+    }
+
     protected abstract ListParams getListParams();
 
     public void onRefreshFromTop() {
@@ -194,9 +198,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>> extends BaseN
                     mView.startRefresh();
                 }
                 mPage = mStartPage;
-                ListParams listParams = getListParams();
-                listParams.setPageParam(mPage, mPageSize);
-                mModel.updateListDatas(listParams, mTopUpdateListener);
+                doUpdate(mTopUpdateListener);
                 mView.setBottomRefreshEnable(true);
             } else {
                 mHandler.post(new Runnable() {

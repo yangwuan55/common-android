@@ -2,8 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-version = '2.1.5'
-int vCode = 98
+version = '2.1.7'
+int vCode = 100
 
 android {
     compileSdkVersion 22

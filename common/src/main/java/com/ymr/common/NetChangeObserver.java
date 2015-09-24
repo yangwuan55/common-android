@@ -52,7 +52,7 @@ public class NetChangeObserver {
         Iterator<WeakReference<OnNetChangeListener>> iterator = onNetChangeListeners.iterator();
         while (iterator.hasNext()) {
             OnNetChangeListener onNetChangeListener = iterator.next().get();
-            if (onNetChangeListener.equals(listener)) {
+            if (listener.equals(onNetChangeListener)) {
                 return true;
             }
         }
