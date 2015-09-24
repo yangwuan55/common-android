@@ -7,6 +7,12 @@
             android:screenOrientation="portrait"
             />
 
+        <receiver android:name=".NetBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

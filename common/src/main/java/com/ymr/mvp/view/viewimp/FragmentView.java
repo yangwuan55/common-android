@@ -24,7 +24,7 @@ abstract class FragmentView<T extends Fragment & IView> implements IView {
 
     @Override
     public boolean exist() {
-        return !mView.isDetached();
+        return !mView.isDetached() && mView.getActivity() != null;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.ymr.common;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,52 +12,72 @@ import java.util.List;
  *
  */
 public class NetChangeObserver {
-	private static NetChangeObserver newInstance = new NetChangeObserver();
-	private List<OnNetChangeListener> onNetChangeListeners = new ArrayList<OnNetChangeListener>();
+    private static NetChangeObserver newInstance = new NetChangeObserver();
+    private List<WeakReference<OnNetChangeListener>> onNetChangeListeners = new ArrayList<>();
 
-	public static NetChangeObserver getSingleton() {
-		return newInstance;
-	}
+    public static NetChangeObserver getSingleton() {
+        return newInstance;
+    }
 
-	public void netConnect() {
-		Iterator<OnNetChangeListener> it = onNetChangeListeners.iterator();
+    public void netConnect() {
+        Iterator<WeakReference<OnNetChangeListener>> it = onNetChangeListeners.iterator();
 
-		while (it.hasNext()) {
-			it.next().onNetConnect();
-		}
-	}
+        while (it.hasNext()) {
+            OnNetChangeListener onNetChangeListener = it.next().get();
+            if (onNetChangeListener != null) {
+                onNetChangeListener.onNetConnect();
+            }
+        }
+    }
 
-	public void netDisconnect() {
-		Iterator<OnNetChangeListener> it = onNetChangeListeners.iterator();
+    public void netDisconnect() {
+        Iterator<WeakReference<OnNetChangeListener>> it = onNetChangeListeners.iterator();
 
-		while (it.hasNext()) {
-			it.next().onNetDisconnect();
-		}
-	}
+        while (it.hasNext()) {
+            OnNetChangeListener onNetChangeListener = it.next().get();
+            if (onNetChangeListener != null) {
+                onNetChangeListener.onNetDisconnect();
+            }
+        }
+    }
 
-	public void registerOnNetChangeListener(OnNetChangeListener listener) {
-		for (Iterator<OnNetChangeListener> it = onNetChangeListeners.iterator(); it.hasNext();) {
-			if (it.next().getClass().equals(listener.getClass())) {
-				it.remove();
-			}
-		}
+    public void registerOnNetChangeListener(OnNetChangeListener listener) {
+        if (!contains(listener)) {
+            this.onNetChangeListeners.add(new WeakReference<OnNetChangeListener>(listener));
+        }
 
-		this.onNetChangeListeners.add(listener);
-	}
+    }
 
-	public void unRegisterOnNetChangeListener(OnNetChangeListener listener) {
-		this.onNetChangeListeners.remove(listener);
-	}
+    private boolean contains(OnNetChangeListener listener) {
+        Iterator<WeakReference<OnNetChangeListener>> iterator = onNetChangeListeners.iterator();
+        while (iterator.hasNext()) {
+            OnNetChangeListener onNetChangeListener = iterator.next().get();
+            if (onNetChangeListener.equals(listener)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public static interface OnNetChangeListener {
-		/**
-		 * 网络断开
-		 */
-		public void onNetDisconnect();
+    public void unRegisterOnNetChangeListener(OnNetChangeListener listener) {
+        Iterator<WeakReference<OnNetChangeListener>> iterator = onNetChangeListeners.iterator();
+        while (iterator.hasNext()) {
+            OnNetChangeListener onNetChangeListener = iterator.next().get();
+            if (onNetChangeListener.equals(listener)) {
+                iterator.remove();
+            }
+        }
+    }
 
-		/**
-		 * 网络连接
-		 */
-		public void onNetConnect();
-	}
+    public interface OnNetChangeListener {
+        /**
+         * 网络断开
+         */
+        void onNetDisconnect();
+
+        /**
+         * 网络连接
+         */
+        void onNetConnect();
+    }
 }
