@@ -24,7 +24,7 @@ abstract class ActivityView<T extends Activity & BaseUI & IView> implements IVie
 
     @Override
     public boolean exist() {
-        return mView.isFinishing();
+        return !mView.isFinishing();
     }
 
     @Override

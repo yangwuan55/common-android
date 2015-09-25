@@ -42,6 +42,7 @@ public abstract class CachedSimpleNetworkModel<D> extends SimpleNetWorkModel<D> 
     @Override
     public void cacheDatas(D data) {
         mCachedModel.cacheDatas(data);
+        notifyListeners();
     }
 
     @Override
