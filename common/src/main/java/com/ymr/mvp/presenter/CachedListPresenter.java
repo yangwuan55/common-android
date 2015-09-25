@@ -47,8 +47,8 @@ public abstract class CachedListPresenter<D, E extends IListItemBean<D>> extends
 
     @Override
     public void onRefreshFromTop() {
-        super.onRefreshFromTop();
         updateLocalData();
+        super.onRefreshFromTop();
     }
 
     @Override
