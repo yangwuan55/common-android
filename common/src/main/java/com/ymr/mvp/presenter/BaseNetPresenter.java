@@ -8,27 +8,24 @@ import com.ymr.mvp.view.INetView;
 /**
  * Created by ymr on 15/8/20.
  */
-public class BaseNetPresenter extends BasePresenter implements NetChangeObserver.OnNetChangeListener {
+public class BaseNetPresenter<V extends INetView> extends BasePresenter<V> implements NetChangeObserver.OnNetChangeListener {
 
-    private final INetView mView;
-
-    public BaseNetPresenter(INetView view) {
+    public BaseNetPresenter(V view) {
         super(view);
         BaseApplication.getRefWacher().watch(this);
-        mView = view;
         NetChangeObserver.getSingleton().registerOnNetChangeListener(this);
     }
     @Override
     public void onNetDisconnect() {
-        if (mView.exist()) {
-            mView.showNoNetWork();
+        if (getView().exist()) {
+            getView().showNoNetWork();
         }
     }
 
     @Override
     public void onNetConnect() {
-        if (mView.exist()) {
-            mView.hideNoNetWork();
+        if (getView().exist()) {
+            getView().hideNoNetWork();
         }
     }
 

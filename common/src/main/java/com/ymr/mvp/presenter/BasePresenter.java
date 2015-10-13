@@ -8,12 +8,16 @@ import com.ymr.mvp.view.IView;
 /**
  * Created by ymr on 15/8/29.
  */
-public class BasePresenter {
+public class BasePresenter<V extends IView> {
 
-    private final IView mView;
+    private final V mView;
 
-    public BasePresenter(IView view) {
+    public BasePresenter(V view) {
         mView = view;
+    }
+
+    public V getView() {
+        return mView;
     }
 
     public boolean verifyInternet() {
