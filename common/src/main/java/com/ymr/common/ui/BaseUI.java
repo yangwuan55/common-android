@@ -13,23 +13,8 @@ public interface BaseUI extends Statistical {
 
     void onFinishCreateView();
 
-    String getTitleText();
-
     int getContentViewId();
-
-    BaseUIController.BaseUIParams getBaseUIParams();
-
-    boolean hasBack();
-
-    int getTitleRightViewId();
-
-    View.OnClickListener getTitleRightViewOnClickListener();
-
-    BaseUIController getController();
-
-    boolean isActionBarVisible();
 
     boolean isResume();
 
-    void onActionbarBackPressed();
 }

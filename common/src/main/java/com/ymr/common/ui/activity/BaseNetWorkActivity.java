@@ -9,6 +9,7 @@ import com.ymr.common.net.NetWorkController;
 import com.ymr.common.net.NetWorkModel;
 import com.ymr.common.net.params.NetRequestParams;
 import com.ymr.common.ui.BaseUIController;
+import com.ymr.common.ui.IBaseUIController;
 import com.ymr.common.ui.NetWorkUI;
 import com.ymr.common.ui.NetWorkUIController;
 
@@ -43,7 +44,7 @@ public abstract class BaseNetWorkActivity<D> extends BaseActivity implements Dat
     protected abstract NetWorkModel<D> getNetWorkModel();
 
     @Override
-    public BaseUIController getController() {
+    public IBaseUIController getController() {
         mNetworkUiController = new NetWorkUIController(this);
         return mNetworkUiController;
     }

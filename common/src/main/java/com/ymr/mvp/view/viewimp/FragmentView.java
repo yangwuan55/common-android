@@ -9,7 +9,7 @@ import com.ymr.mvp.view.IView;
 /**
  * Created by ymr on 15/9/16.
  */
-abstract class FragmentView<T extends Fragment & IView> implements IView {
+public abstract class FragmentView<T extends Fragment & IView> implements IView {
 
     private final T mView;
 

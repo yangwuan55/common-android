@@ -1,17 +1,16 @@
 package com.ymr.mvp.view.viewimp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 import com.ymr.common.BaseApplication;
+import com.ymr.common.ui.fragment.BaseFragment;
 import com.ymr.mvp.view.IView;
 
 /**
  * Created by ymr on 15/9/16.
  */
-public abstract class BaseFragmentView extends Fragment implements IView {
+public abstract class BaseFragmentView extends BaseFragment implements IView {
 
     private BaseView mView;
 

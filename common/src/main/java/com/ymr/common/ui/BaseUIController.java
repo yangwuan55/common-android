@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +19,7 @@ import com.ymr.common.util.Constant;
 /**
  * Created by ymr on 15/6/25.
  */
-public class BaseUIController<T extends Activity & BaseUI> implements View.OnClickListener {
+public class BaseUIController<T extends Activity & BaseActivityUI> implements View.OnClickListener,IBaseUIController {
 
     protected T mActivity;
     private TextView mTitle;
@@ -46,14 +47,9 @@ public class BaseUIController<T extends Activity & BaseUI> implements View.OnCli
         }
     }
 
+    @Override
     public void onDestroy() {
         mActivity.unregisterReceiver(mExitBroadCast);
-    }
-
-    public interface BaseUIParams {
-        int getTitleBgColor();
-        int getTitleTextColor();
-        int getBackDrawable();
     }
 
     public BaseUIController(T activity) {
@@ -67,10 +63,12 @@ public class BaseUIController<T extends Activity & BaseUI> implements View.OnCli
         sBaseUIParams = baseUIParams;
     }
 
+    @Override
     public BaseUIParams getBaseUIParams() {
         return mBaseUIParams == null ? sBaseUIParams : mBaseUIParams;
     }
 
+    @Override
     public void initActivity() {
         mActivity.onStartCreatView();
         mActivity.setContentView(R.layout.activity_base);
@@ -111,19 +109,20 @@ public class BaseUIController<T extends Activity & BaseUI> implements View.OnCli
         actionbar.setVisibility(mActivity.isActionBarVisible() ? View.VISIBLE : View.GONE);
 
         //get the layout of sub activity
-        ViewStub viewStub = (ViewStub) mActivity.findViewById(R.id.sub_activity_content);
-        viewStub.setLayoutResource(mActivity.getContentViewId());
-        viewStub.inflate();
+        FrameLayout parent = (FrameLayout) mActivity.findViewById(R.id.sub_activity_content);
+        inflateView(parent);
     }
 
+    protected void inflateView(FrameLayout parent) {
+        parent.addView(View.inflate(mActivity, mActivity.getContentViewId(), null));
+    }
+
+    @Override
     public void setTitle(String title) {
         mTitle.setText(title);
     }
 
-    void setBaseUIParams(BaseUIParams baseUIParams) {
-        mBaseUIParams = baseUIParams;
-    }
-
+    @Override
     public T getActivity() {
         return mActivity;
     }

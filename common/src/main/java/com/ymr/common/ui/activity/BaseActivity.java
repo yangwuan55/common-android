@@ -5,16 +5,18 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ymr.common.Statistical;
+import com.ymr.common.ui.BaseActivityUI;
 import com.ymr.common.ui.BaseUI;
 import com.ymr.common.ui.BaseUIController;
 import com.umeng.analytics.MobclickAgent;
+import com.ymr.common.ui.IBaseUIController;
 import com.ymr.common.util.StatisticalHelper;
 
 /**
  * Created by ymr on 15/6/25.
  */
-public abstract class BaseActivity extends Activity implements BaseUI {
-    private BaseUIController mBaseUIController;
+public abstract class BaseActivity extends Activity implements BaseActivityUI {
+    private IBaseUIController mBaseUIController;
     private boolean mIsResume;
 
     @Override
@@ -49,7 +51,7 @@ public abstract class BaseActivity extends Activity implements BaseUI {
     }
 
     @Override
-    public BaseUIController getController() {
+    public IBaseUIController getController() {
         return new BaseUIController(this);
     }
 
