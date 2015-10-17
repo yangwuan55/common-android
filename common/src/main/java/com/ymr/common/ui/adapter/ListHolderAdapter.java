@@ -12,7 +12,7 @@ import java.util.List;
  * Created by ymr on 15/9/22.
  */
 public abstract class ListHolderAdapter<D> extends DataBaseAdapter<D> {
-    public abstract class ViewHolder<D> implements DataReceiver<D> {
+    public abstract class ViewHolder<D> {
 
         protected abstract void reset();
 
@@ -25,6 +25,8 @@ public abstract class ListHolderAdapter<D> extends DataBaseAdapter<D> {
             onViewCreate(inflate);
             return inflate;
         }
+
+        public abstract void onReceiveData(D item, int position);
     }
 
     public ListHolderAdapter(Context context) {
@@ -50,7 +52,7 @@ public abstract class ListHolderAdapter<D> extends DataBaseAdapter<D> {
         }
         D item = getItem(position);
         if (item != null) {
-            viewHolder.onReceiveData(item);
+            viewHolder.onReceiveData(item,position);
         } else {
             v.setVisibility(View.GONE);
         }
