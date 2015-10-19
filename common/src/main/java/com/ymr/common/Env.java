@@ -10,7 +10,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +24,7 @@ public class Env {
     public static WebUrl sWebUrl;
     public static Map<String, String> sParams = new HashMap<>();
     public static Env.FloorErrorDisposer sFloorErrorDisposer;
+    public static List<IStatModel> sStatModels = new ArrayList<>();
 
     public static void init(Application context,InitParams initParams,FloorErrorDisposer floorErrorDisposer) {
         sApp = context;
@@ -29,11 +32,17 @@ public class Env {
         BaseUIController.initBaseUIParams(initParams.getBaseUIParams());
         sWebUrl = initParams.getWebUrl();
         sFloorErrorDisposer = floorErrorDisposer;
+        List<IStatModel> statModels = initParams.getStatModels();
+        if (statModels != null && !statModels.isEmpty()) {
+            sStatModels.addAll(statModels);
+        }
+        sStatModels.add(new UmengStatModel());
     }
 
     public interface InitParams{
         BaseUIController.BaseUIParams getBaseUIParams();
         WebUrl getWebUrl();
+        List<IStatModel> getStatModels();
     }
 
     public static interface FloorErrorDisposer {
