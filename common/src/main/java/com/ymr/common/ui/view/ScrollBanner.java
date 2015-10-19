@@ -191,4 +191,10 @@ public class ScrollBanner extends FrameLayout implements View.OnClickListener, S
     public void onDataChanged() {
         updateBanner();
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopScoll();
+    }
 }

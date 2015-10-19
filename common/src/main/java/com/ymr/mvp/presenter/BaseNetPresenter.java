@@ -30,6 +30,7 @@ public class BaseNetPresenter<V extends INetView> extends BasePresenter<V> imple
     }
 
     public void onDestroy() {
+        super.onDestroy();
         NetChangeObserver.getSingleton().unRegisterOnNetChangeListener(this);
     }
 }

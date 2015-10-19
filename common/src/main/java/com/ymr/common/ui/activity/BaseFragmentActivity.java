@@ -93,5 +93,6 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
     protected void onDestroy() {
         super.onDestroy();
         mBaseUIController.onDestroy();
+        mBaseUIController = null;
     }
 }

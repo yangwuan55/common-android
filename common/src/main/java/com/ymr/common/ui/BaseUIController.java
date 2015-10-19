@@ -50,6 +50,7 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
     @Override
     public void onDestroy() {
         mActivity.unregisterReceiver(mExitBroadCast);
+        mActivity = null;
     }
 
     public BaseUIController(T activity) {

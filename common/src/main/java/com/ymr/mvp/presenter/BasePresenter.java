@@ -12,7 +12,7 @@ import com.ymr.mvp.view.IView;
  */
 public class BasePresenter<V extends IView> implements Statistical{
 
-    private final V mView;
+    private V mView;
 
     public BasePresenter(V view) {
         mView = view;
@@ -33,5 +33,9 @@ public class BasePresenter<V extends IView> implements Statistical{
     @Override
     public void writeToStatistical(String actionType) {
         StatisticalHelper.doStatistical(mView.getActivity(), actionType);
+    }
+
+    public void onDestroy() {
+        mView = null;
     }
 }
