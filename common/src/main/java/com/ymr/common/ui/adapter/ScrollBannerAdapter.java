@@ -5,22 +5,16 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.ymr.common.R;
 import com.ymr.common.Statistical;
-import com.ymr.common.bean.BannerData;
-import com.ymr.common.net.volley.VolleyUtil;
-import com.ymr.common.util.ActionClickUtil;
 import com.ymr.common.util.StatisticalHelper;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScrollBannerAdapter extends PagerAdapter implements Statistical {
-    private int mDefaultBannerId;
-    private List<BannerData> mDataList;
+public abstract class ScrollBannerAdapter<D> extends PagerAdapter implements Statistical {
+    private List<D> mDataList;
     private Context mContext;
     private List<View> mViewList = new ArrayList<View>();
     private List<WeakReference<View.OnClickListener>> mClickListeners = new ArrayList<WeakReference<View.OnClickListener>>();
@@ -60,21 +54,20 @@ public class ScrollBannerAdapter extends PagerAdapter implements Statistical {
         return false;
     }
 
-    public ScrollBannerAdapter(Context context, List<BannerData> list,int defaultBannerId) {
-        init(context, defaultBannerId);
+    public ScrollBannerAdapter(Context context, List<D> list) {
+        init(context);
         setDataList(list);
     }
 
-    private void init(Context context, int defaultBannerId) {
+    private void init(Context context) {
         mContext = context;
-        mDefaultBannerId = defaultBannerId;
     }
 
-    public ScrollBannerAdapter(Context context,int defaultBannerId) {
-        init(context, defaultBannerId);
+    public ScrollBannerAdapter(Context context) {
+        init(context);
     }
 
-    public void setDataList(List<BannerData> dataList) {
+    public void setDataList(List<D> dataList) {
         this.mDataList = dataList;
         mViewList.clear();
         initView(mContext);
@@ -96,10 +89,9 @@ public class ScrollBannerAdapter extends PagerAdapter implements Statistical {
     }
 
     private void loadView(Context context) {
-        for (BannerData data : mDataList) {
-            View view = LayoutInflater.from(context).inflate(R.layout.layout_banner_item, null);
-            ImageView imageView = (ImageView) view.findViewById(R.id.img_banner_background);
-            VolleyUtil.getsInstance(mContext).loadImage(data.imageurl, imageView,mDefaultBannerId,mDefaultBannerId);
+        for (D data : mDataList) {
+            View view = LayoutInflater.from(context).inflate(getBannerViewLayout(), null);
+            setViewData(data, view);
             view.setTag(data);
             view.setOnClickListener(mListener);
             mViewList.add(view);
@@ -136,8 +128,8 @@ public class ScrollBannerAdapter extends PagerAdapter implements Statistical {
 
         @Override
         public void onClick(View view) {
-            BannerData data = (BannerData) view.getTag();
-            ActionClickUtil.doAction(mContext, data.action);
+            D data = (D) view.getTag();
+            onClickView(data,view);
             notifyClickListeners(view);
             writeToStatistical(BANNER+mDataList.indexOf(data));
         }
@@ -162,4 +154,23 @@ public class ScrollBannerAdapter extends PagerAdapter implements Statistical {
     public void writeToStatistical(String actionType) {
         StatisticalHelper.doStatistical(mContext,actionType);
     }
+
+    /**
+     * @param data
+     * @param parent
+     */
+    protected abstract void setViewData(D data, View parent);
+
+    /**
+     * get the banner layout id
+     * @return
+     */
+    protected abstract int getBannerViewLayout();
+
+    /**
+     * banner click event
+     * @param data
+     * @param view banner view
+     */
+    protected abstract void onClickView(D data,View view);
 }
