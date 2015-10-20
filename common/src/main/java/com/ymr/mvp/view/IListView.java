@@ -27,4 +27,6 @@ public interface IListView<D, E extends IListItemBean<D>> extends INetView,IActi
     void startRefresh();
 
     void finishRefresh();
+
+    List<D> getCurrDatas();
 }

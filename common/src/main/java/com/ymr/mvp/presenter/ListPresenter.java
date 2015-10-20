@@ -10,6 +10,7 @@ import com.ymr.mvp.model.bean.IListItemBean;
 import com.ymr.mvp.params.ListParams;
 import com.ymr.mvp.view.IListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -100,6 +101,52 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
         }
     };
 
+    private class RefreshCurrListener implements NetWorkModel.UpdateListener<E> {
+
+        private final int mPosition;
+
+        public RefreshCurrListener(int position) {
+            mPosition = position;
+        }
+
+
+        @Override
+        public void finishUpdate(E datas) {
+            replaceDatas(datas,mPosition);
+        }
+
+        @Override
+        public void onError(NetWorkModel.Error error) {
+            loadError(error);
+        }
+    }
+
+    private void replaceDatas(E wDatas, int position) {
+        if (wDatas != null) {
+            List<D> newDatas = wDatas.getDatas();
+            List<D> currDatas = getView().getCurrDatas();
+            int pageByPosition = getPageByPosition(position);
+            int start = mPageSize * (pageByPosition - mStartPage);
+            int end = mPageSize * (pageByPosition - mStartPage + 2) - 1;
+            List<D> oldList = currDatas.subList(start, end > currDatas.size() - 1 ? currDatas.size() - 1 : end);
+            deleteForChange(currDatas, newDatas, oldList);
+
+            getView().setDatas(currDatas);
+        }
+    }
+
+    private void deleteForChange(List<D> currDatas, List<D> newDatas, List<D> oldList) {
+        List<D> listForDelete = new ArrayList<>();
+        for (int i = 0; i < oldList.size(); i++) {
+            D data = oldList.get(i);
+            if (!newDatas.contains(data)) {
+                listForDelete.add(data);
+            }
+        }
+
+        currDatas.removeAll(listForDelete);
+    }
+
     /**
      * @param wData
      * @param isTop            是否是从顶部刷新
@@ -169,9 +216,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     public void onRefreshFromBottom() {
         if (getView().exist()) {
             if (verifyInternet()) {
-                if (getView().isCurrView()) {
-                    getView().startRefresh();
-                }
+                notifyStartRefresh();
                 mPage++;
                 doUpdate(mBottomUpdateListener);
             } else {
@@ -185,9 +230,40 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
         }
     }
 
+    @Override
+    public void refreshCurrItem(int position) {
+        if (getView().exist()) {
+            if (verifyInternet()) {
+                notifyStartRefresh();
+                doUpdate(new RefreshCurrListener(position),getPageByPosition(position),mPageSize);
+            } else {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        getView().compliteRefresh();
+                    }
+                });
+            }
+        }
+    }
+
+    private int getPageByPosition(int position) {
+        return position/mPageSize + mStartPage;
+    }
+
+    private void notifyStartRefresh() {
+        if (getView().isCurrView()) {
+            getView().startRefresh();
+        }
+    }
+
     private void doUpdate(NetWorkModel.UpdateListener<E> mBottomUpdateListener) {
+        doUpdate(mBottomUpdateListener,mPage,mPageSize);
+    }
+
+    private void doUpdate(NetWorkModel.UpdateListener<E> mBottomUpdateListener,int page,int pagesize) {
         ListParams listParams = getListParams();
-        listParams.setPageParam(mPage, mPageSize);
+        listParams.setPageParam(page, pagesize);
         mModel.updateListDatas(listParams, mBottomUpdateListener);
     }
 
@@ -197,9 +273,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     public void onRefreshFromTop() {
         if (getView().exist()) {
             if (verifyInternet() && verifyFromChild()) {
-                if (getView().isCurrView()) {
-                    getView().startRefresh();
-                }
+                notifyStartRefresh();
                 mPage = mStartPage;
                 doUpdate(mTopUpdateListener);
                 getView().setBottomRefreshEnable(true);

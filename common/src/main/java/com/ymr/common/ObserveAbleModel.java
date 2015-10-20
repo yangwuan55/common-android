@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class ObserveAbleModel implements IObserveAbleModel {
     private List<WeakReference<Listener>> mListeners = new ArrayList<>();
+    private List<WeakReference<Listener2>> mListener2s = new ArrayList<>();
 
     @Override
     public void registeListener(Listener listener) {
@@ -52,4 +53,47 @@ public class ObserveAbleModel implements IObserveAbleModel {
             }
         }
     }
+
+    @Override
+    public void registeListener(Listener2 listener) {
+        if (!contains(listener)) {
+            mListener2s.add(new WeakReference<Listener2>(listener));
+        }
+    }
+
+    private boolean contains(Listener2 listener) {
+        if (!mListener2s.isEmpty()) {
+            for (WeakReference<Listener2> weakReference : mListener2s) {
+                Listener2 referenceListener = weakReference.get();
+                if (referenceListener != null && referenceListener.equals(listener)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void unregisteListener(Listener2 listener) {
+        Iterator<WeakReference<Listener2>> iterator = mListener2s.iterator();
+        while (iterator.hasNext()) {
+            WeakReference<Listener2> next = iterator.next();
+            Listener2 referenceListener = next.get();
+            if (referenceListener != null && referenceListener.equals(listener)) {
+                iterator.remove();
+            }
+        }
+    }
+
+    @Override
+    public void notifyListeners(String args) {
+        if (!mListener2s.isEmpty())
+            for (WeakReference<Listener2> weakReference : mListener2s) {
+                Listener2 listener = weakReference.get();
+                if (listener != null) {
+                    listener.onChange(args);
+                }
+            }
+    }
+
 }

@@ -9,9 +9,19 @@ public interface IObserveAbleModel {
         void onChange();
     }
 
+    interface Listener2 {
+        void onChange(String args);
+    }
+
     void registeListener(Listener listener);
 
     void unregisteListener(Listener listener);
 
     void notifyListeners();
+
+    void registeListener(Listener2 listener);
+
+    void unregisteListener(Listener2 listener);
+
+    void notifyListeners(String args);
 }

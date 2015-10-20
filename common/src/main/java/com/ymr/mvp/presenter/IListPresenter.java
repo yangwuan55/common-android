@@ -15,6 +15,8 @@ public interface IListPresenter<D, E extends IListItemBean<D>,V extends IListVie
 
     void onRefreshFromBottom();
 
+    void refreshCurrItem(int position);
+
     void onRefreshFromTop();
 
     void setStartPage(int startPage);

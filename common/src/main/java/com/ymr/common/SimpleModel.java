@@ -25,4 +25,19 @@ public class SimpleModel implements IModel{
     public void notifyListeners() {
         mObserveAbleModel.notifyListeners();
     }
+
+    @Override
+    public void registeListener(Listener2 listener) {
+        mObserveAbleModel.registeListener(listener);
+    }
+
+    @Override
+    public void unregisteListener(Listener2 listener) {
+        mObserveAbleModel.unregisteListener(listener);
+    }
+
+    @Override
+    public void notifyListeners(String args) {
+        mObserveAbleModel.notifyListeners(args);
+    }
 }
