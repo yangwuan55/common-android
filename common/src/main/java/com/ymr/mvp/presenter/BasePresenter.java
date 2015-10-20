@@ -10,14 +10,14 @@ import com.ymr.mvp.view.IView;
 /**
  * Created by ymr on 15/8/29.
  */
-public class BasePresenter<V extends IView> implements Statistical{
+public class BasePresenter<V extends IView> implements Statistical,IBasePresenter<V>{
 
     private V mView;
 
     public BasePresenter(V view) {
         mView = view;
     }
-
+    @Override
     public V getView() {
         return mView;
     }
@@ -36,6 +36,6 @@ public class BasePresenter<V extends IView> implements Statistical{
     }
 
     public void onDestroy() {
-        mView = null;
+        //mView = null;
     }
 }
