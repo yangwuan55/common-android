@@ -52,6 +52,7 @@ public class ObserveAbleModel implements IObserveAbleModel {
                 listener.onChange();
             }
         }
+        notifyListeners("");
     }
 
     @Override
