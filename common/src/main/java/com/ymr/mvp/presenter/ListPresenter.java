@@ -252,9 +252,14 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     }
 
     private void notifyStartRefresh() {
-        if (getView().isCurrView()) {
-            getView().startRefresh();
-        }
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (getView().isCurrView()) {
+                    getView().startRefresh();
+                }
+            }
+        },100);
     }
 
     private void doUpdate(NetWorkModel.UpdateListener<E> mBottomUpdateListener) {
