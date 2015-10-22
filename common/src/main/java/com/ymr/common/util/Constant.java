@@ -14,6 +14,7 @@ public class Constant {
         String ACTION_TYPE_LOAD_PAGE = "loadpage";
         String ACTION_TYPE_VIDEO = "playvideo";
         String PAGE_TYPE_LINK = "link";
+        String PAGE_TYPE_LINK_BROWSER = "linkBrowser";
 
         class Target {
             public static HashMap<String, Class> TARGET_MAP = new HashMap<>();

@@ -2,6 +2,7 @@ package com.ymr.common.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -53,9 +54,19 @@ public class ActionClickUtil {
     private static final void loadPage(Context context, Action<String> action) {
         if (action.pagetype.equals(Constant.ActionBean.PAGE_TYPE_LINK)) {
             launchWebView(context,action);
+        } else if (action.pagetype.equals(Constant.ActionBean.PAGE_TYPE_LINK_BROWSER)){
+            launchBrowser(context,action);
         } else {
             launchNative(context,action);
         }
+    }
+
+    private static void launchBrowser(Context context, Action<String> action) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri url = Uri.parse(action.getUrl());
+        intent.setData(url);
+        context.startActivity(intent);
     }
 
     private static void launchWebView(Context context, Action<String> action) {
