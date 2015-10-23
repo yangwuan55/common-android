@@ -16,7 +16,7 @@ public interface BaseActivityUI extends BaseUI{
 
     boolean isActionBarVisible();
 
-    void onActionbarBackPressed();
+    boolean onActionbarBackPressed();
 
     BaseUIController.BaseUIParams getBaseUIParams();
 

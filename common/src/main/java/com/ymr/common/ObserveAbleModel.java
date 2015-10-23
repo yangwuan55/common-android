@@ -52,7 +52,6 @@ public class ObserveAbleModel implements IObserveAbleModel {
                 listener.onChange();
             }
         }
-        notifyListeners("");
     }
 
     @Override
@@ -88,13 +87,15 @@ public class ObserveAbleModel implements IObserveAbleModel {
 
     @Override
     public void notifyListeners(String args) {
-        if (!mListener2s.isEmpty())
+        if (!mListener2s.isEmpty()) {
             for (WeakReference<Listener2> weakReference : mListener2s) {
                 Listener2 listener = weakReference.get();
                 if (listener != null) {
                     listener.onChange(args);
                 }
             }
+        }
+        notifyListeners();
     }
 
 }

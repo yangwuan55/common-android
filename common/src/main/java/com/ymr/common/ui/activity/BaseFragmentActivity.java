@@ -66,8 +66,8 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
     }
 
     @Override
-    public void onActionbarBackPressed() {
-
+    public boolean onActionbarBackPressed() {
+        return false;
     }
 
     @Override

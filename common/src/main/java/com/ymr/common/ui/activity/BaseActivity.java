@@ -66,8 +66,8 @@ public abstract class BaseActivity extends Activity implements BaseActivityUI {
     }
 
     @Override
-    public void onActionbarBackPressed() {
-
+    public boolean onActionbarBackPressed() {
+        return false;
     }
 
     @Override
