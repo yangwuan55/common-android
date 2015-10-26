@@ -127,13 +127,10 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
             List<D> currDatas = getView().getCurrDatas();
             int pageByPosition = getPageByPosition(position);
             int start = mPageSize * (pageByPosition - mStartPage);
-            int end = mPageSize * (pageByPosition - mStartPage + 2) - 1;
+            int end = mPageSize * (pageByPosition - mStartPage + 2);
             List<D> oldList = null;
-            if (currDatas.size() == 1) {
-                oldList = currDatas;
-            } else {
-                oldList = currDatas.subList(start, end > currDatas.size() - 1 ? currDatas.size() - 1 : end);
-            }
+            int setEnd = end > currDatas.size() ? currDatas.size() : end;
+            oldList = currDatas.subList(start, setEnd);
             deleteForChange(currDatas, newDatas, oldList);
 
             getView().setDatas(currDatas);
