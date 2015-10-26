@@ -25,6 +25,7 @@ public class Env {
     public static Map<String, String> sParams = new HashMap<>();
     public static Env.FloorErrorDisposer sFloorErrorDisposer;
     public static List<IStatModel> sStatModels = new ArrayList<>();
+    public static ProjectState sProjectState;
 
     public static void init(Application context,InitParams initParams,FloorErrorDisposer floorErrorDisposer) {
         sApp = context;
@@ -37,12 +38,14 @@ public class Env {
             sStatModels.addAll(statModels);
         }
         sStatModels.add(new UmengStatModel());
+        sProjectState = initParams.getProjectState();
     }
 
     public interface InitParams{
         BaseUIController.BaseUIParams getBaseUIParams();
         WebUrl getWebUrl();
         List<IStatModel> getStatModels();
+        ProjectState getProjectState();
     }
 
     public static interface FloorErrorDisposer {

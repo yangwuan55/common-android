@@ -1,6 +1,9 @@
 package com.ymr.common.util;
 
 
+import com.ymr.common.Env;
+import com.ymr.common.ProjectState;
+
 /**
  * 引用新的Logger日志输出，Logger.s()是发送到服务器端
  * 
@@ -17,7 +20,7 @@ public class LOGGER {
 	/**
 	 * 是否把Log信息输出到Android日志控制台
 	 */
-	public static boolean IS_OUTPUT_ANDROIDLOG = true;
+	public static boolean IS_OUTPUT_ANDROIDLOG = Env.sProjectState != null ? Env.sProjectState == ProjectState.DBUG : true;
 
 	/**
 	 * Send a DEBUG log message.
