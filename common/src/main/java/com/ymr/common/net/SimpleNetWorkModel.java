@@ -5,6 +5,7 @@ import android.content.Context;
 import com.ymr.common.Env;
 import com.ymr.common.SimpleModel;
 import com.ymr.common.net.params.NetRequestParams;
+import com.ymr.common.util.DeviceInfoUtils;
 
 /**
  * Created by ymr on 15/6/12.
@@ -21,18 +22,26 @@ public class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T
 
     @Override
     public void updateDatas(NetRequestParams params, final UpdateListener<T> listener) {
-        NetResultDisposer.dispose(mContext, params, new UpdateListener<T>() {
-            @Override
-            public void finishUpdate(T result) {
-                listener.finishUpdate(result);
-            }
+        if (DeviceInfoUtils.hasInternet(mContext)) {
+            NetResultDisposer.dispose(mContext, params, new UpdateListener<T>() {
+                @Override
+                public void finishUpdate(T result) {
+                    listener.finishUpdate(result);
+                }
 
-            @Override
-            public void onError(Error error) {
-                Env.sFloorErrorDisposer.onError(error);
-                listener.onError(error);
-            }
-        }, mTClass);
+                @Override
+                public void onError(Error error) {
+                    Env.sFloorErrorDisposer.onError(error);
+                    listener.onError(error);
+                }
+            }, mTClass);
+        } else {
+            Error error = new Error();
+            error.setErrorCode(10000);
+            error.setMsg("无网络");
+            error.setUrl(params.getUrl());
+            listener.onError(error);
+        }
     }
 
     public Context getContext() {
