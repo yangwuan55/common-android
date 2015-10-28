@@ -8,7 +8,7 @@ import com.squareup.leakcanary.RefWatcher;
 /**
  * Created by ymr on 15/9/15.
  */
-public class BaseApplication extends Application {
+public abstract class BaseApplication extends Application {
     private static RefWatcher sRefWacher;
 
     public static RefWatcher getRefWacher() {
@@ -18,6 +18,12 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        sRefWacher = LeakCanary.install(this);
+        if (getDebug()) {
+            sRefWacher = LeakCanary.install(this);
+        } else {
+            sRefWacher = RefWatcher.DISABLED;
+        }
     }
+
+    protected abstract boolean getDebug();
 }
