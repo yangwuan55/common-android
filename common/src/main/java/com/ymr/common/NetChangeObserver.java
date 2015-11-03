@@ -59,7 +59,7 @@ public class NetChangeObserver {
         return false;
     }
 
-    public void unRegisterOnNetChangeListener(OnNetChangeListener listener) {
+    public synchronized void unRegisterOnNetChangeListener(OnNetChangeListener listener) {
         Iterator<WeakReference<OnNetChangeListener>> iterator = onNetChangeListeners.iterator();
         while (iterator.hasNext()) {
             OnNetChangeListener onNetChangeListener = iterator.next().get();

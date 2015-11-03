@@ -4,11 +4,12 @@ import android.content.Context;
 
 import com.ymr.common.net.SimpleNetWorkModel;
 import com.ymr.common.net.params.NetRequestParams;
+import com.ymr.common.util.DeviceInfoUtils;
 
 /**
  * Created by ymr on 15/9/11.
  */
-public abstract class CachedSimpleNetworkModel<D> extends SimpleNetWorkModel<D> implements ICachedModel<D> {
+public class CachedSimpleNetworkModel<D> extends SimpleNetWorkModel<D> implements ICachedModel<D> {
 
     private final CachedModel<D> mCachedModel;
 
@@ -23,21 +24,31 @@ public abstract class CachedSimpleNetworkModel<D> extends SimpleNetWorkModel<D> 
         mCachedModel.setFileName(fileName);
     }
 
-    public void initDatas() {
-        updateDatas(getParams(), new UpdateListener<D>() {
-            @Override
-            public void finishUpdate(D result) {
-                cacheDatas(result);
-            }
+    @Override
+    public void updateDatas(NetRequestParams params, final UpdateListener<D> listener) {
+        if (DeviceInfoUtils.hasInternet(getContext())) {
+            super.updateDatas(params, new UpdateListener<D>() {
+                @Override
+                public void finishUpdate(D result) {
+                    cacheDatas(result);
+                    if (listener != null) {
+                        listener.finishUpdate(getCacheDatas());
+                    }
+                }
 
-            @Override
-            public void onError(Error error) {
-
+                @Override
+                public void onError(Error error) {
+                    if (listener != null) {
+                        listener.onError(error);
+                    }
+                }
+            });
+        } else {
+            if (listener != null) {
+                listener.finishUpdate(getCacheDatas());
             }
-        });
+        }
     }
-
-    protected abstract NetRequestParams getParams();
 
     @Override
     public void cacheDatas(D data) {
