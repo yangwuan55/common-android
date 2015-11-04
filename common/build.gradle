@@ -34,6 +34,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     provided 'com.android.support:appcompat-v7:23.1.0'
+    provided 'com.android.support:recyclerview-v7:23.1.0'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.google.code.gson:gson:2.3.1'

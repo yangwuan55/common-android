@@ -1,28 +1,26 @@
 package com.ymr.common.ui.adapter;
 
 import android.content.Context;
-import android.widget.BaseAdapter;
+import android.support.v7.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ymr on 15/9/22.
+ * Created by ymr on 15/11/4.
  */
-public abstract class DataBaseAdapter<D> extends BaseAdapter implements IDataManager<D> {
+public abstract class SimpleRecyclerAdapter<D> extends RecyclerView.Adapter implements IDataManager<D> {
 
     private final Context mContext;
-    private IDataManager<D> mDataManager;
+    private final DataManager<D> mDataManager;
 
-    public DataBaseAdapter(Context context) {
+    public SimpleRecyclerAdapter(Context context) {
         mContext = context;
         mDataManager = new DataManager<>(this);
     }
 
-    public DataBaseAdapter(Context context, List<D> datas) {
-        mContext = context;
-        mDataManager = new DataManager<>(this);
-        addDatas(datas);
+    @Override
+    public int getItemCount() {
+        return getCount();
     }
 
     @Override
