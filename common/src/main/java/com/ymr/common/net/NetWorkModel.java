@@ -22,8 +22,7 @@ public interface NetWorkModel<T> extends IModel {
     class Error {
         private int errorCode = -1;
         private String msg;
-        private Object tag;
-        private String url;
+        private NetRequestParams netRequestParams;
 
         public int getErrorCode() {
             return errorCode;
@@ -41,20 +40,23 @@ public interface NetWorkModel<T> extends IModel {
             this.msg = msg;
         }
 
-        public Object getTag() {
-            return tag;
+        public Object getNetRequestParams() {
+            return netRequestParams;
         }
 
-        public void setTag(Object tag) {
-            this.tag = tag;
+        public void setNetRequestParams(NetRequestParams netRequestParams) {
+            this.netRequestParams = netRequestParams;
         }
 
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
+        @Override
+        public String toString() {
+            return "Error{" +
+                    "errorCode=" + errorCode +
+                    ", msg='" + msg + '\'' +
+                    ", netRequestParams=" + netRequestParams.getUrl() + " postParms="
+                    + netRequestParams.getPostParams()
+                    +
+                    '}';
         }
     }
 }

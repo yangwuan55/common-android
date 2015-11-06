@@ -3,6 +3,8 @@ package com.ymr.common;
 import android.app.Application;
 import android.content.Context;
 
+import com.ymr.common.bean.ApiBase;
+import com.ymr.common.bean.IApiBase;
 import com.ymr.common.net.NetWorkModel;
 import com.ymr.common.ui.BaseUIController;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -26,6 +28,7 @@ public class Env {
     public static Env.FloorErrorDisposer sFloorErrorDisposer;
     public static List<IStatModel> sStatModels = new ArrayList<>();
     public static ProjectState sProjectState;
+    private static Class<? extends IApiBase> sApiBaseClass;
 
     public static void init(Application context,InitParams initParams,FloorErrorDisposer floorErrorDisposer) {
         sApp = context;
@@ -39,6 +42,11 @@ public class Env {
         }
         sStatModels.add(new UmengStatModel());
         sProjectState = initParams.getProjectState();
+        sApiBaseClass = initParams.getApiBaseClass();
+    }
+
+    public static Class<? extends IApiBase> getApiBase() {
+        return sApiBaseClass != null ? sApiBaseClass : ApiBase.class;
     }
 
     public interface InitParams{
@@ -46,6 +54,7 @@ public class Env {
         WebUrl getWebUrl();
         List<IStatModel> getStatModels();
         ProjectState getProjectState();
+        Class<? extends IApiBase> getApiBaseClass();
     }
 
     public static interface FloorErrorDisposer {

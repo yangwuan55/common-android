@@ -3,8 +3,9 @@ package com.ymr.common.bean;
 /**
  * Created by ymr on 15/5/7.
  */
-public class ApiBase<T> {
+public class ApiBase<T> implements IApiBase<T> {
 
+    public static final int SUCCESS = 0;
     private int code;
     private String msg;
     private T result;
@@ -19,6 +20,16 @@ public class ApiBase<T> {
 
     public String getMsg() {
         return msg;
+    }
+
+    @Override
+    public T getData() {
+        return result;
+    }
+
+    @Override
+    public int getSuccessCode() {
+        return SUCCESS;
     }
 
     public void setMsg(String msg) {

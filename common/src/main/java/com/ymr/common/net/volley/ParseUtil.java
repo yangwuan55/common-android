@@ -1,9 +1,11 @@
 package com.ymr.common.net.volley;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ymr.common.bean.ApiBase;
+import com.ymr.common.Env;
+import com.ymr.common.bean.IApiBase;
 import com.ymr.common.util.LOGGER;
 
 import java.lang.reflect.ParameterizedType;
@@ -15,19 +17,23 @@ import java.lang.reflect.Type;
 public class ParseUtil {
     private static final String TAG = "ParseUtil";
 
-    public static <T> void generateObject(String response, String url, Class<T> tClass, Response.Listener<ApiBase<T>> listener) {
+    public static <T> void generateObject(String response, String url, Class<T> tClass, Response.Listener<IApiBase<T>> listener, Response.ErrorListener errorListener) {
         LOGGER.i(TAG, "URL = " + url);
         ParameterizedType type = null;
         if (tClass != null) {
-            type = type(ApiBase.class, tClass);
+            type = type(Env.getApiBase(), tClass);
             LOGGER.i(TAG, "type = " + type);
         }
-        ApiBase<T> rtn = null;
+        IApiBase<T> rtn = null;
         Gson gson = new GsonBuilder().create();
         if (type != null) {
-            rtn = gson.fromJson(response, type);
+            try {
+                rtn = gson.fromJson(response, type);
+            } catch (IllegalStateException e) {
+                errorListener.onErrorResponse(new VolleyError(e));
+            }
         } else {
-            rtn = gson.fromJson(response, ApiBase.class);
+            rtn = gson.fromJson(response, Env.getApiBase());
         }
         listener.onResponse(rtn);
     }

@@ -13,25 +13,16 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.GsonBuilder;
-import com.ymr.common.bean.ApiBase;
-import com.ymr.common.net.params.FileParams;
-import com.ymr.common.net.params.NetRequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.ymr.common.bean.IApiBase;
+import com.ymr.common.net.params.FileParams;
+import com.ymr.common.net.params.NetRequestParams;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -137,7 +128,7 @@ public class VolleyUtil {
         return builder.toString();
     }
 
-    public <T,P extends NetRequestParams> void addRequest(final P params,final RequestListner<ApiBase<T>> requestListner,Class<T> tClass) {
+    public <T,P extends NetRequestParams> void addRequest(final P params,final RequestListner<IApiBase<T>> requestListner,Class<T> tClass) {
         Request request = null;
         if (params instanceof FileParams) {
             request = getFileUploadRequest(((FileParams) params), requestListner, tClass);
@@ -148,12 +139,12 @@ public class VolleyUtil {
     }
 
     @Nullable
-    private <T, P extends NetRequestParams> ObjectRequest<T> getNormalObjectRequest(final P params, final RequestListner<ApiBase<T>> requestListner, final Class<T> tClass) {
+    private <T, P extends NetRequestParams> ObjectRequest<T> getNormalObjectRequest(final P params, final RequestListner<IApiBase<T>> requestListner, final Class<T> tClass) {
         ObjectRequest<T> gsonRequest = null;
 
-        final Response.Listener<ApiBase<T>> listener = new Response.Listener<ApiBase<T>>() {
+        final Response.Listener<IApiBase<T>> listener = new Response.Listener<IApiBase<T>>() {
             @Override
-            public void onResponse(ApiBase<T> response) {
+            public void onResponse(IApiBase<T> response) {
                 requestListner.onSuccess(response);
             }
         };
@@ -184,12 +175,12 @@ public class VolleyUtil {
     }
 
     @NonNull
-    private <T, P extends FileParams> FileUploadRequest<T> getFileUploadRequest(final P params, final RequestListner<ApiBase<T>> requestListner, final Class<T> tClass) {
+    private <T, P extends FileParams> FileUploadRequest<T> getFileUploadRequest(final P params, final RequestListner<IApiBase<T>> requestListner, final Class<T> tClass) {
         FileUploadRequest<T> fileUploadRequest = null;
 
-        final Response.Listener<ApiBase<T>> listener = new Response.Listener<ApiBase<T>>() {
+        final Response.Listener<IApiBase<T>> listener = new Response.Listener<IApiBase<T>>() {
             @Override
-            public void onResponse(ApiBase<T> response) {
+            public void onResponse(IApiBase<T> response) {
                 requestListner.onSuccess(response);
             }
         };

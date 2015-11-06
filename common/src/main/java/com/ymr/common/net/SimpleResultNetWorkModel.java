@@ -2,8 +2,6 @@ package com.ymr.common.net;
 
 import android.content.Context;
 
-import com.android.volley.VolleyError;
-import com.ymr.common.bean.ApiBase;
 import com.ymr.common.net.params.NetRequestParams;
 
 /**
