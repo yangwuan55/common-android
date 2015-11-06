@@ -75,10 +75,14 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
         mActivity.onStartCreatView();
         mActivity.setContentView(R.layout.activity_base);
         onInitViews();
-        mActivity.onFinishCreateView();
+        onFinishCreateView();
 
         IntentFilter filter = new IntentFilter(Constant.ACTION_EXIST);
         mActivity.registerReceiver(mExitBroadCast, filter);
+    }
+
+    protected void onFinishCreateView() {
+        mActivity.onFinishCreateView();
     }
 
     protected void onInitViews() {

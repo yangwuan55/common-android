@@ -19,6 +19,11 @@ public class DataBindingUIController<T extends Activity & DataBindingActivityUI>
     @Override
     protected void inflateView(FrameLayout parent) {
         mRootViewDataBinding = DataBindingUtil.inflate(mActivity.getLayoutInflater(), mActivity.getContentViewId(), parent, true);
+    }
+
+    @Override
+    protected void onFinishCreateView() {
+        super.onFinishCreateView();
         mActivity.onCreateDataBinding(mRootViewDataBinding);
     }
 
