@@ -25,7 +25,7 @@ public abstract class ListDataBindingAdapter<D> extends ListHolderAdapter<D> {
 
         @Override
         protected View inflate(int position) {
-            mDataBinding = DataBindingUtil.inflate(((Activity) getContext()).getLayoutInflater(), getViewId(position), null, false);
+            mDataBinding = DataBindingUtil.inflate(((Activity) getContext()).getLayoutInflater(), getViewId(), null, false);
             return mDataBinding.getRoot();
         }
 
@@ -58,8 +58,8 @@ public abstract class ListDataBindingAdapter<D> extends ListHolderAdapter<D> {
 
     @Override
     protected ViewHolder<D> createViewHolder(int position) {
-        return createDataBindingViewHolder();
+        return createDataBindingViewHolder(position);
     }
 
-    protected abstract DataBindingViewHolder createDataBindingViewHolder();
+    protected abstract DataBindingViewHolder createDataBindingViewHolder(int position);
 }

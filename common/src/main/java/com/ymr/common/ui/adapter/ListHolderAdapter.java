@@ -14,16 +14,23 @@ import java.util.List;
 public abstract class ListHolderAdapter<D> extends DataBaseAdapter<D> {
     public abstract class ViewHolder<D> {
 
+        private int mCurrPosition;
+
         protected abstract void reset();
 
-        protected abstract int getViewId(int position);
+        protected abstract int getViewId();
 
         protected abstract void onViewCreate(View view);
 
         protected View inflate(int position) {
-            View inflate = View.inflate(getContext(), getViewId(position), null);
+            mCurrPosition = position;
+            View inflate = View.inflate(getContext(), getViewId(), null);
             onViewCreate(inflate);
             return inflate;
+        }
+
+        int getCurrPosition() {
+            return mCurrPosition;
         }
 
         public abstract void onReceiveData(D item, int position);
@@ -41,7 +48,7 @@ public abstract class ListHolderAdapter<D> extends DataBaseAdapter<D> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = null;
         ViewHolder<D> viewHolder = null;
-        if (convertView != null) {
+        if (verifyConvertView(convertView,position)) {
             v = convertView;
             viewHolder = (ViewHolder<D>) v.getTag();
             viewHolder.reset();
@@ -51,12 +58,19 @@ public abstract class ListHolderAdapter<D> extends DataBaseAdapter<D> {
             v.setTag(viewHolder);
         }
         D item = getItem(position);
-        if (item != null) {
-            viewHolder.onReceiveData(item,position);
-        } else {
-            v.setVisibility(View.GONE);
-        }
+        viewHolder.onReceiveData(item, position);
         return v;
+    }
+
+    private boolean verifyConvertView(View convertView,int position) {
+        boolean result = false;
+        if (convertView != null) {
+            ViewHolder<D> tag = (ViewHolder<D>) convertView.getTag();
+            if (tag.getViewId() == createViewHolder(position).getViewId()) {
+                result = true;
+            }
+        }
+        return result;
     }
 
     protected abstract ViewHolder<D> createViewHolder(int position);

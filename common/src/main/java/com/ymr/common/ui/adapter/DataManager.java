@@ -47,7 +47,11 @@ public class DataManager<D> implements IDataManager<D> {
 
     @Override
     public D getItem(int position) {
-        return mDatas.get(position);
+        if (position < mDatas.size()) {
+            return mDatas.get(position);
+        } else {
+            return null;
+        }
     }
 
     @Override

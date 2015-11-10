@@ -37,11 +37,7 @@ public abstract class ListBaseAdapter<D,V extends View & ListBaseAdapter.Adapter
             v = initView(getContext());
         }
         D item = getItem(position);
-        if (item != null) {
-            v.onReceiveData(item);
-        } else {
-            v.setVisibility(View.GONE);
-        }
+        v.onReceiveData(item);
         return v;
     }
 
