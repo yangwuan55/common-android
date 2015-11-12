@@ -17,4 +17,5 @@ public interface BaseUI extends Statistical {
 
     boolean isResume();
 
+    View getRootView();
 }

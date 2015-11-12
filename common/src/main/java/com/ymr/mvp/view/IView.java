@@ -1,5 +1,7 @@
 package com.ymr.mvp.view;
 
+import android.view.View;
+
 /**
  * Created by ymr on 15/8/13.
  */
@@ -12,4 +14,6 @@ public interface IView extends IActivityView {
     boolean isCurrView();
 
     boolean exist();
+
+    View getRootView();
 }

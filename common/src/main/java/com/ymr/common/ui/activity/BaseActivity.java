@@ -95,4 +95,9 @@ public abstract class BaseActivity extends Activity implements BaseActivityUI {
         mBaseUIController.onDestroy();
         mBaseUIController = null;
     }
+
+    @Override
+    public View getRootView() {
+        return mBaseUIController.getRootView();
+    }
 }

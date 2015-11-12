@@ -24,6 +24,7 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
     protected T mActivity;
     private TextView mTitle;
     private ImageView mBack;
+    private View mRootView;
 
     private static BaseUIParams sBaseUIParams;
     private BaseUIParams mBaseUIParams;
@@ -86,6 +87,7 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
     }
 
     protected void onInitViews() {
+        mRootView = mActivity.findViewById(R.id.root_content);
         mBack = (ImageView) mActivity.findViewById(R.id.back);
         if (mActivity.hasBack()) {
             mBack.setVisibility(View.VISIBLE);
@@ -131,5 +133,10 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
     @Override
     public T getActivity() {
         return mActivity;
+    }
+
+    @Override
+    public View getRootView() {
+        return mRootView;
     }
 }

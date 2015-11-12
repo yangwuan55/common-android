@@ -95,4 +95,9 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
         mBaseUIController.onDestroy();
         mBaseUIController = null;
     }
+
+    @Override
+    public View getRootView() {
+        return mBaseUIController.getRootView();
+    }
 }

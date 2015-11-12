@@ -2,6 +2,7 @@ package com.ymr.mvp.view.viewimp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.View;
 
 import com.ymr.common.ui.BaseUI;
 import com.ymr.mvp.view.IView;
@@ -37,4 +38,8 @@ abstract class ActivityView<T extends Activity & BaseUI & IView> implements IVie
         mView.startActivity(intent);
     }
 
+    @Override
+    public View getRootView() {
+        return mView.getRootView();
+    }
 }

@@ -3,6 +3,7 @@ package com.ymr.mvp.view.viewimp;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.ymr.mvp.view.IView;
 
@@ -59,5 +60,10 @@ public abstract class BaseView implements IView {
     @Override
     public void gotoActivity(Intent intent) {
         mView.gotoActivity(intent);
+    }
+
+    @Override
+    public View getRootView() {
+        return mView.getRootView();
     }
 }

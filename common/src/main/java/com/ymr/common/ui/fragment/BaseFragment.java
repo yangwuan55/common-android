@@ -15,13 +15,15 @@ import com.ymr.common.util.StatisticalHelper;
  */
 public abstract class BaseFragment extends Fragment implements BaseFragmentUI {
 
+    private View mRootView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         onStartCreatView();
-        View view = inflateView(inflater, container, savedInstanceState);
+        mRootView = inflateView(inflater, container, savedInstanceState);
         onFinishCreateView();
-        return view;
+        return mRootView;
     }
 
     @Override
@@ -42,5 +44,10 @@ public abstract class BaseFragment extends Fragment implements BaseFragmentUI {
     @Override
     public void writeToStatistical(String actionType) {
         StatisticalHelper.doStatistical(getActivity(), actionType);
+    }
+
+    @Override
+    public View getRootView() {
+        return mRootView;
     }
 }
