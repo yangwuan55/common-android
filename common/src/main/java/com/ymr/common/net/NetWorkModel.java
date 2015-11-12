@@ -53,9 +53,7 @@ public interface NetWorkModel<T> extends IModel {
             return "Error{" +
                     "errorCode=" + errorCode +
                     ", msg='" + msg + '\'' +
-                    ", netRequestParams=" + netRequestParams.getUrl() + " postParms="
-                    + netRequestParams.getPostParams()
-                    +
+                    ", netRequestParams=" + netRequestParams +
                     '}';
         }
     }
