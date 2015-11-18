@@ -38,6 +38,7 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
             }
         }
     };
+    private View mRightView;
 
     @Override
     public void onClick(View v) {
@@ -101,10 +102,10 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
         if (titleRightViewId != 0) {
             ViewStub viewSub = (ViewStub) mActivity.findViewById(R.id.right_view);
             viewSub.setLayoutResource(titleRightViewId);
-            View view = viewSub.inflate();
+            mRightView = viewSub.inflate();
             View.OnClickListener onClickListener = mActivity.getTitleRightViewOnClickListener();
             if (onClickListener != null) {
-                view.setOnClickListener(onClickListener);
+                mRightView.setOnClickListener(onClickListener);
             }
         }
 
@@ -138,5 +139,10 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
     @Override
     public View getRootView() {
         return mRootView;
+    }
+
+    @Override
+    public View getRightView() {
+        return mRightView;
     }
 }

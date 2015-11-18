@@ -86,7 +86,7 @@ public abstract class BaseActivity extends Activity implements BaseActivityUI {
 
     @Override
     public void writeToStatistical(String actionType) {
-        StatisticalHelper.doStatistical(this,actionType);
+        StatisticalHelper.doStatistical(this, actionType);
     }
 
     @Override
@@ -99,5 +99,10 @@ public abstract class BaseActivity extends Activity implements BaseActivityUI {
     @Override
     public View getRootView() {
         return mBaseUIController.getRootView();
+    }
+
+    @Override
+    public View getRightView() {
+        return mBaseUIController.getRightView();
     }
 }

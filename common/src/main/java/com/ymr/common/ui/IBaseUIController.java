@@ -17,6 +17,8 @@ public interface IBaseUIController {
 
     View getRootView();
 
+    View getRightView();
+
     interface BaseUIParams {
         int getTitleBgColor();
         int getTitleTextColor();

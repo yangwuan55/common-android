@@ -100,4 +100,9 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
     public View getRootView() {
         return mBaseUIController.getRootView();
     }
+
+    @Override
+    public View getRightView() {
+        return mBaseUIController.getRightView();
+    }
 }
