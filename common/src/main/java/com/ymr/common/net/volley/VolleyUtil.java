@@ -36,7 +36,6 @@ public class VolleyUtil {
     private static VolleyUtil sInstance;
     private final Context mContext;
     private final RequestQueue mRequestQueue;
-    private final DisplayImageOptions mImageOptions;
     private ImageLoader mImageLoader;
 
     public interface RequestListner<T> {
@@ -51,12 +50,6 @@ public class VolleyUtil {
         mContext = context;
         mRequestQueue = Volley.newRequestQueue(mContext, new MultiPartStack());
         mImageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
-        mImageOptions = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
     }
 
     public static VolleyUtil getsInstance(Context context) {
@@ -112,7 +105,12 @@ public class VolleyUtil {
     }
 
     public void loadImage(String url, ImageView imageView) {
-        mImageLoader.displayImage(url, imageView, mImageOptions);
+        mImageLoader.displayImage(url, imageView, new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build());
     }
 
     public static String getUrl(String url, Map<String, String> params) {
