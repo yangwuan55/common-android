@@ -103,8 +103,12 @@ public class FileUtil {
     }
 
     @NonNull
-    private static File getFileByName(Context context, String fileName) {
+    public static File getFileByName(Context context, String fileName) {
         return new File(context.getFilesDir() + "/" + fileName);
+    }
+
+    public static boolean hasFile(Context context,String fileName) {
+        return getFileByName(context,fileName).exists();
     }
 
     public static <T> T readBeanFromFile(Context context, String fileName, Class<T> c) {

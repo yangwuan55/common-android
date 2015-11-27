@@ -1,20 +1,19 @@
 package com.ymr.common.ui.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.ymr.common.ui.BaseActivityUI;
-import com.ymr.common.ui.BaseUI;
-import com.ymr.common.ui.BaseUIController;
 import com.umeng.analytics.MobclickAgent;
+import com.ymr.common.ui.BaseActivityUI;
+import com.ymr.common.ui.BaseUIController;
 import com.ymr.common.ui.IBaseUIController;
 import com.ymr.common.util.StatisticalHelper;
 
 /**
  * Created by ymr on 15/6/25.
  */
-public abstract class BaseFragmentActivity extends FragmentActivity implements BaseActivityUI {
+public abstract class BaseFragmentActivity extends AppCompatActivity implements BaseActivityUI {
 
     private IBaseUIController mBaseUIController;
     private boolean mIsResume;

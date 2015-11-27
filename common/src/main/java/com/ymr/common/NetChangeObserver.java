@@ -19,7 +19,7 @@ public class NetChangeObserver {
         return newInstance;
     }
 
-    public void netConnect() {
+    public synchronized void netConnect() {
         Iterator<WeakReference<OnNetChangeListener>> it = onNetChangeListeners.iterator();
 
         while (it.hasNext()) {
@@ -30,7 +30,7 @@ public class NetChangeObserver {
         }
     }
 
-    public void netDisconnect() {
+    public synchronized void netDisconnect() {
         Iterator<WeakReference<OnNetChangeListener>> it = onNetChangeListeners.iterator();
 
         while (it.hasNext()) {
@@ -41,7 +41,7 @@ public class NetChangeObserver {
         }
     }
 
-    public void registerOnNetChangeListener(OnNetChangeListener listener) {
+    public synchronized void registerOnNetChangeListener(OnNetChangeListener listener) {
         if (!contains(listener)) {
             this.onNetChangeListeners.add(new WeakReference<OnNetChangeListener>(listener));
         }

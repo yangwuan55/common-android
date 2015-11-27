@@ -29,7 +29,7 @@ public class ParseUtil {
         if (type != null) {
             try {
                 rtn = gson.fromJson(response, type);
-            } catch (IllegalStateException e) {
+            } catch (Exception e) {
                 errorListener.onErrorResponse(new VolleyError(e));
             }
         } else {
