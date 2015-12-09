@@ -11,11 +11,11 @@ import java.util.List;
 public abstract class SimpleRecyclerAdapter<D> extends RecyclerView.Adapter implements IDataManager<D> {
 
     private final Context mContext;
-    private final DataManager<D> mDataManager;
+    private final DataManagerDelegate<D> mDataManagerDelegate;
 
     public SimpleRecyclerAdapter(Context context) {
         mContext = context;
-        mDataManager = new DataManager<>(this);
+        mDataManagerDelegate = new DataManagerDelegate<>(this);
     }
 
     @Override
@@ -25,32 +25,32 @@ public abstract class SimpleRecyclerAdapter<D> extends RecyclerView.Adapter impl
 
     @Override
     public void addDatas(List<D> datas) {
-        mDataManager.addDatas(datas);
+        mDataManagerDelegate.addDatas(datas);
     }
 
     @Override
     public void setDatas(List<D> datas) {
-        mDataManager.setDatas(datas);
+        mDataManagerDelegate.setDatas(datas);
     }
 
     @Override
     public List<D> getDatas() {
-        return mDataManager.getDatas();
+        return mDataManagerDelegate.getDatas();
     }
 
     @Override
     public int getCount() {
-        return mDataManager.getCount();
+        return mDataManagerDelegate.getCount();
     }
 
     @Override
     public D getItem(int position) {
-        return mDataManager.getItem(position);
+        return mDataManagerDelegate.getItem(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return mDataManager.getItemId(position);
+        return mDataManagerDelegate.getItemId(position);
     }
 
     @Override

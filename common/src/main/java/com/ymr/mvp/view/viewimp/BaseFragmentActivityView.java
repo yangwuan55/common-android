@@ -10,11 +10,11 @@ import com.ymr.mvp.view.IView;
  * Created by ymr on 15/9/16.
  */
 public abstract class BaseFragmentActivityView extends BaseFragmentActivity implements IView,MvpBaseView {
-    private BaseView mView;
+    private ViewDelegate mView;
 
     @Override
     public void onFinishCreateView() {
-        mView = new BaseView(this) {
+        mView = new ViewDelegate(this) {
             @Override
             public void onError(String msg) {
                 BaseFragmentActivityView.this.onError(msg);

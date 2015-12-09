@@ -10,33 +10,33 @@ import com.ymr.mvp.view.IView;
 /**
  * Created by ymr on 15/9/16.
  */
-public abstract class BaseView implements IView {
+public abstract class ViewDelegate implements IView {
 
     private IView mView;
 
-    public BaseView(IView iView) {
+    public ViewDelegate(IView iView) {
         if (iView instanceof Activity) {
-            mView = new ActivityView((Activity) iView) {
+            mView = new ActivityViewDelegate((Activity) iView) {
                 @Override
                 public void onError(String msg) {
-                    BaseView.this.onError(msg);
+                    ViewDelegate.this.onError(msg);
                 }
 
                 @Override
                 public void onMessage(String msg) {
-                    BaseView.this.onMessage(msg);
+                    ViewDelegate.this.onMessage(msg);
                 }
             };
         } else if (iView instanceof Fragment){
-            mView = new FragmentView((Fragment) iView) {
+            mView = new FragmentViewDelegate((Fragment) iView) {
                 @Override
                 public void onError(String msg) {
-                    BaseView.this.onError(msg);
+                    ViewDelegate.this.onError(msg);
                 }
 
                 @Override
                 public void onMessage(String msg) {
-                    BaseView.this.onMessage(msg);
+                    ViewDelegate.this.onMessage(msg);
                 }
             };
         }

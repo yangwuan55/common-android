@@ -10,11 +10,11 @@ import com.ymr.mvp.view.IView;
 /**
  * Created by ymr on 15/9/16.
  */
-abstract class ActivityView<T extends Activity & BaseUI & IView> implements IView {
+abstract class ActivityViewDelegate<T extends Activity & BaseUI & IView> implements IView {
 
     private final T mView;
 
-    public ActivityView(T iView) {
+    public ActivityViewDelegate(T iView) {
         mView = iView;
     }
 

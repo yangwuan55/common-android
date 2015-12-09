@@ -10,11 +10,11 @@ import com.ymr.mvp.view.IView;
  * Created by ymr on 15/10/12.
  */
 public abstract class DataBindingActivityView extends BaseDataBindingActivity implements IView,MvpBaseView {
-    private BaseView mView;
+    private ViewDelegate mView;
 
     @Override
     public void onFinishCreateView() {
-        mView = new BaseView(this) {
+        mView = new ViewDelegate(this) {
             @Override
             public void onError(String msg) {
                 DataBindingActivityView.this.onError(msg);

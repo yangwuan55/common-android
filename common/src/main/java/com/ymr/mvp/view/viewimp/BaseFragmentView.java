@@ -12,13 +12,13 @@ import com.ymr.mvp.view.IView;
  */
 public abstract class BaseFragmentView extends BaseFragment implements IView {
 
-    private BaseView mView;
+    private ViewDelegate mView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BaseApplication.getRefWacher().watch(this);
-        mView = new BaseView(this) {
+        mView = new ViewDelegate(this) {
             @Override
             public void onError(String msg) {
                 BaseFragmentView.this.onError(msg);

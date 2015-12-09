@@ -3,7 +3,6 @@ package com.ymr.common.ui.adapter;
 import android.content.Context;
 import android.widget.BaseAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,47 +11,47 @@ import java.util.List;
 public abstract class DataBaseAdapter<D> extends BaseAdapter implements IDataManager<D> {
 
     private final Context mContext;
-    private IDataManager<D> mDataManager;
+    private IDataManager<D> mDataManagerDelegate;
 
     public DataBaseAdapter(Context context) {
         mContext = context;
-        mDataManager = new DataManager<>(this);
+        mDataManagerDelegate = new DataManagerDelegate<>(this);
     }
 
     public DataBaseAdapter(Context context, List<D> datas) {
         mContext = context;
-        mDataManager = new DataManager<>(this);
+        mDataManagerDelegate = new DataManagerDelegate<>(this);
         addDatas(datas);
     }
 
     @Override
     public void addDatas(List<D> datas) {
-        mDataManager.addDatas(datas);
+        mDataManagerDelegate.addDatas(datas);
     }
 
     @Override
     public void setDatas(List<D> datas) {
-        mDataManager.setDatas(datas);
+        mDataManagerDelegate.setDatas(datas);
     }
 
     @Override
     public List<D> getDatas() {
-        return mDataManager.getDatas();
+        return mDataManagerDelegate.getDatas();
     }
 
     @Override
     public int getCount() {
-        return mDataManager.getCount();
+        return mDataManagerDelegate.getCount();
     }
 
     @Override
     public D getItem(int position) {
-        return mDataManager.getItem(position);
+        return mDataManagerDelegate.getItem(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return mDataManager.getItemId(position);
+        return mDataManagerDelegate.getItemId(position);
     }
 
     @Override

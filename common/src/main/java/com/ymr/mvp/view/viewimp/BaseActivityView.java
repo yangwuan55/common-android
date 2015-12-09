@@ -11,11 +11,11 @@ import com.ymr.mvp.view.IView;
  */
 public abstract class BaseActivityView extends BaseActivity implements IView,MvpBaseView {
 
-    private BaseView mView;
+    private ViewDelegate mView;
 
     @Override
     public void onFinishCreateView() {
-        mView = new BaseView(this) {
+        mView = new ViewDelegate(this) {
             @Override
             public void onError(String msg) {
                 BaseActivityView.this.onError(msg);

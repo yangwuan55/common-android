@@ -8,12 +8,12 @@ import java.util.List;
 /**
  * Created by ymr on 15/11/4.
  */
-public class DataManager<D> implements IDataManager<D> {
+public class DataManagerDelegate<D> implements IDataManager<D> {
 
     private final IDataManager mDataManager;
     private List<D> mDatas = new ArrayList<>();
 
-    public DataManager(IDataManager dataManager) {
+    public DataManagerDelegate(IDataManager dataManager) {
         mDataManager = dataManager;
     }
 
