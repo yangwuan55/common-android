@@ -75,4 +75,8 @@ public class WebViewActivity extends BaseActivity {
         super.onDestroy();
         mWebViewController.close();
     }
+
+    public WebViewController getWebViewController() {
+        return mWebViewController;
+    }
 }
