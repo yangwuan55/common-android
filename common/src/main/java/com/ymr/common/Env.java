@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.ymr.common.ui.activity.WebViewActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ public class Env {
     public static List<IStatModel> sStatModels = new ArrayList<>();
     public static ProjectState sProjectState;
     private static Class<? extends IApiBase> sApiBaseClass;
+    private static Class sWebViewOpenActivity;
 
     public static void init(Application context,InitParams initParams,FloorErrorDisposer floorErrorDisposer) {
         sApp = context;
@@ -43,10 +45,15 @@ public class Env {
         sStatModels.add(new UmengStatModel());
         sProjectState = initParams.getProjectState();
         sApiBaseClass = initParams.getApiBaseClass();
+        sWebViewOpenActivity = initParams.getWebViewOpenActivity();
     }
 
     public static Class<? extends IApiBase> getApiBase() {
         return sApiBaseClass != null ? sApiBaseClass : ApiBase.class;
+    }
+
+    public static Class<?> getWebViewOpenActivity() {
+        return sWebViewOpenActivity != null ? sWebViewOpenActivity : WebViewActivity.class;
     }
 
     public interface InitParams{
@@ -55,6 +62,7 @@ public class Env {
         List<IStatModel> getStatModels();
         ProjectState getProjectState();
         Class<? extends IApiBase> getApiBaseClass();
+        Class getWebViewOpenActivity();
     }
 
     public static interface FloorErrorDisposer {

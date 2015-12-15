@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.ymr.common.Env;
 import com.ymr.common.bean.Action;
 import com.ymr.common.ui.activity.WebViewActivity;
 
@@ -78,7 +79,7 @@ public class ActionClickUtil {
     }
 
     public static void LaunchWebView(Context context, String url, String title) {
-        Intent intent = new Intent(context, WebViewActivity.class);
+        Intent intent = new Intent(context, Env.getWebViewOpenActivity());
         intent.putExtra(WebViewActivity.URL, url);
         intent.putExtra(WebViewActivity.TITLE_NAME, title);
         context.startActivity(intent);

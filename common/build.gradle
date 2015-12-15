@@ -6,8 +6,8 @@ apply plugin: 'bugly'
 apply plugin: 'com.android.databinding'
 apply plugin: 'com.neenbedankt.android-apt'
 
-version = '2.7.5.4'
-int vCode = 178
+version = '2.7.5.5'
+int vCode = 179
 
 android {
     compileSdkVersion 23
