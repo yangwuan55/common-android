@@ -1,4 +1,4 @@
-package com.ymr.common_android;
+package com.ymr.appsearch;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
