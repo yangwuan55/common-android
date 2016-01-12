@@ -88,6 +88,9 @@ public class LoadDataActivityViewDelegate<P extends LoadDataPresenter> {
     }
 
     public void onDestroy() {
+        if (mPresenter != null) {
+            mPresenter.onDestroy();
+        }
     }
 
     public void showSureDialog(Runnable okRun, String content) {
