@@ -1,20 +1,21 @@
 package com.ymr.common.net.volley;
 
-import com.android.volley.Response;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.ymr.common.bean.ApiBase;
-import com.ymr.common.util.LOGGER;
+import android.text.TextUtils;
 
-import java.io.File;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.ymr.common.bean.ApiBase;
+import com.ymr.common.Env;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ymr on 15/8/21.
  */
 public class FileUploadRequest<T> extends MultiPartStringRequest {
     private static final String TAG = "FileUploadRequest";
+    private Map<String, String> mHeader = new HashMap<String, String>();
 
     /**
      * Creates a new request with the given method.
@@ -30,5 +31,26 @@ public class FileUploadRequest<T> extends MultiPartStringRequest {
                 ParseUtil.generateObject(response, url, tClass, listener);
             }
         }, errorListener);
+    }
+
+
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        if (Env.sHeaders != null && !Env.sHeaders.isEmpty()) {
+            mHeader.putAll(Env.sHeaders);
+        }
+        return mHeader;
+    }
+
+    public void setCookies(String cookies) {
+        if (!TextUtils.isEmpty(cookies)) {
+            mHeader.put("Cookie", cookies);
+        }
+    }
+
+    public void setHeaders(Map<String, String> map) {
+        if (map != null && !map.isEmpty()) {
+            mHeader.putAll(map);
+        }
     }
 }
