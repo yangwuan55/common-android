@@ -2,13 +2,10 @@ package com.ymr.common.net;
 
 import android.content.Context;
 
-import com.tencent.bugly.crashreport.CrashReport;
 import com.ymr.common.Env;
 import com.ymr.common.SimpleModel;
 import com.ymr.common.net.params.NetRequestParams;
 import com.ymr.common.util.DeviceInfoUtils;
-
-import java.util.HashMap;
 
 /**
  * Created by ymr on 15/6/12.
@@ -36,7 +33,6 @@ public class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T
                 public void onError(Error error) {
                     Env.sFloorErrorDisposer.onError(error);
                     listener.onError(error);
-                    CrashReport.postCatchedException(new Throwable("服务器错误：" + error));
                 }
             }, mTClass,params.getHeaders(),params.getCookies());
         } else {
