@@ -23,4 +23,8 @@ public interface NetRequestParams {
      * @return
      */
     Map<String,String> getPostParams();
+
+    Map<String,String> getHeaders();
+
+    String getCookies();
 }
