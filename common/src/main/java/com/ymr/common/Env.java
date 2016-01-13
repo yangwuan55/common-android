@@ -26,6 +26,7 @@ public class Env {
     private static Application sApp;
     public static WebUrl sWebUrl;
     public static Map<String, String> sParams = new HashMap<>();
+    public static Map<String, String> sHeaders = new HashMap<>();
     public static Env.FloorErrorDisposer sFloorErrorDisposer;
     public static List<IStatModel> sStatModels = new ArrayList<>();
     public static ProjectState sProjectState;
@@ -103,5 +104,11 @@ public class Env {
 
     public static void setCommonNetParams(Map<String,String> params) {
         sParams.putAll(params);
+    }
+
+    public static void setCommonHeaders(Map<String,String> headers) {
+        if(headers != null && !headers.isEmpty()) {
+            sHeaders.putAll(headers);
+        }
     }
 }

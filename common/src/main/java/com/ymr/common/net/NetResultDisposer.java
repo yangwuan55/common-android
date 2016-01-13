@@ -16,7 +16,7 @@ import java.util.Map;
 public class NetResultDisposer {
     private static final String TAG = "NetResultDisposer";
 
-    public static <T> void dispose(Context context, final NetRequestParams params, final NetWorkModel.UpdateListener<T> listener, Class<T> tClass) {
+    public static <T> void dispose(Context context, final NetRequestParams params, final NetWorkModel.UpdateListener<T> listener, Class<T> tClass,Map<String,String> headers,String cookies) {
         VolleyUtil.getsInstance(context).addRequest(params, new VolleyUtil.RequestListner<IApiBase<T>>() {
             @Override
             public void onSuccess(IApiBase<T> data) {
@@ -54,6 +54,6 @@ public class NetResultDisposer {
                 }
                 listener.onError(netError);
             }
-        }, tClass);
+        }, tClass,headers,cookies);
     }
 }

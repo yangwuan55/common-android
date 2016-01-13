@@ -126,18 +126,18 @@ public class VolleyUtil {
         return builder.toString();
     }
 
-    public <T,P extends NetRequestParams> void addRequest(final P params,final RequestListner<IApiBase<T>> requestListner,Class<T> tClass) {
+    public <T,P extends NetRequestParams> void addRequest(final P params,final RequestListner<IApiBase<T>> requestListner,Class<T> tClass,Map<String,String> headers,String cookies) {
         Request request = null;
         if (params instanceof FileParams) {
-            request = getFileUploadRequest(((FileParams) params), requestListner, tClass);
+            request = getFileUploadRequest(((FileParams) params), requestListner, tClass,headers,cookies);
         } else {
-            request = getNormalObjectRequest(params, requestListner, tClass);
+            request = getNormalObjectRequest(params, requestListner, tClass,headers,cookies);
         }
         addRequest(request);
     }
 
     @Nullable
-    private <T, P extends NetRequestParams> ObjectRequest<T> getNormalObjectRequest(final P params, final RequestListner<IApiBase<T>> requestListner, final Class<T> tClass) {
+    private <T, P extends NetRequestParams> ObjectRequest<T> getNormalObjectRequest(final P params, final RequestListner<IApiBase<T>> requestListner, final Class<T> tClass,Map<String,String> headers,String cookies) {
         ObjectRequest<T> gsonRequest = null;
 
         final Response.Listener<IApiBase<T>> listener = new Response.Listener<IApiBase<T>>() {
@@ -169,11 +169,13 @@ public class VolleyUtil {
                 };
                 break;
         }
+        gsonRequest.setCookies(cookies);
+        gsonRequest.setHeaders(headers);
         return gsonRequest;
     }
 
     @NonNull
-    private <T, P extends FileParams> FileUploadRequest<T> getFileUploadRequest(final P params, final RequestListner<IApiBase<T>> requestListner, final Class<T> tClass) {
+    private <T, P extends FileParams> FileUploadRequest<T> getFileUploadRequest(final P params, final RequestListner<IApiBase<T>> requestListner, final Class<T> tClass,Map<String,String> headers,String cookies) {
         FileUploadRequest<T> fileUploadRequest = null;
 
         final Response.Listener<IApiBase<T>> listener = new Response.Listener<IApiBase<T>>() {
@@ -196,7 +198,8 @@ public class VolleyUtil {
             }
         };
         fileUploadRequest.addFileUpload(params.getFileMap());
-
+        fileUploadRequest.setCookies(cookies);
+        fileUploadRequest.setHeaders(headers);
         fileUploadRequest.setRetryPolicy(//关闭retry
                 new DefaultRetryPolicy(
                         Integer.MAX_VALUE,
