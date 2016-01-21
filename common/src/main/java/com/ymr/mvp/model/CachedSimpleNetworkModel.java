@@ -32,7 +32,7 @@ public class CachedSimpleNetworkModel<D> extends SimpleNetWorkModel<D> implement
                 public void finishUpdate(D result) {
                     cacheDatas(result);
                     if (listener != null) {
-                        listener.finishUpdate(getCacheDatas());
+                        listener.finishUpdate(result);
                     }
                 }
 
