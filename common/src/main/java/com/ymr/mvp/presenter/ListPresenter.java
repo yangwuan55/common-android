@@ -40,14 +40,13 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     @Override
     public void loadDatas() {
         if (getView().exist()) {
-            if (DeviceInfoUtils.hasInternet(getView().getActivity())) {
+            if (verify()) {
                 getView().hideNoNetWork();
                 onRefreshFromTop();
             } else {
                 getView().showNoNetWork();
                 onHasNoInternet();
             }
-            verifyInternet();
         }
     }
 
@@ -178,7 +177,12 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
             if (wData.isLastpage()) {
                 //getView().onMessage("is last page.");
                 if (getView().exist()) {
-                    getView().setBottomRefreshEnable(false);
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            getView().setBottomRefreshEnable(false);
+                        }
+                    });
                 }
             }
         } else {
@@ -222,7 +226,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     @Override
     public void onRefreshFromBottom() {
         if (getView().exist()) {
-            if (verifyInternet()) {
+            if (verify()) {
                 notifyStartRefresh();
                 mPage++;
                 doUpdate(mBottomUpdateListener);
@@ -240,7 +244,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     @Override
     public void refreshCurrItem(int position) {
         if (getView().exist()) {
-            if (verifyInternet()) {
+            if (verify()) {
                 notifyStartRefresh();
                 doUpdate(new RefreshCurrListener(position),getPageByPosition(position),mPageSize);
             } else {
@@ -284,10 +288,15 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     @Override
     public void onRefreshFromTop() {
         if (getView().exist()) {
-            if (verifyInternet() && verifyFromChild()) {
+            if (verify()) {
                 notifyStartRefresh();
                 mPage = mStartPage;
-                doUpdate(mTopUpdateListener);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        doUpdate(mTopUpdateListener);
+                    }
+                });
                 getView().setBottomRefreshEnable(true);
             } else {
                 mHandler.post(new Runnable() {
@@ -298,6 +307,10 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
                 });
             }
         }
+    }
+
+    protected boolean verify() {
+        return verifyInternet() && verifyFromChild();
     }
 
     protected boolean verifyFromChild() {

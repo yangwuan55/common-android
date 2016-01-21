@@ -9,5 +9,9 @@ public interface IListItemBean<T> {
 
     List<T> getDatas();
 
+    void setDatas(List<T> datas);
+
     boolean isLastpage();
+
+    void setLastPage(boolean isLast);
 }

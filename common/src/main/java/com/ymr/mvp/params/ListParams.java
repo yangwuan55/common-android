@@ -39,4 +39,12 @@ public abstract class ListParams extends SimpleNetParams {
     }
 
     protected abstract Map<String,String> getOtherParams();
+
+    public int getPage() {
+        return page;
+    }
+
+    public int getPagesize() {
+        return pagesize;
+    }
 }

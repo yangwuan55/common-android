@@ -60,4 +60,14 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
                 "url = " + getUrl() + " post = " + getPostParams() +
                 '}';
     }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        return null;
+    }
+
+    @Override
+    public String getCookies() {
+        return null;
+    }
 }

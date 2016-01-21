@@ -127,8 +127,13 @@ public class FileUtil {
     }
 
     public static <T> boolean writeBeanToFile(Context context, String fileName, T t) {
-        String s = new Gson().toJson(t);
+        String s = createGson().toJson(t);
         return writeStringToFile(context, s, fileName);
+    }
+
+    @NonNull
+    private static Gson createGson() {
+        return new GsonBuilder().create();
     }
 
     private static String readBeanFromInputStream(Context context, InputStream is) {
@@ -287,12 +292,12 @@ public class FileUtil {
     }
 
     public static <T> String ArrayToString(List<T> list) {
-        Gson g = new Gson();
+        Gson g = createGson();
         return g.toJson(list);
     }
 
     public static <T> List<T> stringToArray(String s, Class<T[]> clazz) {
-        T[] arr = new Gson().fromJson(s, clazz);
+        T[] arr = createGson().fromJson(s, clazz);
         return new ArrayList<T>(Arrays.asList(arr)); //or return Arrays.asList(new Gson().fromJson(s, clazz)); for a one-liner
     }
 
