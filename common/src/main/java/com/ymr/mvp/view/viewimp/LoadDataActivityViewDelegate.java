@@ -22,6 +22,7 @@ public class LoadDataActivityViewDelegate<P extends LoadDataPresenter> {
     private Handler mHandler = new Handler(){
         @Override
         public void dispatchMessage(Message msg) {
+            super.dispatchMessage(msg);
             switch (msg.what) {
                 case TIME_OUT:
                     removeMessages(TIME_OUT);
@@ -58,12 +59,17 @@ public class LoadDataActivityViewDelegate<P extends LoadDataPresenter> {
         mProgressDialog = new ProgressDialog(mPresenter.getView().getActivity());
     }
 
-    public void onError(String msg) {
+    public void onError(final String msg) {
         onMessage(msg);
     }
 
-    public void onMessage(String msg) {
-        ToastUtils.showToast(mPresenter.getView().getActivity(), msg);
+    public void onMessage(final String msg) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtils.showToast(mPresenter.getView().getActivity(), msg);
+            }
+        });
     }
 
     public void showLoading() {
