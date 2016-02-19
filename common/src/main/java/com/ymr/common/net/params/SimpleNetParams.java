@@ -1,10 +1,7 @@
 package com.ymr.common.net.params;
 
-import android.text.TextUtils;
-
 import com.android.volley.Request;
 import com.ymr.common.Env;
-import com.ymr.common.util.Constant;
 import com.ymr.common.util.Tool;
 
 import java.io.Serializable;
@@ -38,7 +35,7 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
         if (childGETParams != null && childGETParams.size() > 0) {
             sendMap.putAll(childGETParams);
         }
-        sendMap.putAll(Env.sParams);
+        sendMap.putAll(Env.sCommonParamsGetter.getCommonParams());
         return Tool.getUrl(tailUrl, sendMap);
     }
 

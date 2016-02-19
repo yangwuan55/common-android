@@ -6,6 +6,7 @@ import android.content.Context;
 import com.ymr.common.bean.ApiBase;
 import com.ymr.common.bean.IApiBase;
 import com.ymr.common.net.NetWorkModel;
+import com.ymr.common.net.params.CommonParamsGetter;
 import com.ymr.common.ui.BaseUIController;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -32,7 +33,7 @@ public class Env {
     public static ProjectState sProjectState;
     private static Class<? extends IApiBase> sApiBaseClass;
     private static Class sWebViewOpenActivity;
-
+    public static CommonParamsGetter sCommonParamsGetter;
     public static void init(Application context,InitParams initParams,FloorErrorDisposer floorErrorDisposer) {
         sApp = context;
         initImageLoader(context);
@@ -70,6 +71,10 @@ public class Env {
         void onError(NetWorkModel.Error error);
     }
 
+    public static void setsCommonParamsGetter(CommonParamsGetter commonParamsGetter) {
+        Env.sCommonParamsGetter = commonParamsGetter;
+    }
+
     private static void initImageLoader(Context context) {
         // This configuration tuning is custom. You can tune every option, you may tune some of them,
         // or you can create default configuration by
@@ -100,10 +105,6 @@ public class Env {
 
     public static Application getApp() {
         return sApp;
-    }
-
-    public static void setCommonNetParams(Map<String,String> params) {
-        sParams.putAll(params);
     }
 
     public static void setCommonHeaders(Map<String,String> headers) {
