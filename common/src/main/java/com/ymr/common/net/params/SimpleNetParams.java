@@ -35,7 +35,9 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
         if (childGETParams != null && childGETParams.size() > 0) {
             sendMap.putAll(childGETParams);
         }
-        sendMap.putAll(Env.sCommonParamsGetter.getCommonParams());
+        if (Env.sCommonParamsGetter != null) {
+            sendMap.putAll(Env.sCommonParamsGetter.getCommonParams());
+        }
         return Tool.getUrl(tailUrl, sendMap);
     }
 
