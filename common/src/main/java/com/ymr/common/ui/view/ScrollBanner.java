@@ -150,7 +150,7 @@ public class ScrollBanner extends FrameLayout implements View.OnClickListener, S
         mScrollBannerAdapter = adapter;
         if (mScrollBannerAdapter != null) {
             mScrollBannerAdapter.setBannerListener(this);
-            mViewPager.setAdapter(adapter);
+            mViewPager.setAdapter(mScrollBannerAdapter);
             updateBanner();
         }
     }

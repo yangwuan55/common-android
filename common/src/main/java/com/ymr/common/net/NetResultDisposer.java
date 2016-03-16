@@ -28,7 +28,7 @@ public class NetResultDisposer {
                     } else {
                         error.setErrorCode(data.getCode());
                         if (data.getData() != null && data.getData() instanceof Map) {
-                            error.setMsg(((Map) data.getData()).get("result") + " " + data.getMsg());
+                            error.setMsg(data.getMsg());
                         } else {
                             error.setMsg(data.getMsg());
                         }

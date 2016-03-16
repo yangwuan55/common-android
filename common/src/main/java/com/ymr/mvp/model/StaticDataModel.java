@@ -2,6 +2,7 @@ package com.ymr.mvp.model;
 
 import android.content.Context;
 
+import com.ymr.common.net.NetWorkModel;
 import com.ymr.common.net.params.NetRequestParams;
 
 /**
@@ -14,6 +15,12 @@ public abstract class StaticDataModel<D> extends CachedSimpleNetworkModel<D> {
 
     public void initDatas() {
         updateDatas(getParams(), null);
+    }
+
+    @Override
+    public void cacheDatas(D data) {
+        super.cacheDatas(data);
+        notifyListeners();
     }
 
     protected abstract NetRequestParams getParams();
