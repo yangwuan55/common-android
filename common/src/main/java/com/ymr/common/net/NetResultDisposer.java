@@ -46,25 +46,23 @@ public class NetResultDisposer {
         synchronized (sync) {
             if (!forceFromServer) {
                 //如果不是强制从服务器取数据则符合缓存规则，进入缓存流程
-                if (sParamListeners.containsKey(params)) {
+                if (sSavedDatas.containsKey(params)) {
+                    //如果缓存了此数据，从缓存中取得数据
+                    finishUpdate(sSavedDatas.get(params),params,listener);
+                    LOGGER.i(TAG,"return saved data:"+params);
+                } else if (sSavedVolleyError.containsKey(params)) {
+                    //如果缓存了此错误信息，从缓存中取得错误
+                    failUpdate(sSavedVolleyError.get(params),params,listener);
+                    LOGGER.i(TAG,"return saved error:"+params);
+                } else if (sParamListeners.containsKey(params)) {
                     //如果请求列表中已经存在此请求，将回调对象加入回调对象列表
                     List<NetWorkModel.UpdateListener> updateListeners = sParamListeners.get(params);
                     updateListeners.add(listener);
                     sParamListeners.put(params, updateListeners);
                     LOGGER.i(TAG,"add listener:"+params);
                 } else {
-                    if (sSavedDatas.containsKey(params)) {
-                        //如果缓存了此数据，从缓存中取得数据
-                        finishUpdate(sSavedDatas.get(params),params,listener);
-                        LOGGER.i(TAG,"return saved data:"+params);
-                    } else if (sSavedVolleyError.containsKey(params)) {
-                        //如果缓存了此错误信息，从缓存中取得错误
-                        failUpdate(sSavedVolleyError.get(params),params,listener);
-                        LOGGER.i(TAG,"return saved error:"+params);
-                    } else {
-                        //真正从服务器取数据
-                        updateFromServer(context, params, listener, tClass, headers, cookies);
-                    }
+                    //真正从服务器取数据
+                    updateFromServer(context, params, listener, tClass, headers, cookies);
                 }
             } else {
                 //直接从服务器取数据
