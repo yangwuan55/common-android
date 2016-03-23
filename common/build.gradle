@@ -6,8 +6,8 @@ apply plugin: 'bugly'
 apply plugin: 'com.android.databinding'
 apply plugin: 'com.neenbedankt.android-apt'
 
-version = '2.7.7.8'
-int vCode = 202
+version = '2.7.8.0'
+int vCode = 216
 
 
 android {

@@ -69,4 +69,21 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
     public String getCookies() {
         return null;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof SimpleNetParams) {
+            SimpleNetParams other = (SimpleNetParams) o;
+            if (getMethod() == other.getMethod() && getMethod() == Request.Method.POST) {
+                return getUrl().equals(other.getUrl()) && getPostParams().equals(other.getPostParams());
+            }
+            return getUrl().equals(other.getUrl());
+        }
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return getUrl().hashCode();
+    }
 }

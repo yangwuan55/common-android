@@ -8,8 +8,6 @@ import com.ymr.common.SimpleModel;
 import com.ymr.common.net.params.NetRequestParams;
 import com.ymr.common.util.DeviceInfoUtils;
 
-import java.util.HashMap;
-
 /**
  * Created by ymr on 15/6/12.
  */
@@ -25,6 +23,11 @@ public class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T
 
     @Override
     public void updateDatas(NetRequestParams params, final UpdateListener<T> listener) {
+        updateDatas(params, listener,false);
+    }
+
+    @Override
+    public void updateDatas(NetRequestParams params, final UpdateListener<T> listener, boolean forceFromServer) {
         if (DeviceInfoUtils.hasInternet(mContext)) {
             NetResultDisposer.dispose(mContext, params, new UpdateListener<T>() {
                 @Override
@@ -38,7 +41,7 @@ public class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T
                     listener.onError(error);
                     CrashReport.postCatchedException(new Throwable("服务器错误：" + error));
                 }
-            }, mTClass,params.getHeaders(),params.getCookies());
+            }, mTClass,params.getHeaders(),params.getCookies(),forceFromServer);
         } else {
             Error error = new Error();
             error.setErrorCode(10000);
@@ -47,7 +50,6 @@ public class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T
             listener.onError(error);
         }
     }
-
 
     public Context getContext() {
         return mContext;
