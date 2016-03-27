@@ -79,8 +79,8 @@ public class NetResultDisposer {
             @Override
             public void onSuccess(final IApiBase<T> data) {
                 synchronized (sync) {
-                    finishUpdate(data, params);
                     sSavedDatas.put(params,data);
+                    finishUpdate(data, params);
                     sHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -94,8 +94,8 @@ public class NetResultDisposer {
             @Override
             public void onFail(VolleyError error) {
                 synchronized (sync) {
-                    failUpdate(error, params);
                     sSavedVolleyError.put(params,error);
+                    failUpdate(error, params);
                     sHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {

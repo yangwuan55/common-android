@@ -29,6 +29,9 @@ public class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T
     @Override
     public void updateDatas(NetRequestParams params, final UpdateListener<T> listener, boolean forceFromServer) {
         if (DeviceInfoUtils.hasInternet(mContext)) {
+            if (listener == null) {
+                throw new RuntimeException("回调不可为空");
+            }
             NetResultDisposer.dispose(mContext, params, new UpdateListener<T>() {
                 @Override
                 public void finishUpdate(T result) {
