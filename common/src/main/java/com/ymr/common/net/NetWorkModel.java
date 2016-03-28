@@ -25,6 +25,7 @@ public interface NetWorkModel<T> extends IModel {
         private int errorCode = -1;
         private String msg;
         private NetRequestParams netRequestParams;
+        private Object tag;
 
         public int getErrorCode() {
             return errorCode;
@@ -50,12 +51,21 @@ public interface NetWorkModel<T> extends IModel {
             this.netRequestParams = netRequestParams;
         }
 
+        public Object getTag() {
+            return tag;
+        }
+
+        public void setTag(Object tag) {
+            this.tag = tag;
+        }
+
         @Override
         public String toString() {
             return "Error{" +
                     "errorCode=" + errorCode +
                     ", msg='" + msg + '\'' +
                     ", netRequestParams=" + netRequestParams +
+                    ", tag=" + tag +
                     '}';
         }
     }

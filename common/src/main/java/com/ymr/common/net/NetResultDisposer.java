@@ -2,7 +2,11 @@ package com.ymr.common.net;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 
+import com.android.volley.NoConnectionError;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.ymr.common.bean.IApiBase;
 import com.ymr.common.net.params.NetRequestParams;
@@ -115,82 +119,88 @@ public class NetResultDisposer {
     }
 
     private static void failUpdate(VolleyError error, NetRequestParams params) {
-        Throwable cause = error.getCause();
-        NetWorkModel.Error netError = new NetWorkModel.Error();
-        netError.setNetRequestParams(params);
-        if (cause != null) {
-            netError.setMsg(cause.toString());
-            cause.printStackTrace();
-        } else {
-            LOGGER.e(TAG,"ERROR = " + error);
-            netError.setMsg("server error 2");
-        }
+        NetWorkModel.Error netError = getError(error, params);
         List<NetWorkModel.UpdateListener> updateListeners = sParamListeners.get(params);
         for (NetWorkModel.UpdateListener listener : updateListeners) {
             listener.onError(netError);
         }
     }
 
-    private static void failUpdate(VolleyError error, NetRequestParams params, NetWorkModel.UpdateListener listener) {
+    @NonNull
+    private static NetWorkModel.Error getError(VolleyError error, NetRequestParams params) {
         Throwable cause = error.getCause();
         NetWorkModel.Error netError = new NetWorkModel.Error();
-        netError.setNetRequestParams(params);
-        if (cause != null) {
-            netError.setMsg(cause.toString());
-            cause.printStackTrace();
+        if (error instanceof ServerError) {
+            netError.setMsg("接口错误：" + error.networkResponse.statusCode);
+        } else if (error instanceof TimeoutError){
+            netError.setMsg("请求超时");
+        } else if (error instanceof NoConnectionError){
+            netError.setMsg("无效链接");
         } else {
-            LOGGER.e(TAG, "ERROR = " + error);
-            netError.setMsg("server error 2");
+            netError.setMsg("服务器错误");
+            String tag = "code:"+error.networkResponse.statusCode +"TimeMs:"+ error.getNetworkTimeMs();
+            if (cause != null) {
+                cause.printStackTrace();
+                netError.setTag(tag + error.getCause().toString());
+            } else {
+                netError.setTag(tag);
+            }
         }
+        netError.setNetRequestParams(params);
+        return netError;
+    }
+
+    private static void failUpdate(VolleyError error, NetRequestParams params, NetWorkModel.UpdateListener listener) {
+        NetWorkModel.Error netError = getError(error, params);
         listener.onError(netError);
     }
 
     private static <T> void finishUpdate(IApiBase<T> data, NetRequestParams params) {
-        List<NetWorkModel.UpdateListener> updateListeners = sParamListeners.get(params);
         NetWorkModel.Error error = new NetWorkModel.Error();
-        error.setNetRequestParams(params);
-        if (data != null) {
-            if (data.getCode() == data.getSuccessCode()) {
-                for (NetWorkModel.UpdateListener listener : updateListeners) {
-                    listener.finishUpdate(data.getData());
-                }
-            } else {
-                error.setErrorCode(data.getCode());
-                if (data.getData() != null && data.getData() instanceof Map) {
-                    error.setMsg(data.getMsg());
-                } else {
-                    error.setMsg(data.getMsg());
-                }
-                for (NetWorkModel.UpdateListener listener : updateListeners) {
-                    listener.onError(error);
-                }
-            }
-        } else {
-            error.setMsg("server error 1");
+        boolean isError = disposeResult(data, params, error);
+
+        List<NetWorkModel.UpdateListener> updateListeners = sParamListeners.get(params);
+        if (isError) {
             for (NetWorkModel.UpdateListener listener : updateListeners) {
                 listener.onError(error);
+            }
+        } else {
+            for (NetWorkModel.UpdateListener listener : updateListeners) {
+                listener.finishUpdate(data.getData());
             }
         }
     }
 
-    private static <T> void finishUpdate(IApiBase<T> data, NetRequestParams params, NetWorkModel.UpdateListener<T> listener) {
-        NetWorkModel.Error error = new NetWorkModel.Error();
+    private static <T> boolean disposeResult(IApiBase<T> data, NetRequestParams params, NetWorkModel.Error error) {
+        boolean isError;
         error.setNetRequestParams(params);
         if (data != null) {
             if (data.getCode() == data.getSuccessCode()) {
-                listener.finishUpdate(data.getData());
+                isError = false;
             } else {
+                isError = true;
                 error.setErrorCode(data.getCode());
                 if (data.getData() != null && data.getData() instanceof Map) {
                     error.setMsg(data.getMsg());
                 } else {
                     error.setMsg(data.getMsg());
                 }
-                listener.onError(error);
             }
         } else {
+            isError = true;
             error.setMsg("server error 1");
+        }
+        return isError;
+    }
+
+    private static <T> void finishUpdate(IApiBase<T> data, NetRequestParams params, NetWorkModel.UpdateListener<T> listener) {
+        NetWorkModel.Error error = new NetWorkModel.Error();
+        boolean isError = disposeResult(data, params, error);
+
+        if (isError) {
             listener.onError(error);
+        } else {
+            listener.finishUpdate(data.getData());
         }
     }
 }
