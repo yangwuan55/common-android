@@ -1,5 +1,7 @@
 package com.ymr.common.net.params;
 
+import android.text.TextUtils;
+
 import com.android.volley.Request;
 import com.ymr.common.Env;
 import com.ymr.common.util.Tool;
@@ -14,6 +16,12 @@ import java.util.Map;
 public abstract class SimpleNetParams implements NetRequestParams, Serializable {
     public static final long CURR_API_VERSION = 1;
     private String tailUrl;
+    private Map<String, String> mChildGETParams;
+    private String mUrl;
+    private Map<String, String> mPostParams;
+
+    private boolean getedUrl = false;
+    private boolean getedPost = false;
 
     public SimpleNetParams(String tailUrl) {
         this.tailUrl = tailUrl;
@@ -30,10 +38,20 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
 
     @Override
     public String getUrl() {
-        Map<String, String> childGETParams = getChildGETParams();
+        if (!getedUrl) {
+            getedUrl = true;
+            mUrl = getRealUrl();
+        }
+        return mUrl;
+    }
+
+    private String getRealUrl() {
+        if (mChildGETParams == null) {
+            mChildGETParams = getChildGETParams();
+        }
         Map<String, String> sendMap = new HashMap<>();
-        if (childGETParams != null && childGETParams.size() > 0) {
-            sendMap.putAll(childGETParams);
+        if (mChildGETParams != null && mChildGETParams.size() > 0) {
+            sendMap.putAll(mChildGETParams);
         }
         if (Env.sCommonParamsGetter != null) {
             sendMap.putAll(Env.sCommonParamsGetter.getCommonParams());
@@ -48,9 +66,15 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
      */
     protected abstract Map<String, String> getChildGETParams();
 
+    protected abstract Map<String, String> getChildPostParams();
+
     @Override
     public Map<String, String> getPostParams() {
-        return null;
+        if (!getedPost) {
+            getedPost = true;
+            mPostParams = getChildPostParams();
+        }
+        return mPostParams;
     }
 
     @Override
@@ -84,6 +108,9 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
 
     @Override
     public int hashCode() {
+        if (getMethod() == Request.Method.POST) {
+            return getUrl().hashCode() + getPostParams().hashCode();
+        }
         return getUrl().hashCode();
     }
 }

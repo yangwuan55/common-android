@@ -14,4 +14,9 @@ public class StringRequest extends SimpleNetParams {
     protected Map<String, String> getChildGETParams() {
         return null;
     }
+
+    @Override
+    protected Map<String, String> getChildPostParams() {
+        return null;
+    }
 }
