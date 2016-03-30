@@ -8,6 +8,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ymr.common.bean.IApiBase;
 import com.ymr.common.net.params.NetRequestParams;
 import com.ymr.common.net.volley.VolleyUtil;
@@ -121,8 +122,12 @@ public class NetResultDisposer {
     private static void failUpdate(VolleyError error, NetRequestParams params) {
         NetWorkModel.Error netError = getError(error, params);
         List<NetWorkModel.UpdateListener> updateListeners = sParamListeners.get(params);
-        for (NetWorkModel.UpdateListener listener : updateListeners) {
-            listener.onError(netError);
+        if (updateListeners != null) {
+            for (NetWorkModel.UpdateListener listener : updateListeners) {
+                listener.onError(netError);
+            }
+        } else {
+            CrashReport.postCatchedException(new Throwable("params = " + params + " error = " + error.toString()));
         }
     }
 
@@ -163,14 +168,18 @@ public class NetResultDisposer {
         boolean isError = disposeResult(data, params, error);
 
         List<NetWorkModel.UpdateListener> updateListeners = sParamListeners.get(params);
-        if (isError) {
-            for (NetWorkModel.UpdateListener listener : updateListeners) {
-                listener.onError(error);
+        if (updateListeners != null) {
+            if (isError) {
+                for (NetWorkModel.UpdateListener listener : updateListeners) {
+                    listener.onError(error);
+                }
+            } else {
+                for (NetWorkModel.UpdateListener listener : updateListeners) {
+                    listener.finishUpdate(data.getData());
+                }
             }
         } else {
-            for (NetWorkModel.UpdateListener listener : updateListeners) {
-                listener.finishUpdate(data.getData());
-            }
+            CrashReport.postCatchedException(new Throwable("params = " + params));
         }
     }
 
