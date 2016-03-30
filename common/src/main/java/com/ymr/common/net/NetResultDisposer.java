@@ -138,7 +138,10 @@ public class NetResultDisposer {
             netError.setMsg("无效链接");
         } else {
             netError.setMsg("服务器错误");
-            String tag = "code:"+error.networkResponse.statusCode +"TimeMs:"+ error.getNetworkTimeMs();
+            String tag = "未知错误";
+            if (error.networkResponse != null) {
+                tag = "code:"+error.networkResponse.statusCode +"TimeMs:"+ error.getNetworkTimeMs();
+            }
             if (cause != null) {
                 cause.printStackTrace();
                 netError.setTag(tag + error.getCause().toString());
