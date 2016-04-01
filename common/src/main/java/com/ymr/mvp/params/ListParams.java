@@ -1,5 +1,6 @@
 package com.ymr.mvp.params;
 
+import com.ymr.common.net.params.DomainUrl;
 import com.ymr.common.net.params.SimpleNetParams;
 
 import java.util.HashMap;
@@ -15,6 +16,10 @@ public abstract class ListParams extends SimpleNetParams {
 
     public ListParams(String tailUrl) {
         super(tailUrl);
+    }
+
+    public ListParams(String tailUrl, DomainUrl domainUrl) {
+        super(tailUrl, domainUrl);
     }
 
     public void setPageParam(int page,int pagesize) {

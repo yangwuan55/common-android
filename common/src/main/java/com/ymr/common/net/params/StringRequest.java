@@ -6,8 +6,13 @@ import java.util.Map;
  * Created by ymr on 15/7/8.
  */
 public class StringRequest extends SimpleNetParams {
+
     public StringRequest(String tailUrl) {
         super(tailUrl);
+    }
+
+    public StringRequest(String tailUrl, DomainUrl domainUrl) {
+        super(tailUrl, domainUrl);
     }
 
     @Override

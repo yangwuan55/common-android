@@ -15,6 +15,11 @@ public abstract class FileParams extends SimpleNetParams {
         mFileMap = fileMap;
     }
 
+    public FileParams(String tailUrl,Map<File,String> fileMap, DomainUrl domainUrl) {
+        super(tailUrl, domainUrl);
+        mFileMap = fileMap;
+    }
+
     public Map<File,String> getFileMap() {
         return mFileMap;
     }
