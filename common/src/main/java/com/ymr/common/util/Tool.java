@@ -30,7 +30,8 @@ import com.ymr.common.R;
 import com.ymr.common.net.volley.VolleyUtil;
 
 public class Tool {
-	private static Matrix mx;
+    public static final String DEBUG_CHANNEL = "9999";
+    private static Matrix mx;
 
 	public static Bitmap fit_bmp_size(Bitmap bmp) {
 		return Bitmap.createBitmap(bmp, 0, 0, (int) (bmp.getWidth()), (int) (bmp.getHeight()), mx, true);
@@ -100,6 +101,10 @@ public class Tool {
         String commUrl = getCommUrl(context);
 		return commUrl + action + "/";
 	}
+
+    public static boolean isDebug() {
+        return DeviceInfoUtils.getAppChannel(Env.getApp()).equals(DEBUG_CHANNEL);
+    }
 
     public static String getCommUrl(Context context) {
         String commUrl = Env.sWebUrl.release;

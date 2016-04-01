@@ -1,9 +1,10 @@
 package com.ymr.common.net.params;
 
-import android.text.TextUtils;
+import android.support.annotation.NonNull;
 
 import com.android.volley.Request;
 import com.ymr.common.Env;
+import com.ymr.common.net.volley.VolleyUtil;
 import com.ymr.common.util.Tool;
 
 import java.io.Serializable;
@@ -14,7 +15,6 @@ import java.util.Map;
  * Created by ymr on 15/6/18.
  */
 public abstract class SimpleNetParams implements NetRequestParams, Serializable {
-    public static final long CURR_API_VERSION = 1;
     private String tailUrl;
     private Map<String, String> mChildGETParams;
     private String mUrl;
@@ -22,9 +22,26 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
 
     private boolean getedUrl = false;
     private boolean getedPost = false;
+    private DomainUrl domainUrl;
 
     public SimpleNetParams(String tailUrl) {
         this.tailUrl = tailUrl;
+        domainUrl = new DomainUrl() {
+            @Override
+            public String getDebugUrl() {
+                return Env.sWebUrl.debug;
+            }
+
+            @Override
+            public String getReleaseUrl() {
+                return Env.sWebUrl.release;
+            }
+        };
+    }
+
+    public SimpleNetParams(String tailUrl,DomainUrl domainUrl) {
+        this.tailUrl = tailUrl;
+        this.domainUrl = domainUrl;
     }
 
     public void setTailUrl(String tailUrl) {
@@ -56,7 +73,21 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
         if (Env.sCommonParamsGetter != null) {
             sendMap.putAll(Env.sCommonParamsGetter.getCommonParams());
         }
-        return Tool.getUrl(tailUrl, sendMap);
+
+        String url = null;
+        if (domainUrl != null) {
+            if (Tool.isDebug()) {
+                url = domainUrl.getDebugUrl();
+            } else {
+                url = domainUrl.getReleaseUrl();
+            }
+        }
+        return VolleyUtil.getUrl(generateByTailUrl(url),sendMap);
+    }
+
+    @NonNull
+    private String generateByTailUrl(String url) {
+        return url + tailUrl + "/";
     }
 
     /**
