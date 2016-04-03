@@ -192,12 +192,13 @@ public class VolleyUtil {
         };
 
         fileUploadRequest = new FileUploadRequest(params.getUrl(),listener, errorListener, tClass) {
-            @Override
-            protected Map<String, String> getParams() {
-                return params.getPostParams();
-            }
+//            @Override
+//            protected Map<String, String> getParams() {
+//                return params.getPostParams();
+//            }
         };
         fileUploadRequest.addFileUpload(params.getFileMap());
+        fileUploadRequest.addStringUpload(params.getPostParams());
         fileUploadRequest.setCookies(cookies);
         fileUploadRequest.setHeaders(headers);
         fileUploadRequest.setRetryPolicy(//关闭retry
