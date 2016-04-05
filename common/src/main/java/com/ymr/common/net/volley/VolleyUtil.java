@@ -198,7 +198,9 @@ public class VolleyUtil {
 //            }
         };
         fileUploadRequest.addFileUpload(params.getFileMap());
-        fileUploadRequest.addStringUpload(params.getPostParams());
+        if (params.getPostParams() != null) {
+            fileUploadRequest.addStringUpload(params.getPostParams());
+        }
         fileUploadRequest.setCookies(cookies);
         fileUploadRequest.setHeaders(headers);
         fileUploadRequest.setRetryPolicy(//关闭retry
