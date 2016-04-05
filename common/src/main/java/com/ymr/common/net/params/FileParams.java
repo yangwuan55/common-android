@@ -23,4 +23,20 @@ public abstract class FileParams extends SimpleNetParams {
     public Map<File,String> getFileMap() {
         return mFileMap;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof FileParams && mFileMap != null && ((FileParams) o).getFileMap() != null) {
+            return super.equals(o) && mFileMap.equals(((FileParams) o).getFileMap());
+        }
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        if (mFileMap != null) {
+            return super.hashCode()+mFileMap.hashCode();
+        }
+        return super.hashCode();
+    }
 }
