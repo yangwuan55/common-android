@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Handler;
 
 import com.ymr.common.net.NetWorkModel;
-import com.ymr.common.util.DeviceInfoUtils;
 import com.ymr.mvp.model.IListDataModel;
 import com.ymr.mvp.model.bean.IListItemBean;
 import com.ymr.mvp.params.ListParams;
@@ -18,18 +17,19 @@ import java.util.List;
  */
 public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends IListView<D,E>> extends BaseNetPresenter<V> implements IListPresenter<D,E,V> {
 
-    private static final int DEFAULT_START_PAGE = 1;
-    private static final int DEFAULT_PAGE_SIZE = 10;
     private int mPage;
     private IListDataModel<D, E> mModel;
-    private int mStartPage = DEFAULT_START_PAGE;
-    private int mPageSize = DEFAULT_PAGE_SIZE;
+    private int mStartPage;
+    private int mPageSize;
 
     private Handler mHandler = new Handler();
 
     public ListPresenter(V listView) {
         super(listView);
         mModel = createModel(getView().getActivity());
+        ListParams listParams = getListParams();
+        mStartPage = listParams.getStartPage();
+        mPageSize = listParams.getPagesize();
     }
 
     @Override
@@ -279,7 +279,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
 
     private void doUpdate(NetWorkModel.UpdateListener<E> mBottomUpdateListener,int page,int pagesize) {
         ListParams listParams = getListParams();
-        listParams.setPageParam(page, pagesize);
+        listParams.setCurrPage(page);
         mModel.updateListDatas(listParams, mBottomUpdateListener);
     }
 
@@ -315,10 +315,5 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
 
     protected boolean verifyFromChild() {
         return true;
-    }
-
-    @Override
-    public void setStartPage(int startPage) {
-        mStartPage = startPage;
     }
 }

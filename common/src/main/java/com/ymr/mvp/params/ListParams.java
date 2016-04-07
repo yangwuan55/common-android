@@ -1,5 +1,7 @@
 package com.ymr.mvp.params;
 
+import android.support.annotation.NonNull;
+
 import com.ymr.common.net.params.DomainUrl;
 import com.ymr.common.net.params.SimpleNetParams;
 
@@ -11,20 +13,44 @@ import java.util.Map;
  */
 public abstract class ListParams extends SimpleNetParams {
 
+    public static final int DEFAULT_START_PAGE = 1;
+    public static final int DEFAULT_PAGE_SIZE = 30;
     private int page;
-    private int pagesize;
+    private int pagesize = DEFAULT_PAGE_SIZE;
+    private int startPage = DEFAULT_START_PAGE;
+
+    private boolean isGetedPageSize = false;
+    private boolean isGetedStartPage = false;
 
     public ListParams(String tailUrl) {
         super(tailUrl);
+        initListParams();
     }
 
     public ListParams(String tailUrl, DomainUrl domainUrl) {
         super(tailUrl, domainUrl);
+        initListParams();
     }
 
-    public void setPageParam(int page,int pagesize) {
+    private void initListParams() {
+        if (!isGetedStartPage) {
+            isGetedStartPage = true;
+            int startPage = createStartPage();
+            if (startPage != 0) {
+                this.startPage = startPage;
+            }
+        }
+        if (!isGetedPageSize) {
+            isGetedPageSize = true;
+            int pageSize = createPageSize();
+            if (pagesize != 0) {
+                this.pagesize = pageSize;
+            }
+        }
+    }
+
+    public void setCurrPage(int page) {
         this.page = page;
-        this.pagesize = pagesize;
     }
 
     /**
@@ -34,13 +60,23 @@ public abstract class ListParams extends SimpleNetParams {
     @Override
     protected Map<String, String> getChildGETParams() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("page", page + "");
-        map.put("pagesize", pagesize + "");
+        map.put(getPageParamsName(), page + "");
+        map.put(getPageSizeName(), pagesize + "");
         Map<String, String> otherParams = getOtherParams();
         if (otherParams != null && !otherParams.isEmpty()) {
             map.putAll(otherParams);
         }
         return map;
+    }
+
+    @NonNull
+    protected String getPageSizeName() {
+        return "pagesize";
+    }
+
+    @NonNull
+    protected String getPageParamsName() {
+        return "page";
     }
 
     protected abstract Map<String,String> getOtherParams();
@@ -52,4 +88,12 @@ public abstract class ListParams extends SimpleNetParams {
     public int getPagesize() {
         return pagesize;
     }
+
+    public int getStartPage() {
+        return startPage;
+    }
+
+    protected abstract int createPageSize();
+
+    protected abstract int createStartPage();
 }
