@@ -20,7 +20,7 @@ public abstract class FragmentViewDelegate<T extends Fragment & IView> implement
 
     @Override
     public boolean isCurrView() {
-        return mView.isVisible();
+        return mView.isVisible() && mView.getUserVisibleHint();
     }
 
     @Override

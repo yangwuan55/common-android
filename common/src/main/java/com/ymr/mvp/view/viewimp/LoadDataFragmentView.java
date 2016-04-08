@@ -24,46 +24,65 @@ public abstract class LoadDataFragmentView<P extends LoadDataPresenter> extends 
     protected abstract P onCreatePresenter();
 
     protected P getPresenter() {
-        return mDelegate.getPresenter();
+        if (mDelegate != null) {
+            return mDelegate.getPresenter();
+        }
+        return null;
     }
 
     @Override
     public void onError(String msg) {
-        mDelegate.onError(msg);
+        if (mDelegate != null) {
+            mDelegate.onError(msg);
+        }
     }
 
     @Override
     public void onMessage(String msg) {
-        mDelegate.onMessage(msg);
+        if (mDelegate != null) {
+            mDelegate.onMessage(msg);
+        }
     }
 
     @Override
     public void showLoading() {
-        mDelegate.showLoading();
+        if (mDelegate != null) {
+            mDelegate.showLoading();
+        }
     }
 
     @Override
     public void showLoading(long delay) {
-        mDelegate.showLoading(delay);
+        if (mDelegate != null) {
+            mDelegate.showLoading(delay);
+        }
     }
 
     @Override
     public void hideLoading() {
-        mDelegate.hideLoading();
+        if (mDelegate != null) {
+            mDelegate.hideLoading();
+        }
     }
 
     @Override
     public void showSureDialog(Runnable okRun, String content) {
-        mDelegate.showSureDialog(okRun,content);
+        if (mDelegate != null) {
+            mDelegate.showSureDialog(okRun,content);
+        }
     }
 
     @Override
     public void showSureDialog(Runnable okRun, String content, SureDialog.SureDialogListener listener) {
-        mDelegate.showSureDialog(okRun, content,listener);
+        if (mDelegate != null) {
+            mDelegate.showSureDialog(okRun, content,listener);
+        }
     }
 
     @Override
     public void setTimeOut(long timeOut) {
-        mDelegate.setTimeOut(timeOut);
+        if (mDelegate != null) {
+            mDelegate.setTimeOut(timeOut);
+        }
     }
 }

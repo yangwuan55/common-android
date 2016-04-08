@@ -1,18 +1,18 @@
 package com.ymr.mvp.view.viewimp;
 
-import android.app.ProgressDialog;
+import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.ymr.common.R;
-import com.ymr.common.databinding.LayoutBaseListViewBinding;
+import com.ymr.common.databinding.LayoutListContainerBinding;
 import com.ymr.common.ui.adapter.DataBaseAdapter;
-import com.ymr.common.util.ToastUtils;
 import com.ymr.mvp.model.bean.IListItemBean;
 import com.ymr.mvp.presenter.ListPresenterHasEmpty;
 import com.ymr.mvp.view.IListViewHasEmptyView;
@@ -22,59 +22,52 @@ import java.util.List;
 /**
  * Created by ymr on 15/10/17.
  */
-public abstract class MvpListViewFragment<D, E extends IListItemBean<D>> extends DataBindingFragmentView implements IListViewHasEmptyView<D,E> {
+public abstract class MvpListViewFragment<D, E extends IListItemBean<D>,P extends ListPresenterHasEmpty<D,E,? extends IListViewHasEmptyView<D,E>>> extends LoadDataFragmentView<P> implements IListViewHasEmptyView<D,E> {
 
-    private LayoutBaseListViewBinding mDatabinding;
-    private ListPresenterHasEmpty<D,E,? extends IListViewHasEmptyView<D,E>> mListPresenter;
+    private LayoutListContainerBinding mListDataBinding;
     private DataBaseAdapter<D> mAdapter;
-    private ProgressDialog mProgressDialog;
-    private Handler mHandler = new Handler();
 
     @Override
-    public int getContentViewId() {
-        return R.layout.layout_base_list_view;
-    }
-
-    @Override
-    public void onCreateDataBinding(ViewDataBinding databinding) {
-        mListPresenter = createPresenter();
-        mDatabinding = ((LayoutBaseListViewBinding) databinding);
+    protected void finishCreatePresenter(ViewDataBinding databinding) {
+        mListDataBinding = createListContainer();
         Drawable backGround = getBackGround();
         if (backGround != null) {
-            mDatabinding.getRoot().setBackgroundDrawable(backGround);
+            mListDataBinding.getRoot().setBackgroundDrawable(backGround);
         }
-        mDatabinding.list.setMode(PullToRefreshBase.Mode.BOTH);
-        mDatabinding.list.getRefreshableView().setDivider(null);
-        mDatabinding.list.getRefreshableView().setSelector(android.R.color.transparent);
-        mDatabinding.list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        mListDataBinding.list.setMode(PullToRefreshBase.Mode.BOTH);
+        mListDataBinding.list.getRefreshableView().setDivider(null);
+        mListDataBinding.list.getRefreshableView().setSelector(android.R.color.transparent);
+        mListDataBinding.list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mListPresenter.onRefreshFromTop();
+                getPresenter().onRefreshFromTop();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mListPresenter.onRefreshFromBottom();
+                getPresenter().onRefreshFromBottom();
             }
         });
-        mDatabinding.list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListDataBinding.list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MvpListViewFragment.this.onItemClick(parent, view, position, id);
             }
         });
         mAdapter = getAdapter();
-        mDatabinding.list.setAdapter(mAdapter);
-        mDatabinding.emptyView.addView(getEmptyView());
+        mListDataBinding.list.setAdapter(mAdapter);
+        mListDataBinding.emptyView.addView(getEmptyView());
+        ((ViewGroup) databinding.getRoot()).addView(mListDataBinding.getRoot(),0);
+        getPresenter().loadDatas();
+    }
 
-        mListPresenter.loadDatas();
+    protected LayoutListContainerBinding createListContainer() {
+        return DataBindingUtil.inflate(LayoutInflater.from(getContext()),R.layout.layout_list_container,null,false);
     }
 
     protected abstract Drawable getBackGround();
 
     protected abstract View getEmptyView();
-
-    protected abstract ListPresenterHasEmpty<D,E,? extends IListViewHasEmptyView<D,E>> createPresenter();
 
     protected abstract DataBaseAdapter<D> getAdapter();
 
@@ -93,30 +86,30 @@ public abstract class MvpListViewFragment<D, E extends IListItemBean<D>> extends
     @Override
     public void setBottomRefreshEnable(boolean enable) {
         if (enable) {
-            mDatabinding.list.setMode(PullToRefreshBase.Mode.BOTH);
+            mListDataBinding.list.setMode(PullToRefreshBase.Mode.BOTH);
         } else {
-            mDatabinding.list.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+            mListDataBinding.list.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
     }
 
     @Override
     public void compliteRefresh() {
-        mDatabinding.list.onRefreshComplete();
+        mListDataBinding.list.onRefreshComplete();
     }
 
     @Override
     public void setRefreshEnable(boolean enable) {
-        mDatabinding.list.setEnabled(enable);
+        mListDataBinding.list.setEnabled(enable);
     }
 
     @Override
     public void showEmptyView() {
-        mDatabinding.emptyView.setVisibility(View.VISIBLE);
+        mListDataBinding.emptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideEmptyView() {
-        mDatabinding.emptyView.setVisibility(View.GONE);
+        mListDataBinding.emptyView.setVisibility(View.GONE);
     }
 
     @Override
@@ -126,33 +119,9 @@ public abstract class MvpListViewFragment<D, E extends IListItemBean<D>> extends
 
     @Override
     public void startRefresh() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(getActivity());
-            mProgressDialog.setCancelable(false);
-        }
-        mProgressDialog.setMessage("正在加载...");
-        mProgressDialog.show();
     }
 
     @Override
     public void finishRefresh() {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mProgressDialog != null) {
-                    mProgressDialog.dismiss();
-                }
-            }
-        }, 800);
-    }
-
-    @Override
-    public void onMessage(String msg) {
-        ToastUtils.showToast(getContext(), msg);
-    }
-
-    @Override
-    public void onError(String msg) {
-        onMessage(msg);
     }
 }

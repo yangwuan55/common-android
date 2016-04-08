@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by ymr on 15/8/20.
  */
-public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends IListView<D,E>> extends BaseNetPresenter<V> implements IListPresenter<D,E,V> {
+public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends IListView<D,E>> extends LoadDataPresenter<V> implements IListPresenter<D,E,V> {
 
     private int mPage;
     private IListDataModel<D, E> mModel;
@@ -273,14 +273,14 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
         },100);
     }
 
-    private void doUpdate(NetWorkModel.UpdateListener<E> mBottomUpdateListener) {
-        doUpdate(mBottomUpdateListener,mPage,mPageSize);
+    private void doUpdate(NetWorkModel.UpdateListener<E> updateListener) {
+        doUpdate(updateListener,mPage,mPageSize);
     }
 
-    private void doUpdate(NetWorkModel.UpdateListener<E> mBottomUpdateListener,int page,int pagesize) {
+    private void doUpdate(NetWorkModel.UpdateListener<E> updateListener,int page,int pagesize) {
         ListParams listParams = getListParams();
         listParams.setCurrPage(page);
-        mModel.updateListDatas(listParams, mBottomUpdateListener);
+        mModel.updateListDatas(listParams, wrapNetListener(updateListener));
     }
 
     protected abstract ListParams getListParams();

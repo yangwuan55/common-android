@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import com.ymr.common.ui.DataBindingFragmentUI;
 
@@ -14,11 +15,19 @@ import com.ymr.common.ui.DataBindingFragmentUI;
  */
 public abstract class DataBindingFragmentView extends BaseFragmentView implements DataBindingFragmentUI {
 
+    private ViewDataBinding mDataBinding;
+
     @Override
     public View inflateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewDataBinding dataBinding = DataBindingUtil.inflate(inflater, getContentViewId(), container, false);
-        onCreateDataBinding(dataBinding);
-        return dataBinding.getRoot();
+        if (mDataBinding == null) {
+            mDataBinding = DataBindingUtil.inflate(inflater, getContentViewId(), container, false);
+            onCreateDataBinding(mDataBinding);
+        }
+        ViewGroup parent = (ViewGroup) mDataBinding.getRoot().getParent();
+        if (parent != null) {
+            parent.removeView(mDataBinding.getRoot());
+        }
+        return mDataBinding.getRoot();
     }
 
     @Override

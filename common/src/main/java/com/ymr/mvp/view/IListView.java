@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by ymr on 15/8/20.
  */
-public interface IListView<D, E extends IListItemBean<D>> extends INetView,IActivityView{
+public interface IListView<D, E extends IListItemBean<D>> extends ILoadDataView{
 
     Class<E> getListItemClass();
 

@@ -32,7 +32,7 @@ public class LoadDataActivityViewDelegate<P extends LoadDataPresenter> {
                     hideLoading();
                     break;
                 case SHOW_LOADING:
-                    if (mPresenter.getView().exist()) {
+                    if (mPresenter.getView().isCurrView()) {
                         //mPresenter.getView().getRootView().setVisibility(View.INVISIBLE);
                         mProgressDialog.setCancelable(false);
                         mProgressDialog.setMessage("正在加载...");
