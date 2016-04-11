@@ -23,6 +23,7 @@ public interface IBaseUIController {
         int getTitleBgColor();
         int getTitleTextColor();
         int getBackDrawable();
+        int getTitleHeight();
     }
     void onDestroy();
 }

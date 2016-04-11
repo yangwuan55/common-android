@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingRight="20dp"
             android:src="@drawable/back_selector"/>
         <TextView
             android:id="@+id/title"
@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:text="@string/title_example"
             android:textSize="17sp"
+            android:singleLine="true"
             android:textColor="@color/title_text"/>
         <ViewStub
             android:id="@+id/right_view"
@@ -33,10 +34,7 @@
             android:layout_height="wrap_content"/>
     </FrameLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#c5c5c5"/>
+
 
     <FrameLayout
         android:id="@+id/root_content"

@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ymr.common.BaseApplication;
@@ -20,7 +22,6 @@ import com.ymr.common.util.Constant;
  * Created by ymr on 15/6/25.
  */
 public class BaseUIController<T extends Activity & BaseActivityUI> implements View.OnClickListener,IBaseUIController {
-
     protected T mActivity;
     private TextView mTitle;
     private ImageView mBack;
@@ -114,6 +115,10 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
         mTitle.setTextColor(getBaseUIParams().getTitleTextColor());
 
         View actionbar = mActivity.findViewById(R.id.title_container);
+        if(getBaseUIParams().getTitleHeight() > 0 ) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getBaseUIParams().getTitleHeight());
+            actionbar.setLayoutParams(lp);
+        }
         actionbar.setBackgroundColor(getBaseUIParams().getTitleBgColor());
         actionbar.setVisibility(mActivity.isActionBarVisible() ? View.VISIBLE : View.GONE);
 
