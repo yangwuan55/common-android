@@ -26,6 +26,8 @@
             android:text="@string/title_example"
             android:textSize="17sp"
             android:singleLine="true"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
             android:textColor="@color/title_text"/>
         <ViewStub
             android:id="@+id/right_view"
