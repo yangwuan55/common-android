@@ -8,6 +8,7 @@ import com.ymr.mvp.model.IListDataModel;
 import com.ymr.mvp.model.bean.IListItemBean;
 import com.ymr.mvp.params.ListParams;
 import com.ymr.mvp.view.IListView;
+import com.ymr.mvp.view.ILoadDataView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Created by ymr on 15/8/20.
  */
-public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends IListView<D,E>> extends LoadDataPresenter<V> implements IListPresenter<D,E,V> {
+public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends IListView<D,E> & ILoadDataView> extends LoadDataPresenter<V> implements IListPresenter<D,E,V> {
 
     private int mPage;
     private IListDataModel<D, E> mModel;

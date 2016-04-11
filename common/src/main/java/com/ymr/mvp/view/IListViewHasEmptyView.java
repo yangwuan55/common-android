@@ -1,5 +1,6 @@
 package com.ymr.mvp.view;
 
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymr.mvp.model.bean.IListItemBean;
 
 /**
@@ -8,4 +9,5 @@ import com.ymr.mvp.model.bean.IListItemBean;
 public interface IListViewHasEmptyView<D, E extends IListItemBean<D>> extends IListView<D,E> {
     void showEmptyView();
     void hideEmptyView();
+    PullToRefreshListView getListView();
 }

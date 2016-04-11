@@ -2,11 +2,14 @@ package com.ymr.mvp.view;
 
 
 import com.ymr.common.ui.view.SureDialog;
+import com.ymr.mvp.presenter.LoadDataPresenter;
 
 /**
  * Created by ymr on 15/11/12.
  */
-public interface ILoadDataView extends INetView {
+public interface ILoadDataView<P extends LoadDataPresenter> extends INetView {
+    P getPresenter();
+
     void showLoading();
 
     void showLoading(long delay);

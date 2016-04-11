@@ -10,7 +10,7 @@ import com.ymr.mvp.view.ILoadDataView;
 /**
  * Created by ymr on 15/11/12.
  */
-public abstract class LoadDataActivityView<P extends LoadDataPresenter> extends DataBindingActivityView implements ILoadDataView{
+public abstract class LoadDataActivityView<P extends LoadDataPresenter> extends DataBindingActivityView implements ILoadDataView<P>{
 
     private LoadDataActivityViewDelegate<P> mDelegate;
 
@@ -24,7 +24,8 @@ public abstract class LoadDataActivityView<P extends LoadDataPresenter> extends 
 
     protected abstract P onCreatePresenter();
 
-    protected P getPresenter() {
+    @Override
+    public P getPresenter() {
         if (mDelegate != null) {
             return mDelegate.getPresenter();
         }

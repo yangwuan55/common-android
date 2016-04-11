@@ -11,10 +11,9 @@ import com.ymr.mvp.view.ILoadDataListView;
 import java.util.List;
 
 /**
- * Created by ymr on 15/10/17.
+ * Created by ymr on 16/4/11.
  */
-public abstract class MvpListViewFragment<D, E extends IListItemBean<D>,P extends ListPresenterHasEmpty<D,E,? extends IListViewHasEmptyView<D,E>>> extends LoadDataFragmentView<P> implements ILoadDataListView<D,E,P> {
-
+public abstract class MvpListViewActivity<D, E extends IListItemBean<D>,P extends ListPresenterHasEmpty<D,E,? extends IListViewHasEmptyView<D,E>>> extends LoadDataActivityView<P> implements ILoadDataListView<D,E,P> {
     private final ListViewDelegate<D,E,P> mListViewDelegate = new ListViewDelegate<>(this);
 
     @Override

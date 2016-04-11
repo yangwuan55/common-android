@@ -9,7 +9,7 @@ import com.ymr.mvp.view.ILoadDataView;
 /**
  * Created by ymr on 15/11/12.
  */
-public abstract class LoadDataFragmentView<P extends LoadDataPresenter> extends DataBindingFragmentView implements ILoadDataView {
+public abstract class LoadDataFragmentView<P extends LoadDataPresenter> extends DataBindingFragmentView implements ILoadDataView<P> {
 
     private LoadDataActivityViewDelegate<P> mDelegate;
 
@@ -23,7 +23,8 @@ public abstract class LoadDataFragmentView<P extends LoadDataPresenter> extends 
 
     protected abstract P onCreatePresenter();
 
-    protected P getPresenter() {
+    @Override
+    public P getPresenter() {
         if (mDelegate != null) {
             return mDelegate.getPresenter();
         }

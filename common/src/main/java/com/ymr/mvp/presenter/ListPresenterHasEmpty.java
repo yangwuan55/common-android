@@ -2,11 +2,12 @@ package com.ymr.mvp.presenter;
 
 import com.ymr.mvp.model.bean.IListItemBean;
 import com.ymr.mvp.view.IListViewHasEmptyView;
+import com.ymr.mvp.view.ILoadDataView;
 
 /**
  * Created by ymr on 15/10/20.
  */
-public abstract class ListPresenterHasEmpty<D, E extends IListItemBean<D>,V extends IListViewHasEmptyView<D,E>> extends ListPresenter<D,E,V> {
+public abstract class ListPresenterHasEmpty<D, E extends IListItemBean<D>,V extends IListViewHasEmptyView<D,E> & ILoadDataView> extends ListPresenter<D,E,V> {
 
     public ListPresenterHasEmpty(V listView) {
         super(listView);
