@@ -18,6 +18,8 @@ import java.io.Serializable;
 public class ActionClickUtil {
 
     public static final String EXT_PARAM = "extparam";
+    public static final String TITLE = "title";
+    public static final String URL = "url";
 
     public static final void doAction(Context context, Action action) {
         if (action == null) {
@@ -34,11 +36,18 @@ public class ActionClickUtil {
         if (intent == null) {
             return;
         }
+
         Serializable extparam = action.getExtparam();
         if (extparam != null) {
             Bundle extras = new Bundle();
             extras.putSerializable(EXT_PARAM, extparam);
             intent.putExtras(extras);
+        }
+        if (!TextUtils.isEmpty(action.getTitle())) {
+            intent.putExtra(TITLE, action.getTitle());
+        }
+        if (!TextUtils.isEmpty(action.getUrl())) {
+            intent.putExtra(URL, action.getUrl());
         }
         context.startActivity(intent);
     }
