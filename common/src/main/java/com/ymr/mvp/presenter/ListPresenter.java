@@ -281,7 +281,11 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     private void doUpdate(NetWorkModel.UpdateListener<E> updateListener,int page,int pagesize) {
         ListParams listParams = getListParams();
         listParams.setCurrPage(page);
-        mModel.updateListDatas(listParams, wrapNetListener(updateListener));
+        if (getView().getCurrDatas().isEmpty()) {
+            mModel.updateListDatas(listParams, wrapNetListener(updateListener));
+        } else {
+            mModel.updateListDatas(listParams, updateListener);
+        }
     }
 
     protected abstract ListParams getListParams();
