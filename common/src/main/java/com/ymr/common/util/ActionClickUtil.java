@@ -73,7 +73,7 @@ public class ActionClickUtil {
     private static void launchWebView(Context context, Action<String> action) {
         String url = action.getUrl();
         String title = action.getTitle();
-        if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(title)) {
+        if (!TextUtils.isEmpty(url)) {
             LaunchWebView(context, url, title);
         }
     }
@@ -81,7 +81,9 @@ public class ActionClickUtil {
     public static void LaunchWebView(Context context, String url, String title) {
         Intent intent = new Intent(context, Env.getWebViewOpenActivity());
         intent.putExtra(WebViewActivity.URL, url);
-        intent.putExtra(WebViewActivity.TITLE_NAME, title);
+        if(!TextUtils.isEmpty(title)) {
+            intent.putExtra(WebViewActivity.TITLE_NAME, title);
+        }
         context.startActivity(intent);
     }
 
