@@ -3,6 +3,7 @@ package com.ymr.mvp.model;
 import android.content.Context;
 
 import com.ymr.common.net.NetWorkModel;
+import com.ymr.common.net.SimpleResultNetWorkModel;
 import com.ymr.common.net.params.NetRequestParams;
 
 /**
@@ -14,7 +15,11 @@ public abstract class StaticDataModel<D> extends CachedSimpleNetworkModel<D> {
     }
 
     public void initDatas() {
-        updateDatas(getParams(), null);
+        initDatas(null);
+    }
+
+    public void initDatas(UpdateListener<D> listener) {
+        updateDatas(getParams(),listener);
     }
 
     @Override
