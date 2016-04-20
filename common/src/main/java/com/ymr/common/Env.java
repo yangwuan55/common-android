@@ -3,6 +3,7 @@ package com.ymr.common;
 import android.app.Application;
 import android.content.Context;
 
+import com.handmark.pulltorefresh.library.internal.LoadingLayout;
 import com.ymr.common.bean.ApiBase;
 import com.ymr.common.bean.IApiBase;
 import com.ymr.common.net.NetWorkModel;
@@ -36,6 +37,8 @@ public class Env {
     private static Class sWebViewOpenActivity;
     public static CommonParamsGetter sCommonParamsGetter;
     public static ILoadingAnimView sLoadingAnimView;
+    public static LoadingLayoutGetter sListViewLoadingLayout;
+
     public static void init(Application context,InitParams initParams,FloorErrorDisposer floorErrorDisposer) {
         sApp = context;
         initImageLoader(context);

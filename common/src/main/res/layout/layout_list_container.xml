@@ -6,7 +6,7 @@
         android:layout_height="match_parent"
         tools:showIn="@layout/layout_base_list_view">
 
-        <com.handmark.pulltorefresh.library.PullToRefreshListView
+        <com.ymr.common.ui.view.CustomLoadingPulltorefreshListView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
