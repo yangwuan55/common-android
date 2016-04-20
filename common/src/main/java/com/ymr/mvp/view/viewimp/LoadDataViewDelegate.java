@@ -1,24 +1,23 @@
 package com.ymr.mvp.view.viewimp;
 
-import android.app.ProgressDialog;
 import android.os.Handler;
 import android.os.Message;
 
+import com.ymr.common.Env;
 import com.ymr.common.ui.view.SureDialog;
 import com.ymr.common.util.ToastUtils;
 import com.ymr.mvp.presenter.LoadDataPresenter;
-import com.ymr.mvp.view.IView;
 
 /**
  * Created by ymr on 15/11/12.
  */
-public class LoadDataActivityViewDelegate<P extends LoadDataPresenter> {
+public class LoadDataViewDelegate<P extends LoadDataPresenter> {
     private static final int TIME_OUT = 5;
+    private ILoadingAnimView<P> mLoadingAnimView;
     private long mTimeOut = 10000;
     public static final int SHOW_LOADING = 6;
     public static final int HIDE_LOADING = 7;
     private P mPresenter;
-    private ProgressDialog mProgressDialog;
     private Handler mHandler = new Handler(){
         @Override
         public void dispatchMessage(Message msg) {
@@ -33,30 +32,26 @@ public class LoadDataActivityViewDelegate<P extends LoadDataPresenter> {
                     break;
                 case SHOW_LOADING:
                     if (mPresenter.getView().isCurrView()) {
-                        //mPresenter.getView().getRootView().setVisibility(View.INVISIBLE);
-                        mProgressDialog.setCancelable(false);
-                        mProgressDialog.setMessage("正在加载...");
-                        if (mPresenter.getView().isCurrView()) {
-                            mProgressDialog.show();
-                        }
+                        mLoadingAnimView.showLoadingView();
                     }
                     break;
                 case HIDE_LOADING:
                     if (mPresenter.getView().exist()) {
-                        IView view = mPresenter.getView();
-                        if (view.isCurrView()) {
-                            //view.getRootView().setVisibility(View.VISIBLE);
-                            mProgressDialog.dismiss();
-                        }
+                        mLoadingAnimView.hideLoadingView();
                     }
                     break;
             }
         }
     };
 
-    LoadDataActivityViewDelegate(P presenter) {
+    LoadDataViewDelegate(P presenter) {
         mPresenter = presenter;
-        mProgressDialog = new ProgressDialog(mPresenter.getView().getActivity());
+        if (Env.sLoadingAnimView == null) {
+            mLoadingAnimView = new LoadingAnimView<>();
+            mLoadingAnimView.onCreate(mPresenter);
+        } else {
+            setLoadingAnimView(Env.sLoadingAnimView);
+        }
     }
 
     public void onError(final String msg) {
@@ -118,5 +113,10 @@ public class LoadDataActivityViewDelegate<P extends LoadDataPresenter> {
 
     public void setTimeOut(long timeOut) {
         mTimeOut = timeOut;
+    }
+
+    public void setLoadingAnimView(ILoadingAnimView<P> loadingAnimView) {
+        this.mLoadingAnimView = loadingAnimView;
+        mLoadingAnimView.onCreate(mPresenter);
     }
 }

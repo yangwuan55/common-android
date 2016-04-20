@@ -12,11 +12,11 @@ import com.ymr.mvp.view.ILoadDataView;
  */
 public abstract class LoadDataActivityView<P extends LoadDataPresenter> extends DataBindingActivityView implements ILoadDataView<P>{
 
-    private LoadDataActivityViewDelegate<P> mDelegate;
+    private LoadDataViewDelegate<P> mDelegate;
 
     @Override
     public void onCreateDataBinding(ViewDataBinding databinding) {
-        mDelegate = new LoadDataActivityViewDelegate<>(onCreatePresenter());
+        mDelegate = new LoadDataViewDelegate<>(onCreatePresenter());
         finishCreatePresenter(databinding);
     }
 

@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.ymr.common.ui.activity.WebViewActivity;
+import com.ymr.mvp.view.viewimp.ILoadingAnimView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class Env {
     private static Class<? extends IApiBase> sApiBaseClass;
     private static Class sWebViewOpenActivity;
     public static CommonParamsGetter sCommonParamsGetter;
+    public static ILoadingAnimView sLoadingAnimView;
     public static void init(Application context,InitParams initParams,FloorErrorDisposer floorErrorDisposer) {
         sApp = context;
         initImageLoader(context);
