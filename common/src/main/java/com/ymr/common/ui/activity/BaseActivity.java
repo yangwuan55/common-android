@@ -61,6 +61,11 @@ public abstract class BaseActivity extends Activity implements BaseActivityUI {
     }
 
     @Override
+    public boolean isTitleBarDiverVisiable(){
+        return true;
+    }
+
+    @Override
     public boolean isResume() {
         return mIsResume;
     }

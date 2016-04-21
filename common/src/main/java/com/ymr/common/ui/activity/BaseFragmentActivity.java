@@ -60,6 +60,11 @@ public abstract class BaseFragmentActivity extends AppCompatActivity implements 
     }
 
     @Override
+    public boolean isTitleBarDiverVisiable() {
+        return true;
+    }
+
+    @Override
     public boolean isResume() {
         return mIsResume;
     }

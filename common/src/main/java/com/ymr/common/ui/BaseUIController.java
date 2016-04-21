@@ -26,7 +26,7 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
     private TextView mTitle;
     private ImageView mBack;
     private View mRootView;
-
+    private View mTitleDiver;
     private static BaseUIParams sBaseUIParams;
     private BaseUIParams mBaseUIParams;
 
@@ -110,6 +110,13 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
             }
         }
 
+        mTitleDiver = mActivity.findViewById(R.id.title_diver);
+        int diverColor = getBaseUIParams().getTitleDiverColor();
+        if(diverColor!=0) {
+            mTitleDiver.setBackgroundColor(diverColor);
+        }
+
+
         mTitle = (TextView) mActivity.findViewById(R.id.title);
         mTitle.setText(mActivity.getTitleText());
         mTitle.setTextColor(getBaseUIParams().getTitleTextColor());
@@ -121,6 +128,7 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
         }
         actionbar.setBackgroundColor(getBaseUIParams().getTitleBgColor());
         actionbar.setVisibility(mActivity.isActionBarVisible() ? View.VISIBLE : View.GONE);
+        mTitleDiver.setVisibility(mActivity.isTitleBarDiverVisiable() && mActivity.isActionBarVisible() ? View.VISIBLE:View.GONE);
 
         //get the layout of sub activity
         FrameLayout parent = (FrameLayout) mActivity.findViewById(R.id.sub_activity_content);

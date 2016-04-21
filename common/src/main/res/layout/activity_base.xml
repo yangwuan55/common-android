@@ -35,7 +35,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </FrameLayout>
-
+    <View
+        android:id="@+id/title_diver"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/common_driver"
+        />
 
 
     <FrameLayout
