@@ -35,10 +35,7 @@ public abstract class ListParams extends SimpleNetParams {
     private void initListParams() {
         if (!isGetedStartPage) {
             isGetedStartPage = true;
-            int startPage = createStartPage();
-            if (startPage != 0) {
-                this.startPage = startPage;
-            }
+            this.startPage = createStartPage();
         }
         if (!isGetedPageSize) {
             isGetedPageSize = true;
