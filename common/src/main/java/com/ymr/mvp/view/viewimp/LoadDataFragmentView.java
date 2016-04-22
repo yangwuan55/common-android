@@ -1,5 +1,6 @@
 package com.ymr.mvp.view.viewimp;
 
+import android.content.Context;
 import android.databinding.ViewDataBinding;
 
 import com.ymr.common.ui.view.SureDialog;
@@ -84,6 +85,14 @@ public abstract class LoadDataFragmentView<P extends LoadDataPresenter> extends 
     public void setTimeOut(long timeOut) {
         if (mDelegate != null) {
             mDelegate.setTimeOut(timeOut);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mDelegate != null) {
+            mDelegate.onDestroy();
         }
     }
 }
