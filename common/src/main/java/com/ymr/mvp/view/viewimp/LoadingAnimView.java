@@ -31,4 +31,10 @@ public class LoadingAnimView<P extends LoadDataPresenter> implements ILoadingAni
         mPresenter = presenter;
         mProgressDialog = new ProgressDialog(mPresenter.getView().getActivity());
     }
+
+    @Override
+    public void onDestroy() {
+        mPresenter = null;
+        mProgressDialog = null;
+    }
 }

@@ -2,6 +2,7 @@ package com.ymr.mvp.presenter;
 
 import com.ymr.common.net.NetWorkModel;
 import com.ymr.common.net.SimpleResultNetWorkModel;
+import com.ymr.common.util.KeyBoardUtil;
 import com.ymr.mvp.view.ILoadDataView;
 
 /**
@@ -56,6 +57,7 @@ public class LoadDataPresenter<V extends ILoadDataView> extends BaseNetPresenter
     }
     
     public boolean backPressed() {
+        KeyBoardUtil.hideSoftKeyboard(getView().getActivity());
         return false;
     }
 

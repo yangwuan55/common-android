@@ -91,6 +91,9 @@ public class LoadDataViewDelegate<P extends LoadDataPresenter> {
     public void onDestroy() {
         if (mPresenter != null) {
             mPresenter.onDestroy();
+            if (mLoadingAnimView != null) {
+                mLoadingAnimView.onDestroy();
+            }
         }
     }
 

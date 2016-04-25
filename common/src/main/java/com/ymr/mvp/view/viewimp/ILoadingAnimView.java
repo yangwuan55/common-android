@@ -11,4 +11,6 @@ public interface ILoadingAnimView<P extends LoadDataPresenter> {
     void showLoadingView();
 
     void onCreate(P presenter);
+
+    void onDestroy();
 }
