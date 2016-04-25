@@ -50,7 +50,11 @@ public class LoadDataViewDelegate<P extends LoadDataPresenter> {
             mLoadingAnimView = new LoadingAnimView<>();
             mLoadingAnimView.onCreate(mPresenter);
         } else {
-            setLoadingAnimView(Env.sLoadingAnimView);
+            try {
+                setLoadingAnimView(Env.sLoadingAnimView.newInstance());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

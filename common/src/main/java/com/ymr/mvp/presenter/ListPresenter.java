@@ -193,7 +193,12 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
             getView().onError("no data error");
         }
         if (getView().isCurrView()) {
-            getView().finishRefresh();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getView().finishRefresh();
+                }
+            },200);
         }
     }
 

@@ -36,7 +36,7 @@ public class Env {
     private static Class<? extends IApiBase> sApiBaseClass;
     private static Class sWebViewOpenActivity;
     public static CommonParamsGetter sCommonParamsGetter;
-    public static ILoadingAnimView sLoadingAnimView;
+    public static Class< ? extends ILoadingAnimView> sLoadingAnimView;
     public static LoadingLayoutGetter sListViewLoadingLayout;
 
     public static void init(Application context,InitParams initParams,FloorErrorDisposer floorErrorDisposer) {
