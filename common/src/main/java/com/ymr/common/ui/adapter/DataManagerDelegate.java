@@ -19,7 +19,7 @@ public class DataManagerDelegate<D> implements IDataManager<D> {
 
     @Override
     public void addDatas(List<D> datas) {
-        if (datas != null) {
+        if (datas != null && !datas.isEmpty()) {
             mDatas.addAll(datas);
         }
         notifyDataSetChanged();

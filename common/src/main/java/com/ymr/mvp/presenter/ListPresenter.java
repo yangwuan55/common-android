@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Handler;
 
 import com.ymr.common.net.NetWorkModel;
+import com.ymr.common.net.volley.ParseUtil;
 import com.ymr.mvp.model.IListDataModel;
 import com.ymr.mvp.model.bean.IListItemBean;
 import com.ymr.mvp.params.ListParams;
@@ -24,6 +25,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     private int mPageSize;
 
     private Handler mHandler = new Handler();
+    private boolean isLoading;
 
     public ListPresenter(V listView) {
         super(listView);
@@ -200,6 +202,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
                 }
             },200);
         }
+        isLoading = false;
     }
 
     @Override
@@ -212,8 +215,16 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     protected abstract IListDataModel<D, E> createModel(Activity activity);
 
     private void addDatas(List<D> datas) {
-        getView().addDatas(datas);
-        onAddDatas(datas);
+        if (datas != null && !datas.isEmpty()) {
+            getView().addDatas(datas);
+            onAddDatas(datas);
+        } else {
+            addNullDatas();
+        }
+    }
+
+    protected void addNullDatas() {
+
     }
 
     protected void onAddDatas(List<D> studentlist) {
@@ -231,7 +242,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
 
     @Override
     public void onRefreshFromBottom() {
-        if (getView().exist()) {
+        if (getView().exist() && !isLoading()) {
             if (verify()) {
                 notifyStartRefresh();
                 mPage++;
@@ -245,6 +256,10 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
                 });
             }
         }
+    }
+
+    private boolean isLoading() {
+        return isLoading;
     }
 
     @Override
@@ -280,6 +295,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     }
 
     private void doUpdate(NetWorkModel.UpdateListener<E> updateListener) {
+        isLoading = true;
         doUpdate(updateListener,mPage,mPageSize);
     }
 
@@ -297,7 +313,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
 
     @Override
     public void onRefreshFromTop() {
-        if (getView().exist()) {
+        if (getView().exist() && !isLoading()) {
             if (verify()) {
                 notifyStartRefresh();
                 mPage = mStartPage;
