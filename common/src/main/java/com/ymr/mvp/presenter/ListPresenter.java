@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Handler;
 
 import com.ymr.common.net.NetWorkModel;
-import com.ymr.common.net.volley.ParseUtil;
 import com.ymr.mvp.model.IListDataModel;
 import com.ymr.mvp.model.bean.IListItemBean;
 import com.ymr.mvp.params.ListParams;
@@ -162,23 +161,21 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
      */
     private void updateDatas(E wData, boolean isTop) {
         if (wData != null) {
-            receiveData(wData);
+            receiveData(wData,isTop);
             List<D> datas = wData.getDatas();
-            if (datas != null && !datas.isEmpty()) {
-                getView().hasData(true);
-                if (isTop) {
+            if (isTop) {
+                if (datas != null && !datas.isEmpty()) {
+                    getView().hasData(true);
                     setDatas(datas);
                 } else {
-                    addDatas(datas);
+                    hasNoData();
+                    getView().setDatas(null);
+                    getView().hasData(false);
                 }
             } else {
-                hasNoData();
-                getView().setDatas(null);
-                getView().hasData(false);
+                addDatas(datas);
             }
-            getView().compliteRefresh();
             if (wData.isLastpage()) {
-                //getView().onMessage("is last page.");
                 if (getView().exist()) {
                     mHandler.post(new Runnable() {
                         @Override
@@ -188,12 +185,14 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
                     });
                 }
             }
-        } else {
-            getView().compliteRefresh();
+        } else if (isTop){
             hasNoData();
             getView().hasData(false);
             getView().onError("no data error");
+        } else {
+            addDatas(null);
         }
+        getView().compliteRefresh();
         if (getView().isCurrView()) {
             mHandler.postDelayed(new Runnable() {
                 @Override
@@ -206,7 +205,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     }
 
     @Override
-    public void receiveData(E wData) {
+    public void receiveData(E wData,boolean isTop) {
 
     }
     protected void hasNoData() {

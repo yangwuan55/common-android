@@ -12,7 +12,7 @@ public interface IListPresenter<D, E extends IListItemBean<D>,V extends IListVie
 
     void loadDatas();
 
-    void receiveData(E wData);
+    void receiveData(E wData,boolean isTop);
 
     void onRefreshFromBottom();
 

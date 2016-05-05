@@ -14,12 +14,14 @@ public abstract class ListPresenterHasEmpty<D, E extends IListItemBean<D>,V exte
     }
 
     @Override
-    public void receiveData(E wData) {
-        super.receiveData(wData);
-        if (isEmpty(wData)) {
-            getView().showEmptyView();
-        } else {
-            getView().hideEmptyView();
+    public void receiveData(E wData,boolean isTop) {
+        super.receiveData(wData,isTop);
+        if (isTop) {
+            if (isEmpty(wData)) {
+                getView().showEmptyView();
+            } else {
+                getView().hideEmptyView();
+            }
         }
     }
 
