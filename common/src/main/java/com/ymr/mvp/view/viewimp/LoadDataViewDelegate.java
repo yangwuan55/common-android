@@ -72,10 +72,11 @@ public class LoadDataViewDelegate<P extends LoadDataPresenter> {
     }
 
     public void showLoading() {
-        showLoading(0);
+        showLoading(100);
     }
 
     public void showLoading(long delay) {
+        mHandler.removeMessages(SHOW_LOADING);
         mHandler.sendEmptyMessageDelayed(SHOW_LOADING,delay);
         mHandler.removeMessages(TIME_OUT);
         if (mTimeOut != -1) {
@@ -85,6 +86,7 @@ public class LoadDataViewDelegate<P extends LoadDataPresenter> {
 
     public void hideLoading() {
         mHandler.removeMessages(TIME_OUT);
+        mHandler.removeMessages(HIDE_LOADING);
         mHandler.sendEmptyMessageDelayed(HIDE_LOADING,800);
     }
 
