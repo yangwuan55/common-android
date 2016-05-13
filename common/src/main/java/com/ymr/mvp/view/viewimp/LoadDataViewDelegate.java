@@ -87,7 +87,7 @@ public class LoadDataViewDelegate<P extends LoadDataPresenter> {
     public void hideLoading() {
         mHandler.removeMessages(TIME_OUT);
         mHandler.removeMessages(HIDE_LOADING);
-        mHandler.sendEmptyMessageDelayed(HIDE_LOADING,800);
+        mHandler.sendEmptyMessageDelayed(HIDE_LOADING,200);
     }
 
     public P getPresenter() {
