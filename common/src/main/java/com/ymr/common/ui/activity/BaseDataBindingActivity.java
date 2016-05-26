@@ -24,4 +24,10 @@ public abstract class BaseDataBindingActivity extends BaseFragmentActivity imple
     public ViewDataBinding getRootDataBinding() {
         return mDataBindingUIController.getDataBinding();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDataBindingUIController = null;
+    }
 }

@@ -30,4 +30,10 @@ public class DataBindingUIController<T extends Activity & DataBindingActivityUI>
     public ViewDataBinding getDataBinding() {
         return mRootViewDataBinding;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRootViewDataBinding = null;
+    }
 }

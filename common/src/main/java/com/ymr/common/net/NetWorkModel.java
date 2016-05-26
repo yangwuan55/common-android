@@ -12,6 +12,7 @@ public interface NetWorkModel<T> extends IModel {
 
     void updateDatas(NetRequestParams params, UpdateListener<T> listener, boolean forceFromServer);
 
+    void cancel();
     interface UpdateListener<T> {
         void finishUpdate(T result);
         void onError(Error error);

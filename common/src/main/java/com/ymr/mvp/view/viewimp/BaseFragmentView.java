@@ -38,11 +38,17 @@ public abstract class BaseFragmentView extends BaseFragment implements IView {
 
     @Override
     public boolean exist() {
-        return mView.exist();
+        return mView != null && mView.exist();
     }
 
     @Override
     public void gotoActivity(Intent intent) {
         mView.gotoActivity(intent);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mView = null;
     }
 }

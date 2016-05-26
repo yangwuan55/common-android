@@ -36,7 +36,7 @@ public abstract class BaseActivityView extends BaseActivity implements IView,Mvp
 
     @Override
     public boolean exist() {
-        return mView.exist();
+        return mView != null && mView.exist();
     }
 
     @Override
@@ -47,5 +47,11 @@ public abstract class BaseActivityView extends BaseActivity implements IView,Mvp
     @Override
     public void gotoActivity(Intent intent) {
         mView.gotoActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mView = null;
     }
 }

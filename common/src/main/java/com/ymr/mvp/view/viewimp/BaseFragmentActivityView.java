@@ -35,7 +35,7 @@ public abstract class BaseFragmentActivityView extends BaseFragmentActivity impl
 
     @Override
     public boolean exist() {
-        return mView.exist();
+        return mView != null && mView.exist();
     }
 
     @Override
@@ -46,5 +46,11 @@ public abstract class BaseFragmentActivityView extends BaseFragmentActivity impl
     @Override
     public void gotoActivity(Intent intent) {
         mView.gotoActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mView = null;
     }
 }

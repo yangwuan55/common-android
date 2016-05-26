@@ -35,7 +35,16 @@ public class BasePresenter<V extends IView> implements Statistical,IBasePresente
         StatisticalHelper.doStatistical(mView.getActivity(), actionType);
     }
 
+    public void destroy() {
+        onDestroy();
+        mView = null;
+    }
+
+    @Override
+    public boolean isViewExist() {
+        return mView != null && mView.exist();
+    }
+
     public void onDestroy() {
-        //mView = null;
     }
 }

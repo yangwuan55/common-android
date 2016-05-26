@@ -215,4 +215,14 @@ public class NetResultDisposer {
             listener.finishUpdate(data.getData());
         }
     }
+
+    public static <T> void cancel(NetRequestParams params, NetWorkModel.UpdateListener<T> listener) {
+        if (sParamListeners.containsKey(params)) {
+            List<NetWorkModel.UpdateListener> updateListeners = sParamListeners.get(params);
+            if (updateListeners != null && !updateListeners.isEmpty()) {
+                updateListeners.remove(listener);
+                sParamListeners.put(params,updateListeners);
+            }
+        }
+    }
 }

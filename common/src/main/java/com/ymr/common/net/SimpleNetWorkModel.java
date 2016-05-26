@@ -15,6 +15,8 @@ public class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T
 
     private final Context mContext;
     private final Class<T> mTClass;
+    private NetRequestParams mParams;
+    private UpdateListener<T> mListener;
 
     public SimpleNetWorkModel(Context context, Class<T> tClass) {
         mContext = context;
@@ -28,6 +30,8 @@ public class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T
 
     @Override
     public void updateDatas(NetRequestParams params, final UpdateListener<T> listener, boolean forceFromServer) {
+        mParams = params;
+        mListener = listener;
         if (DeviceInfoUtils.hasInternet(mContext)) {
             if (listener == null) {
                 throw new RuntimeException("回调不可为空");
@@ -44,7 +48,7 @@ public class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T
                     listener.onError(error);
                     CrashReport.postCatchedException(new Throwable("服务器错误：" + error));
                 }
-            }, mTClass,params.getHeaders(),params.getCookies(),forceFromServer);
+            }, mTClass, params.getHeaders(), params.getCookies(),forceFromServer);
         } else {
             Error error = new Error();
             error.setErrorCode(10000);
@@ -52,6 +56,11 @@ public class SimpleNetWorkModel<T> extends SimpleModel implements NetWorkModel<T
             error.setNetRequestParams(params);
             listener.onError(error);
         }
+    }
+
+    @Override
+    public void cancel() {
+        NetResultDisposer.cancel(mParams,mListener);
     }
 
     public Context getContext() {

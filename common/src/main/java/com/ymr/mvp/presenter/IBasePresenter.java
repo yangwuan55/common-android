@@ -7,4 +7,6 @@ import com.ymr.mvp.view.IView;
  */
 public interface IBasePresenter<V extends IView> {
     V getView();
+
+    boolean isViewExist();
 }

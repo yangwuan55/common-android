@@ -97,6 +97,7 @@ public abstract class BaseFragmentActivity extends AppCompatActivity implements 
     protected void onDestroy() {
         super.onDestroy();
         mBaseUIController.onDestroy();
+        mBaseUIController = null;
     }
 
     @Override

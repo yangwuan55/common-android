@@ -34,7 +34,7 @@ public abstract class DataBindingActivityView extends BaseDataBindingActivity im
 
     @Override
     public boolean exist() {
-        return mView.exist();
+        return mView != null && mView.exist();
     }
 
     @Override
@@ -51,5 +51,11 @@ public abstract class DataBindingActivityView extends BaseDataBindingActivity im
     @Override
     public void onInitViews() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mView = null;
     }
 }

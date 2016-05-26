@@ -96,10 +96,16 @@ public class LoadDataViewDelegate<P extends LoadDataPresenter> {
 
     public void onDestroy() {
         if (mPresenter != null) {
-            mPresenter.onDestroy();
+            mPresenter.destroy();
+            mHandler.removeMessages(TIME_OUT);
+            mHandler.removeMessages(SHOW_LOADING);
+            mHandler.removeMessages(HIDE_LOADING);
+            mHandler = null;
             if (mLoadingAnimView != null) {
                 mLoadingAnimView.onDestroy();
+                mLoadingAnimView = null;
             }
+            mPresenter = null;
         }
     }
 

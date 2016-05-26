@@ -93,6 +93,7 @@ public abstract class LoadDataActivityView<P extends LoadDataPresenter> extends 
         super.onDestroy();
         if (mDelegate != null) {
             mDelegate.onDestroy();
+            mDelegate = null;
         }
     }
 
