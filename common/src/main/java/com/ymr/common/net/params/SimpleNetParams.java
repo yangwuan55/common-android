@@ -67,11 +67,11 @@ public abstract class SimpleNetParams implements NetRequestParams, Serializable 
             mChildGETParams = getChildGETParams();
         }
         Map<String, String> sendMap = new HashMap<>();
-        if (mChildGETParams != null && mChildGETParams.size() > 0) {
-            sendMap.putAll(mChildGETParams);
-        }
         if (Env.sCommonParamsGetter != null) {
             sendMap.putAll(Env.sCommonParamsGetter.getCommonParams());
+        }
+        if (mChildGETParams != null && mChildGETParams.size() > 0) {
+            sendMap.putAll(mChildGETParams);
         }
 
         String url = null;
