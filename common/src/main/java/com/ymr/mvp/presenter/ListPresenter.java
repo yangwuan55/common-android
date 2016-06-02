@@ -18,20 +18,30 @@ import java.util.List;
  */
 public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends IListView<D,E> & ILoadDataView> extends LoadDataPresenter<V> implements IListPresenter<D,E,V> {
 
+    public static final int DEFUALT_STARTPAGE = 1;
+    public static final int DEFUALT_PAGESIZE = 10;
     private int mPage;
     private IListDataModel<D, E> mModel;
-    private int mStartPage;
-    private int mPageSize;
+    private int mStartPage = DEFUALT_STARTPAGE;
+    private int mPageSize = DEFUALT_PAGESIZE;
 
     private Handler mHandler = new Handler();
     private boolean isLoading;
+    private boolean hasInitParams = false;
 
     public ListPresenter(V listView) {
         super(listView);
         mModel = createModel(getView().getActivity());
         ListParams listParams = getListParams();
-        mStartPage = listParams.getStartPage();
-        mPageSize = listParams.getPagesize();
+        initParams(listParams);
+    }
+
+    private void initParams(ListParams listParams) {
+        if (listParams != null && !hasInitParams) {
+            hasInitParams = true;
+            mStartPage = listParams.getStartPage();
+            mPageSize = listParams.getPagesize();
+        }
     }
 
     @Override
@@ -300,11 +310,14 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
 
     private void doUpdate(NetWorkModel.UpdateListener<E> updateListener,int page,int pagesize) {
         ListParams listParams = getListParams();
-        listParams.setCurrPage(page);
-        if (getView().getCurrDatas().isEmpty()) {
-            mModel.updateListDatas(listParams, wrapNetListener(updateListener));
-        } else {
-            mModel.updateListDatas(listParams, updateListener);
+        if (listParams != null) {
+            initParams(listParams);
+            listParams.setCurrPage(page);
+            if (getView().getCurrDatas().isEmpty()) {
+                mModel.updateListDatas(listParams, wrapNetListener(updateListener));
+            } else {
+                mModel.updateListDatas(listParams, updateListener);
+            }
         }
     }
 

@@ -1,6 +1,8 @@
 package com.ymr.common.ui.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
@@ -78,5 +80,14 @@ public class WebViewActivity extends BaseActivity {
 
     public WebViewController getWebViewController() {
         return mWebViewController;
+    }
+
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        Configuration config=new Configuration();
+        config.setToDefaults();
+        res.updateConfiguration(config,res.getDisplayMetrics() );
+        return res;
     }
 }

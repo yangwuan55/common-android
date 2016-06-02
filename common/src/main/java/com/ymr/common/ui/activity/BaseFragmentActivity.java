@@ -1,5 +1,7 @@
 package com.ymr.common.ui.activity;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -108,5 +110,14 @@ public abstract class BaseFragmentActivity extends AppCompatActivity implements 
     @Override
     public View getRightView() {
         return mBaseUIController.getRightView();
+    }
+
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        Configuration config=new Configuration();
+        config.setToDefaults();
+        res.updateConfiguration(config,res.getDisplayMetrics() );
+        return res;
     }
 }

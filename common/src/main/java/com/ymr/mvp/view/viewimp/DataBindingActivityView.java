@@ -2,6 +2,7 @@ package com.ymr.mvp.view.viewimp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
 
 import com.ymr.common.ui.activity.BaseDataBindingActivity;
 import com.ymr.mvp.view.IView;
@@ -11,7 +12,7 @@ import com.ymr.mvp.view.IView;
  */
 public abstract class DataBindingActivityView extends BaseDataBindingActivity implements IView,MvpBaseView {
     private ViewDelegate mView;
-
+    private Handler mHandler = new Handler();
     @Override
     public void onFinishCreateView() {
         mView = new ViewDelegate(this) {
@@ -56,6 +57,11 @@ public abstract class DataBindingActivityView extends BaseDataBindingActivity im
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mView = null;
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mView = null;
+            }
+        });
     }
 }

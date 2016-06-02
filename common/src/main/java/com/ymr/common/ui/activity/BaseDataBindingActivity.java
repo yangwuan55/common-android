@@ -1,5 +1,7 @@
 package com.ymr.common.ui.activity;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.databinding.ViewDataBinding;
 import android.os.Handler;
 
@@ -29,5 +31,14 @@ public abstract class BaseDataBindingActivity extends BaseFragmentActivity imple
     protected void onDestroy() {
         super.onDestroy();
         mDataBindingUIController = null;
+    }
+
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        Configuration config=new Configuration();
+        config.setToDefaults();
+        res.updateConfiguration(config,res.getDisplayMetrics() );
+        return res;
     }
 }
