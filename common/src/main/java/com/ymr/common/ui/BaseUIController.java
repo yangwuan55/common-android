@@ -45,9 +45,7 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.back) {
-            if (!mActivity.onActionbarBackPressed()) {
-                mActivity.finish();
-            }
+            pressBack();
         }
     }
 
@@ -157,5 +155,12 @@ public class BaseUIController<T extends Activity & BaseActivityUI> implements Vi
     @Override
     public View getRightView() {
         return mRightView;
+    }
+
+    @Override
+    public void pressBack() {
+        if (!mActivity.onActionbarBackPressed()) {
+            mActivity.finish();
+        }
     }
 }

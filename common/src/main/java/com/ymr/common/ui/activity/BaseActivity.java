@@ -6,9 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 
-import com.ymr.common.Statistical;
 import com.ymr.common.ui.BaseActivityUI;
-import com.ymr.common.ui.BaseUI;
 import com.ymr.common.ui.BaseUIController;
 import com.umeng.analytics.MobclickAgent;
 import com.ymr.common.ui.IBaseUIController;
@@ -24,7 +22,7 @@ public abstract class BaseActivity extends Activity implements BaseActivityUI {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBaseUIController = getController();
+        mBaseUIController = createController();
         mBaseUIController.initActivity();
     }
 
@@ -53,7 +51,7 @@ public abstract class BaseActivity extends Activity implements BaseActivityUI {
     }
 
     @Override
-    public IBaseUIController getController() {
+    public IBaseUIController createController() {
         return new BaseUIController(this);
     }
 
@@ -111,6 +109,11 @@ public abstract class BaseActivity extends Activity implements BaseActivityUI {
     @Override
     public View getRightView() {
         return mBaseUIController.getRightView();
+    }
+
+    @Override
+    public IBaseUIController getUIController() {
+        return mBaseUIController;
     }
 
     @Override

@@ -18,8 +18,13 @@ public abstract class BaseDataBindingActivity extends BaseFragmentActivity imple
     private DataBindingUIController<BaseDataBindingActivity> mDataBindingUIController;
 
     @Override
-    public IBaseUIController getController() {
+    public IBaseUIController createController() {
         mDataBindingUIController = new DataBindingUIController<>(this);
+        return mDataBindingUIController;
+    }
+
+    @Override
+    public IBaseUIController getUIController() {
         return mDataBindingUIController;
     }
 

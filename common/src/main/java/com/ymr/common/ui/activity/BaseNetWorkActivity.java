@@ -44,7 +44,7 @@ public abstract class BaseNetWorkActivity<D> extends BaseActivity implements Dat
     protected abstract NetWorkModel<D> getNetWorkModel();
 
     @Override
-    public IBaseUIController getController() {
+    public IBaseUIController createController() {
         mNetworkUiController = new NetWorkUIController(this);
         return mNetworkUiController;
     }

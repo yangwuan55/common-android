@@ -22,7 +22,9 @@ public interface BaseActivityUI extends BaseUI{
 
     BaseUIController.BaseUIParams getBaseUIParams();
 
-    IBaseUIController getController();
+    IBaseUIController createController();
 
     View getRightView();
+
+    IBaseUIController getUIController();
 }

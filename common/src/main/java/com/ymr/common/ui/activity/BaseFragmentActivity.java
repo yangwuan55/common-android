@@ -23,7 +23,7 @@ public abstract class BaseFragmentActivity extends AppCompatActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBaseUIController = getController();
+        mBaseUIController = createController();
         mBaseUIController.initActivity();
     }
 
@@ -52,7 +52,7 @@ public abstract class BaseFragmentActivity extends AppCompatActivity implements 
     }
 
     @Override
-    public IBaseUIController getController() {
+    public IBaseUIController createController() {
         return new BaseUIController(this);
     }
 
@@ -110,6 +110,11 @@ public abstract class BaseFragmentActivity extends AppCompatActivity implements 
     @Override
     public View getRightView() {
         return mBaseUIController.getRightView();
+    }
+
+    @Override
+    public IBaseUIController getUIController() {
+        return mBaseUIController;
     }
 
     @Override

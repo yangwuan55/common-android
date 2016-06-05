@@ -26,5 +26,8 @@ public interface IBaseUIController {
         int getTitleHeight();
         int getTitleDiverColor();
     }
+
+    void pressBack();
+
     void onDestroy();
 }
