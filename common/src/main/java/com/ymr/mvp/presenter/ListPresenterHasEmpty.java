@@ -16,7 +16,7 @@ public abstract class ListPresenterHasEmpty<D, E extends IListItemBean<D>,V exte
     @Override
     public void receiveData(E wData,boolean isTop) {
         super.receiveData(wData,isTop);
-        if (isTop) {
+        if (isTop && isCurrView()) {
             if (isEmpty(wData)) {
                 getView().showEmptyView();
             } else {

@@ -23,34 +23,46 @@ public class LoadDataPresenter<V extends ILoadDataView> extends BaseNetPresenter
     }
 
     protected <D> NetWorkModel.UpdateListener wrapNetListener(final NetWorkModel.UpdateListener<D> listener, long delay) {
-        getView().showLoading(delay);
+        if (isCurrView()) {
+            getView().showLoading(delay);
+        }
         return new NetWorkModel.UpdateListener<D>() {
             @Override
             public void finishUpdate(D result) {
                 listener.finishUpdate(result);
-                getView().hideLoading();
+                if (isCurrView()) {
+                    getView().hideLoading();
+                }
             }
 
             @Override
             public void onError(NetWorkModel.Error error) {
-                getView().hideLoading();
+                if (isCurrView()) {
+                    getView().hideLoading();
+                }
                 listener.onError(error);
             }
         };
     }
 
     protected SimpleResultNetWorkModel.SimpleRequestListener wrapNetListener(final SimpleResultNetWorkModel.SimpleRequestListener listener, long delay) {
-        getView().showLoading(delay);
+        if (isCurrView()) {
+            getView().showLoading(delay);
+        }
         return new SimpleResultNetWorkModel.SimpleRequestListener() {
             @Override
             public void onSuccess() {
                 listener.onSuccess();
-                getView().hideLoading();
+                if (isCurrView()) {
+                    getView().hideLoading();
+                }
             }
 
             @Override
             public void onFail(NetWorkModel.Error error) {
-                getView().hideLoading();
+                if (isCurrView()) {
+                    getView().hideLoading();
+                }
                 listener.onFail(error);
             }
         };
@@ -64,6 +76,12 @@ public class LoadDataPresenter<V extends ILoadDataView> extends BaseNetPresenter
     @Override
     public void onNetDisconnect() {
         super.onNetDisconnect();
-        getView().hideLoading();
+        if (isCurrView()) {
+            getView().hideLoading();
+        }
+    }
+
+    public boolean isCurrView() {
+        return getView() != null && getView().isCurrView();
     }
 }
