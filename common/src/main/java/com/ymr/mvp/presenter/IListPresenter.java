@@ -19,4 +19,6 @@ public interface IListPresenter<D, E extends IListItemBean<D>,V extends IListVie
     void refreshCurrItem(int position);
 
     void onRefreshFromTop();
+
+    boolean isLastPage();
 }

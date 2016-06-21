@@ -18,8 +18,9 @@ public class AutoUpRrefresh {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-                    if (view.getLastVisiblePosition() >= view.getCount() - 2) {
-                        ((ListPresenter) mLoadDataListView.getPresenter()).onRefreshFromBottom();
+                    ListPresenter presenter = (ListPresenter) mLoadDataListView.getPresenter();
+                    if (!presenter.isLastPage() && view.getLastVisiblePosition() >= view.getCount() - 2) {
+                        presenter.onRefreshFromBottom();
                     }
                 }
             }

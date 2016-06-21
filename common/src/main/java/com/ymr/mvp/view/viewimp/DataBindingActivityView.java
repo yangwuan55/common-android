@@ -30,7 +30,7 @@ public abstract class DataBindingActivityView extends BaseDataBindingActivity im
 
     @Override
     public boolean isCurrView() {
-        return mView.isCurrView();
+        return mView != null && mView.isCurrView();
     }
 
     @Override

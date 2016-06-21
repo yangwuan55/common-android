@@ -28,6 +28,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     private Handler mHandler = new Handler();
     private boolean isLoading;
     private boolean hasInitParams = false;
+    private boolean isLast;
 
     public ListPresenter(V listView) {
         super(listView);
@@ -190,6 +191,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
+                            isLast = true;
                             getView().setBottomRefreshEnable(false);
                         }
                     });
@@ -251,7 +253,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
 
     @Override
     public void onRefreshFromBottom() {
-        if (getView().exist() && !isLoading()) {
+        if (getView().exist() && !isLoading() && !isLast) {
             if (verify()) {
                 notifyStartRefresh();
                 mPage++;
@@ -329,6 +331,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
             if (verify()) {
                 notifyStartRefresh();
                 mPage = mStartPage;
+                isLast = false;
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -345,6 +348,11 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
                 });
             }
         }
+    }
+
+    @Override
+    public boolean isLastPage() {
+        return isLast;
     }
 
     protected boolean verify() {
