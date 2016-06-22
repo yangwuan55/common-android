@@ -17,14 +17,14 @@ public class BaseNetPresenter<V extends INetView> extends BasePresenter<V> imple
     }
     @Override
     public void onNetDisconnect() {
-        if (getView().exist()) {
+        if (getView() != null && getView().exist()) {
             getView().showNoNetWork();
         }
     }
 
     @Override
     public void onNetConnect() {
-        if (getView().exist()) {
+        if (getView() != null && getView().exist()) {
             getView().hideNoNetWork();
         }
     }

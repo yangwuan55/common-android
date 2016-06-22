@@ -45,6 +45,10 @@ public class BasePresenter<V extends IView> implements Statistical,IBasePresente
         return mView != null && mView.exist();
     }
 
+    public boolean isCurrView() {
+        return getView() != null && getView().isCurrView();
+    }
+
     public void onDestroy() {
     }
 }

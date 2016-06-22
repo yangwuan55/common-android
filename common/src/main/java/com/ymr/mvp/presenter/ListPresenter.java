@@ -87,7 +87,9 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
         @Override
         public void finishUpdate(E datas) {
             updateDatas(datas, true);
-            getView().hideNoNetWork();
+            if (isCurrView()) {
+                getView().hideNoNetWork();
+            }
         }
 
         @Override
@@ -97,8 +99,10 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     };
 
     private void loadError(NetWorkModel.Error error) {
-        getView().onError(error.getMsg());
-        getView().compliteRefresh();
+        if (isCurrView()) {
+            getView().onError(error.getMsg());
+            getView().compliteRefresh();
+        }
     }
 
     private NetWorkModel.UpdateListener<E> mBottomUpdateListener = new NetWorkModel.UpdateListener<E>() {
@@ -192,7 +196,9 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
                         @Override
                         public void run() {
                             isLast = true;
-                            getView().setBottomRefreshEnable(false);
+                            if (isCurrView()) {
+                                getView().setBottomRefreshEnable(false);
+                            }
                         }
                     });
                 }
@@ -209,7 +215,9 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    getView().finishRefresh();
+                    if (isCurrView()) {
+                        getView().finishRefresh();
+                    }
                 }
             },200);
         }
@@ -262,7 +270,9 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        getView().compliteRefresh();
+                        if (isCurrView()) {
+                            getView().compliteRefresh();
+                        }
                     }
                 });
             }
@@ -283,7 +293,9 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        getView().compliteRefresh();
+                        if (isCurrView()) {
+                            getView().compliteRefresh();
+                        }
                     }
                 });
             }
@@ -298,7 +310,7 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (getView().isCurrView()) {
+                if (isCurrView()) {
                     getView().startRefresh();
                 }
             }
@@ -343,7 +355,9 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        getView().compliteRefresh();
+                        if (isCurrView()) {
+                            getView().compliteRefresh();
+                        }
                     }
                 });
             }

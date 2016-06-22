@@ -3,6 +3,7 @@ package com.ymr.mvp.view;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;

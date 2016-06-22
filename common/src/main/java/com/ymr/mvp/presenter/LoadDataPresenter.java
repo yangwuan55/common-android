@@ -80,8 +80,4 @@ public class LoadDataPresenter<V extends ILoadDataView> extends BaseNetPresenter
             getView().hideLoading();
         }
     }
-
-    public boolean isCurrView() {
-        return getView() != null && getView().isCurrView();
-    }
 }
