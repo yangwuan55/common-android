@@ -108,7 +108,9 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     private NetWorkModel.UpdateListener<E> mBottomUpdateListener = new NetWorkModel.UpdateListener<E>() {
         @Override
         public void finishUpdate(E datas) {
-            updateDatas(datas, false);
+            if (isViewExist()) {
+                updateDatas(datas, false);
+            }
         }
 
         @Override
