@@ -2,6 +2,7 @@ package com.ymr.mvp.presenter;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.view.View;
 
 import com.ymr.common.net.NetWorkModel;
 import com.ymr.mvp.model.IListDataModel;
@@ -86,7 +87,9 @@ public abstract class ListPresenter<D, E extends IListItemBean<D>,V extends ILis
     private NetWorkModel.UpdateListener<E> mTopUpdateListener = new NetWorkModel.UpdateListener<E>() {
         @Override
         public void finishUpdate(E datas) {
-            updateDatas(datas, true);
+            if (isViewExist()) {
+                updateDatas(datas, true);
+            }
             if (isCurrView()) {
                 getView().hideNoNetWork();
             }
